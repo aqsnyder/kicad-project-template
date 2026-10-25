@@ -1,0 +1,16 @@
+# kicad-fab-package settings for this repository.
+# Every key: https://github.com/aqsnyder/kicad-fab-package/blob/main/docs/configuration.md
+# The file is read from the working tree at the top of the repository. Unknown keys are errors.
+#
+# Each board lives in its own folder, hw/<board>/, so pass the folder on the command line:
+#   kicad-macrofab-bom HEAD --project-dir hw/<board> --out ../fab/<board>/bom
+#   kicad-fab-export   HEAD --project-dir hw/<board> --out ../fab/<board>
+# The hardware workflow does this for every board on a tag. With only one board you can set it here:
+# project_dir = "hw/<board>"
+
+# Output names, e.g. main-board_v0.1. {project} is the board folder, {revision} its REVISION text variable.
+name_template = "{project}_v{revision}"
+
+# Fiducials FID1.. and mounting holes H1.. (or footprints from these libraries) get no BOM or XYRS row.
+non_part_refs = '^(FID|H)\d+$'
+non_part_libs = ["Fiducial", "MountingHole"]

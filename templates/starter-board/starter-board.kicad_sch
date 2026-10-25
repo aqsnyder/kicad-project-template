@@ -1,0 +1,112 @@
+(kicad_sch
+	(version 20260306)
+	(generator "eeschema")
+	(generator_version "10.0")
+	(uuid "1ce4ebce-71d2-487d-9faf-452668e687eb")
+	(paper "A4")
+	(title_block
+		(title "${BOARD_NAME}")
+		(date "${RELEASE_DATE}")
+		(rev "${REVISION}")
+		(company "${COMPANY}")
+	)
+	(lib_symbols)
+	(text "${BOARD_NAME}"
+		(exclude_from_sim no)
+		(at 20.32 25.4 0)
+		(effects
+			(font
+				(size 5 5)
+				(thickness 1)
+				(bold yes)
+			)
+			(justify left bottom)
+		)
+		(uuid "47593305-817e-4e0a-9afa-ffa460ddffb5")
+	)
+	(text_box "Revision history\n\nRev ${REVISION}  (${RELEASE_DATE})\n    First draft.\n\nAdd a line per revision, newest first. Bump REVISION and RELEASE_DATE\nin File > Schematic Setup > Text Variables."
+		(exclude_from_sim no)
+		(at 152.4 33.02 0)
+		(size 124.46 40.64)
+		(margins 1.143 1.143 1.143 1.143)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(fill
+			(type none)
+		)
+		(effects
+			(font
+				(size 1.524 1.524)
+			)
+			(justify left top)
+		)
+		(uuid "27c055a3-b7d7-4904-a625-3e29cec36877")
+	)
+	(text_box "Sheets\n\n1   Cover (this page)\n\nAdd a hierarchical sheet per block (power, MCU, sensors, connectors)\nand list it here."
+		(exclude_from_sim no)
+		(at 20.32 81.28 0)
+		(size 119.38 40.64)
+		(margins 1.143 1.143 1.143 1.143)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(fill
+			(type none)
+		)
+		(effects
+			(font
+				(size 1.524 1.524)
+			)
+			(justify left top)
+		)
+		(uuid "c8984b53-81a7-48bf-b099-83cc0dd58338")
+	)
+	(text_box "Overview\n\nWhat this board does, what it connects to, and where it sits in the product.\nReplace this text."
+		(exclude_from_sim no)
+		(at 20.32 33.02 0)
+		(size 119.38 40.64)
+		(margins 1.143 1.143 1.143 1.143)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(fill
+			(type none)
+		)
+		(effects
+			(font
+				(size 1.524 1.524)
+			)
+			(justify left top)
+		)
+		(uuid "e64cb460-4461-47bc-a55b-b973c825fcdc")
+	)
+	(text_box "Ordering notes\n\nFab rules: ${PROJECTNAME}.kicad_dru (JLCPCB 2-layer unless changed)\nEvery fitted part needs MPN and Manufacturer; add LCSC for JLCPCB assembly.\nDNP parts: set both Do not populate and Exclude from bill of materials.\nFiducials FID1.., mounting holes H1.. (kept out of the BOM and placement files)."
+		(exclude_from_sim no)
+		(at 152.4 81.28 0)
+		(size 124.46 40.64)
+		(margins 1.143 1.143 1.143 1.143)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(fill
+			(type none)
+		)
+		(effects
+			(font
+				(size 1.524 1.524)
+			)
+			(justify left top)
+		)
+		(uuid "fe8e1702-2ceb-4baa-bf66-4e05289f4293")
+	)
+	(sheet_instances
+		(path "/"
+			(page "1")
+		)
+	)
+)

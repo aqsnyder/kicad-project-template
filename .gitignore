@@ -1,0 +1,11 @@
+# KiCad (from kicad-project-template)
+*-backups/
+*.kicad_prl
+fp-info-cache
+*.lck
+_autosave-*
+\#auto_saved_files#
+*-bak
+*.kicad_sch.bak
+/out/
+.venv/

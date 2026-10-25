@@ -1,0 +1,7 @@
+# KiCad tools for this repository, pinned so every machine and CI run the same version.
+#   pip install -r hw/requirements-tools.txt
+# To upgrade, change the tags here and let CI run.
+kicad-part-importer @ git+https://github.com/aqsnyder/kicad-part-importer@v0.1.0
+kicad-fab-package[toml] @ git+https://github.com/aqsnyder/kicad-fab-package@v0.1.0
+# For the one-file assembly PDF and its designator check, use kicad-fab-package[toml,pdf]
+# (adds pypdf and PyMuPDF; PyMuPDF is AGPL-3.0).

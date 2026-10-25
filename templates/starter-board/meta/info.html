@@ -1,0 +1,22 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=utf-8">
+<TITLE>Starter board</TITLE>
+</HEAD>
+<BODY>
+<H2>Starter board</H2>
+<P>A two-layer starting point set up for
+<A HREF="https://github.com/aqsnyder/kicad-part-importer">kicad-part-importer</A> and
+<A HREF="https://github.com/aqsnyder/kicad-fab-package">kicad-fab-package</A>.</P>
+<UL>
+<LI>Text variables: BOARD_NAME, COMPANY, DESIGNER, REVISION, RELEASE_DATE (Schematic Setup &gt; Text Variables). The title blocks use them.</LI>
+<LI>Symbol field templates: MPN, Manufacturer, LCSC, Voltage, Tolerance, Type, TempCo.</LI>
+<LI>Fab rules: JLCPCB 2-layer (<TT>&lt;project&gt;.kicad_dru</TT>). Swap in another file from the template repository's <TT>rules/</TT> folder.</LI>
+<LI>Plot settings: absolute origin, no X2 or netlist attributes, no Protel extensions.</LI>
+<LI>Net classes: Default (0.2 mm) and Power (0.4 mm; nets +*, GND*, VBAT*, VBUS*, VIN*).</LI>
+<LI>Drawing sheet: <TT>drawing-sheet.kicad_wks</TT> with a placeholder logo. Replace it in the Drawing Sheet Editor.</LI>
+</UL>
+<P>Put each board in its own folder next to the part library, e.g. <TT>hw/&lt;board&gt;/</TT> beside <TT>hw/lib/</TT>.</P>
+</BODY>
+</HTML>

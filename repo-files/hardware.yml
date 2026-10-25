@@ -1,0 +1,80 @@
+# KiCad checks for the boards in hw/<board>/ and the part library in hw/lib/.
+# From aqsnyder/kicad-project-template.
+#   every push or pull request touching hw/: library model paths, ERC and DRC (KiCad 10)
+#   every tag: also the fab package of every board (kicad-macrofab-bom + kicad-fab-export), as an artifact
+name: hardware
+
+on:
+  push:
+    branches: ["**"]
+    tags: ["**"]            # path filters do not apply to tag pushes
+    paths: ["hw/**", "kicad-fab.toml", ".github/workflows/hardware.yml"]
+  pull_request:
+    paths: ["hw/**", "kicad-fab.toml", ".github/workflows/hardware.yml"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  library:
+    name: part library
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+      - run: pip install -r hw/requirements-tools.txt
+      # No KiCad needed: fails on bare, absolute, other-variable, wrong-case and missing model paths.
+      - run: kicad-part-importer --library hw/lib --check-3d
+
+  boards:
+    name: ERC, DRC and fab package
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0          # kicad-fab-export reads the commit with git archive
+          submodules: recursive
+      - name: Install KiCad 10
+        run: |
+          sudo add-apt-repository --yes ppa:kicad/kicad-10.0-releases
+          sudo apt-get update
+          sudo apt-get install --yes --no-install-recommends kicad
+          kicad-cli version
+      - name: Install the tools
+        run: |
+          # --system-site-packages lets the tools import KiCad's pcbnew module
+          python3 -m venv --system-site-packages .venv
+          .venv/bin/pip install -r hw/requirements-tools.txt
+          echo "$PWD/.venv/bin" >> "$GITHUB_PATH"
+      - name: ERC and DRC
+        run: |
+          shopt -s nullglob
+          status=0
+          for pro in hw/*/*.kicad_pro; do
+            dir=$(dirname "$pro"); name=$(basename "$pro" .kicad_pro)
+            echo "::group::$dir"
+            kicad-cli sch erc --severity-error --exit-code-violations \
+              -o "$RUNNER_TEMP/$name-erc.rpt" "$dir/$name.kicad_sch" || status=1
+            kicad-cli pcb drc --severity-error --schematic-parity --exit-code-violations \
+              -o "$RUNNER_TEMP/$name-drc.rpt" "$dir/$name.kicad_pcb" || status=1
+            cat "$RUNNER_TEMP/$name-erc.rpt" "$RUNNER_TEMP/$name-drc.rpt"
+            echo "::endgroup::"
+          done
+          exit $status
+      - name: Fab packages
+        if: startsWith(github.ref, 'refs/tags/')
+        run: |
+          shopt -s nullglob
+          for pro in hw/*/*.kicad_pro; do
+            dir=$(dirname "$pro"); board=$(basename "$dir")
+            kicad-macrofab-bom HEAD --project-dir "$dir" --out "out/$board/bom"
+            kicad-fab-export HEAD --project-dir "$dir" --out "out/$board"
+          done
+      - uses: actions/upload-artifact@v7
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          name: fab-${{ github.ref_name }}
+          path: out/

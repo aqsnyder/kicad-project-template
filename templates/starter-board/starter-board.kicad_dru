@@ -1,0 +1,74 @@
+(version 1)
+# JLCPCB, 1-2 layer, 1 oz copper, standard options with no surcharge.
+# Source: https://jlcpcb.com/capabilities/pcb-capabilities (checked 2026-10-25).
+# Copy to <project>.kicad_dru next to the .kicad_pro. KiCad only reads that file name.
+# Tighter values exist at extra cost; each rule says what JLCPCB's absolute limit is.
+
+(rule "JLCPCB: track width"
+	(constraint track_width (min 0.1mm))
+	(condition "A.Type == 'track'"))
+
+(rule "JLCPCB: copper clearance"
+	(constraint clearance (min 0.1mm)))
+
+(rule "JLCPCB: SMD pad to pad, different nets"
+	(constraint clearance (min 0.15mm))
+	(condition "A.Type == 'Pad' && B.Type == 'Pad' && A.Net != B.Net"))
+
+# 0.2 mm drill / 0.45 mm via costs nothing extra. Absolute limit 0.15 / 0.25 mm (surcharge).
+(rule "JLCPCB: via size, no surcharge"
+	(constraint hole_size (min 0.2mm))
+	(constraint via_diameter (min 0.45mm))
+	(condition "A.Type == 'Via'"))
+
+(rule "JLCPCB: via annular ring"
+	(constraint annular_width (min 0.1mm))
+	(condition "A.Type == 'Via'"))
+
+# Absolute minimum 0.18 mm; JLCPCB recommends 0.25 mm.
+(rule "JLCPCB: PTH pad annular ring"
+	(constraint annular_width (min 0.18mm))
+	(condition "A.Type == 'Pad'"))
+
+(rule "JLCPCB: plated hole size"
+	(constraint hole_size (min 0.15mm))
+	(condition "A.Type == 'Pad' && A.isPlated()"))
+
+(rule "JLCPCB: NPTH hole size"
+	(constraint hole_size (min 0.5mm))
+	(condition "A.Pad_Type == 'NPTH, mechanical'"))
+
+(rule "JLCPCB: via hole to hole"
+	(constraint hole_to_hole (min 0.2mm))
+	(condition "A.Type == 'Via' && B.Type == 'Via'"))
+
+(rule "JLCPCB: pad hole to hole"
+	(constraint hole_to_hole (min 0.45mm))
+	(condition "A.Type == 'Pad' && B.Type == 'Pad'"))
+
+(rule "JLCPCB: via hole to copper"
+	(constraint hole_clearance (min 0.2mm))
+	(condition "A.Type == 'Via'"))
+
+# 0.28 mm minimum, 0.35 mm recommended.
+(rule "JLCPCB: PTH hole to track"
+	(constraint hole_clearance (min 0.28mm))
+	(condition "A.Type == 'Pad' && A.isPlated() && B.Type == 'track'"))
+
+(rule "JLCPCB: NPTH hole to track"
+	(constraint hole_clearance (min 0.2mm))
+	(condition "A.Pad_Type == 'NPTH, mechanical' && B.Type == 'track'"))
+
+# Routed edge. Use 0.4 mm for a V-cut panel edge.
+(rule "JLCPCB: copper to board edge"
+	(constraint edge_clearance (min 0.2mm)))
+
+(rule "JLCPCB: silkscreen text"
+	(constraint text_height (min 1mm))
+	(constraint text_thickness (min 0.15mm))
+	(layer "?.Silkscreen"))
+
+(rule "JLCPCB: pad to silkscreen"
+	(constraint silk_clearance (min 0.15mm))
+	(layer outer)
+	(condition "A.Type == 'Pad' && (B.Type == 'Text' || B.Type == 'Graphic')"))

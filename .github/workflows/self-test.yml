@@ -1,0 +1,142 @@
+# Proves the template with real KiCad 10 and the pinned tools: makes a demo repository with
+# scripts/kicad_template.py, then runs what an adopting repository's hardware workflow runs.
+name: self-test
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  library:
+    # The hardware workflow's library job, on a demo repository: no KiCad, just Python and the pinned importer.
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+      - run: pip install -r repo-files/requirements-tools.txt
+      - name: Demo repository, then the library check
+        run: |
+          demo="$RUNNER_TEMP/demo"
+          mkdir -p "$demo"
+          python3 scripts/kicad_template.py init-repo "$demo" --prefix demo_
+          cd "$demo" && kicad-part-importer --library hw/lib --check-3d
+
+  kicad10:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Folders
+        run: |
+          echo "DEMO=$RUNNER_TEMP/demo" >> "$GITHUB_ENV"
+          echo "OUT=$RUNNER_TEMP/ci-output" >> "$GITHUB_ENV"
+          mkdir -p "$RUNNER_TEMP/demo" "$RUNNER_TEMP/ci-output"
+
+      - name: Install KiCad 10
+        run: |
+          sudo add-apt-repository --yes ppa:kicad/kicad-10.0-releases
+          sudo apt-get update
+          sudo apt-get install --yes --no-install-recommends kicad poppler-utils
+          kicad-cli version | tee "$OUT/kicad-version.txt"
+
+      - name: Install the tools
+        run: |
+          python3 -m venv --system-site-packages .venv
+          .venv/bin/pip install -r repo-files/requirements-tools.txt
+          echo "$PWD/.venv/bin" >> "$GITHUB_PATH"
+
+      - name: Template files are in the current KiCad format
+        continue-on-error: true
+        run: |
+          tmp=$(mktemp -d); cp -r templates/starter-board/. "$tmp/"
+          kicad-cli sch upgrade --force "$tmp/starter-board.kicad_sch"
+          kicad-cli pcb upgrade --force "$tmp/starter-board.kicad_pcb"
+          mkdir -p "$OUT/upgraded"; cp "$tmp"/starter-board.kicad_{sch,pcb,pro} "$OUT/upgraded/"
+          for f in starter-board.kicad_sch starter-board.kicad_pcb; do
+            if ! diff -q <(grep -v generator_version "templates/starter-board/$f") \
+                         <(grep -v generator_version "$tmp/$f") >/dev/null; then
+              echo "::warning file=templates/starter-board/$f::KiCad would rewrite this file; re-save it in KiCad"
+            fi
+          done
+
+      - name: Make a demo repository from the template
+        run: |
+          git -C "$DEMO" init -q -b main
+          python3 scripts/kicad_template.py init-repo "$DEMO" --prefix demo_
+          python3 scripts/kicad_template.py new-board "$DEMO/hw/demo-board" --title "Demo board" \
+            --company "Example Co" --designer "CI"
+          git -C "$DEMO" add -A
+          git -C "$DEMO" -c user.name=ci -c user.email=ci@example.com commit -qm "Demo from the template"
+
+      - name: Part library check
+        working-directory: ${{ env.DEMO }}
+        run: kicad-part-importer --library hw/lib --check-3d
+
+      - name: ERC and DRC (all severities shown, errors fail)
+        working-directory: ${{ env.DEMO }}
+        run: |
+          status=0
+          for pro in hw/*/*.kicad_pro; do
+            dir=$(dirname "$pro"); name=$(basename "$pro" .kicad_pro)
+            kicad-cli sch erc --severity-all -o "$OUT/$name-erc.rpt" "$dir/$name.kicad_sch" || status=1
+            kicad-cli pcb drc --severity-all --schematic-parity -o "$OUT/$name-drc.rpt" "$dir/$name.kicad_pcb" || status=1
+            cat "$OUT/$name-erc.rpt" "$OUT/$name-drc.rpt" || true
+            kicad-cli sch erc --severity-error --exit-code-violations -o "$RUNNER_TEMP/e.rpt" \
+              "$dir/$name.kicad_sch" || status=1
+            kicad-cli pcb drc --severity-error --schematic-parity --exit-code-violations -o "$RUNNER_TEMP/d.rpt" \
+              "$dir/$name.kicad_pcb" || status=1
+          done
+          exit $status
+
+      - name: Fab package
+        if: always()
+        working-directory: ${{ env.DEMO }}
+        run: |
+          set -o pipefail
+          rc=0
+          kicad-macrofab-bom HEAD --project-dir hw/demo-board --out "$OUT/fab/bom" 2>&1 \
+            | tee "$OUT/macrofab-bom.log" || rc=1
+          kicad-fab-export HEAD --project-dir hw/demo-board --out "$OUT/fab" 2>&1 \
+            | tee "$OUT/fab-export.log" || true
+          # The starter board has no parts. kicad-fab-package 0.1.0 fails one check that needs at least one
+          # placed part ("... on the 0 parts whose origin is the pad centre"); any other FAIL fails this step.
+          grep -q '^RESULT: ' "$OUT/fab-export.log" || rc=1
+          if grep -E '^\s+FAIL ' "$OUT/fab-export.log" | grep -v 'on the 0 parts whose origin is the pad centre'; then
+            rc=1
+          fi
+          # kicad-fab-package 0.1.0 does not copy .kicad_wks files into its project copy, so its schematic PDF
+          # falls back to KiCad's default drawing sheet. Report it until the tool carries the sheet.
+          if ! pdftotext "$OUT/fab/docs/demo-board_v0.1_schematic.pdf" - | grep -q 'Designed by'; then
+            echo "::warning::fab package schematic PDF uses KiCad's default drawing sheet, not drawing-sheet.kicad_wks"
+          fi
+          exit $rc
+
+      - name: Render the title blocks
+        if: always()
+        working-directory: ${{ env.DEMO }}
+        run: |
+          d=hw/demo-board
+          kicad-cli sch export pdf -o "$OUT/schematic.pdf" "$d/demo-board.kicad_sch" 2>&1 | tee "$OUT/render.log"
+          pdftoppm -png -r 100 "$OUT/schematic.pdf" "$OUT/schematic"
+          kicad-cli pcb export pdf -l Edge.Cuts,F.Silkscreen --include-border-title \
+            -o "$OUT/board.pdf" "$d/demo-board.kicad_pcb" 2>&1 | tee -a "$OUT/render.log" || true
+          if [ -f "$OUT/board.pdf" ]; then pdftoppm -png -r 100 "$OUT/board.pdf" "$OUT/board"; fi
+          pdftotext -layout "$OUT/schematic.pdf" "$OUT/schematic.txt"
+          tail -n 25 "$OUT/schematic.txt"
+          if grep -q 'Error loading drawing sheet' "$OUT/render.log"; then
+            echo "::error file=templates/starter-board/drawing-sheet.kicad_wks::KiCad could not load the drawing sheet"
+            exit 1
+          fi
+          grep -q 'Designed by: CI' "$OUT/schematic.txt" || { echo "::error::title block text variables did not resolve"; exit 1; }
+
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: self-test-output
+          path: ${{ env.OUT }}
