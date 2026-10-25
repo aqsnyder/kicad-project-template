@@ -20,6 +20,7 @@ jobs:
   library:
     name: part library
     runs-on: ubuntu-24.04
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-python@v7
@@ -32,12 +33,14 @@ jobs:
   boards:
     name: ERC, DRC and fab package
     runs-on: ubuntu-24.04
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v7
         with:
           fetch-depth: 0          # kicad-fab-export reads the commit with git archive
           submodules: recursive
       - name: Install KiCad 10
+        timeout-minutes: 15
         run: |
           sudo add-apt-repository --yes ppa:kicad/kicad-10.0-releases
           sudo apt-get update

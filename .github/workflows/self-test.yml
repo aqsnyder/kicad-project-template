@@ -14,6 +14,7 @@ jobs:
   library:
     # The hardware workflow's library job, on a demo repository: no KiCad, just Python and the pinned importer.
     runs-on: ubuntu-24.04
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-python@v7
@@ -29,6 +30,7 @@ jobs:
 
   kicad10:
     runs-on: ubuntu-24.04
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v7
 
@@ -39,6 +41,7 @@ jobs:
           mkdir -p "$RUNNER_TEMP/demo" "$RUNNER_TEMP/ci-output"
 
       - name: Install KiCad 10
+        timeout-minutes: 15
         run: |
           sudo add-apt-repository --yes ppa:kicad/kicad-10.0-releases
           sudo apt-get update
