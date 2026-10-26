@@ -26,7 +26,7 @@ repository pins to a release.
 | `fabs/` | Fab profiles: PCBWay standard, JLCPCB 1-2 layer, JLCPCB 4-6 layer |
 | `repo-files/` | Repository-level files: `fab.py`, `kicad-fab.toml`, pinned tool requirements, the `hardware` workflow, a `.gitignore` block |
 | `scripts/kicad_template.py` | `init-repo` and `new-board`, so a person or an agent can do the setup from a terminal |
-| `tests/` | The self-test's fab fixture: a board with known violations, and what each fab must find |
+| `tests/` | The self-test's fab fixture: 2- and 4-layer boards with known violations, and what each fab must find |
 | `.github/workflows/self-test.yml` | Builds demo repositories from the template and runs KiCad 10, both tools and `fab.py` on them |
 
 What the starter board is set up with:
@@ -54,7 +54,7 @@ The layout it sets up:
 
 ```text
 kicad-fab.toml                     kicad-fab-package settings
-.github/workflows/hardware.yml     library check, ERC, DRC and the fab check on every push; fab packages on tags
+.github/workflows/hardware.yml     library check, ERC, DRC and the fab check on every push; fab packages on hw-v* tags
 hw/
   requirements-tools.txt           both tools, pinned to a release
   drawing-sheet.kicad_wks          the repository's drawing sheet: brand it once
@@ -130,11 +130,11 @@ python3 hw/fab.py set pcbway-standard --all         # every board
 python3 hw/fab.py check --all                       # which fabs can make each board (needs KiCad 10)
 ```
 
-| Profile | Fab | Main limits (no extra charge) |
-|---|---|---|
-| `pcbway-standard` | PCBWay standard, 1-6 layers | Template default. 0.15 mm track and space; 0.2 mm holes, 0.5 mm vias; 0.25 mm to the edge |
-| `jlcpcb-2layer` | JLCPCB 1-2 layer | 0.1 mm track and space; 0.2 mm holes, 0.45 mm vias; 0.18 mm pad rings; 0.5 mm NPTH |
-| `jlcpcb-multilayer` | JLCPCB 4-6 layer | 0.09 mm track and space; 0.2 mm holes, 0.45 mm vias; 0.3 mm inner hole clearance |
+| Profile | Fab | Copper layers | Main limits (no extra charge) |
+|---|---|---|---|
+| `pcbway-standard` | PCBWay standard | 1-6 | Template default. 0.15 mm track and space; 0.2 mm holes, 0.5 mm vias; 0.25 mm to the edge |
+| `jlcpcb-2layer` | JLCPCB 1-2 layer | 1-2 | 0.1 mm track and space; 0.2 mm holes, 0.45 mm vias; 0.18 mm pad rings; 0.5 mm NPTH |
+| `jlcpcb-multilayer` | JLCPCB 4-6 layer | 4-6 | 0.09 mm track and space; 0.2 mm holes, 0.45 mm vias; 0.3 mm inner hole clearance |
 
 **What `set` does:**
 
@@ -147,8 +147,11 @@ python3 hw/fab.py check --all                       # which fabs can make each b
 
 **What `check` shows:** `check` runs KiCad's DRC on a temporary copy of each board once per profile, without
 touching the board, and lists the errors under each fab. Errors that show under every fab are design errors, not fab
-limits. The `hardware` workflow puts this table in every run's summary and warns when a board's fab settings drift
-from its profile (`fab.py verify`).
+limits. A fab whose `copper-layers` range leaves out the board's copper layer count shows `n/a (4 layers)` and gets
+no DRC. `check` covers DRC geometry and layer count only: `ok` says nothing about the board's thickness, copper
+weight or stackup, so compare those with the fab's page. `set` prints a note when the new fab does not cover the
+board's layer count. The `hardware` workflow puts this table in every run's summary and warns when a board's fab
+settings drift from its profile (`fab.py verify`).
 
 **A mistake in a rules file turns off all of its rules, silently.** KiCad 10 skips a `.kicad_dru` it cannot read,
 including the fab rules above the board rules, and its DRC still passes. `check` guards against this: it adds a
@@ -162,6 +165,7 @@ it:
 (version 1)
 # fab-profile: acme-proto                  <- must match the file name
 # fab-name: Acme Proto 2-layer             <- what FAB and the cover sheet show
+# copper-layers: 1-2                       <- copper layer counts it makes (required); check shows n/a outside it
 # board-setup: min_clearance 0.127         <- Board Setup > Constraints, in mm
 # board-setup: min_track_width 0.127
 # ...
@@ -209,7 +213,11 @@ kicad-macrofab-bom HEAD --project-dir hw/main-board --out ../fab/main-board/bom
 kicad-fab-export   HEAD --project-dir hw/main-board --out ../fab/main-board
 ```
 
-The `hardware` workflow does this for every board when you push a tag, and attaches the packages to the run.
+The `hardware` workflow does this for every board when you push a hardware tag (`hw-v0.1`, `hw-v1.0-rc1`, ...), and
+attaches the packages to the run as `fab-<tag>`. To use other tag names, change `tags: ["hw-v*"]` in `hardware.yml`.
+Path filters do not apply to tags, so `**` would build packages for every tag, firmware and software tags included.
+Keep `/` out of hardware tags: artifact names cannot contain one.
+
 kicad-fab-package's BOM, placement file and upload zip are in MacroFab's format. The Gerbers and drill files in
 `fab/` suit any board house, so a bare-board order at JLCPCB or PCBWay works from them today; their assembly BOM and
 placement files do not exist yet (see [Known gaps](#known-gaps)).
@@ -221,30 +229,45 @@ placement files do not exist yet (see [Known gaps](#known-gaps)).
 - **library**: `kicad-part-importer --check-3d` on `hw/lib`. No KiCad needed.
 - **boards**: runs in KiCad's official Docker image (`kicad/kicad:10.0-full`), then ERC and DRC (with schematic parity) on every `hw/*/` project, each
   with its own fab's rules. Errors fail the run; warnings are printed. Then `fab.py verify` (a warning on drift) and
-  `fab.py check` (the table of fabs, in the run summary). On a tag, also the fab package of every board, uploaded as
-  an artifact.
+  `fab.py check` (the table of fabs, in the run summary). On a `hw-v*` tag, also the fab package of every board,
+  uploaded as an artifact. A board whose package fails does not stop the others: the step fails at the end, and the
+  packages that were made are still uploaded. The job runs as root while the checkout belongs to the runner user, so
+  it marks the checkout as a git `safe.directory`; without that, git refuses the checkout and both fab tools fail.
 
 `self-test.yml` (this repository): makes a demo repository with `init-repo` and `new-board`, then runs the library
 check, ERC, DRC, kicad-macrofab-bom and kicad-fab-export on it with KiCad 10, renders the schematic and checks that
-the drawing sheet loads and the text variables resolve. It also builds a fixture board with known violations
-(`tests/make_fixture.py`), switches it between fabs and back with a board rule in place, and checks that each profile
-finds exactly its own limits plus the net class error (`tests/check_fixture.py`). It runs in the same KiCad image as the `hardware` workflow, and warns when KiCad would rewrite
-the template files, which means they should be re-saved in the current KiCad.
+the drawing sheet loads and the text variables resolve. It runs both fab tools in its own checkout as well, which, as
+in an adopting repository, belongs to the runner user rather than root, so the `safe.directory` line is tested. It
+also builds 2- and 4-layer fixture boards with known violations (`tests/make_fixture.py`), switches one between fabs
+and back with a board rule in place, and checks that each profile finds exactly its own limits plus the net class
+error, and shows `n/a` on the layer count it does not cover (`tests/check_fixture.py`). It runs in the same KiCad
+image as the `hardware` workflow, and warns when KiCad would rewrite the template files, which means they should be
+re-saved in the current KiCad.
 
 ## Known gaps
 
-All four are in kicad-fab-package 0.1.0 and show up in the self-test:
+All five are in kicad-fab-package 0.1.0. The self-test shows the drawing sheet and the empty board; the others need
+a board with library parts, a round outline or an assembly order.
 
 - **Drawing sheet in the fab package.** The tool's project copy takes `.kicad_pro`, `.kicad_sch`, `.kicad_pcb`,
   `.kicad_dru` and the library tables, not `.kicad_wks`. The package's schematic PDF therefore uses KiCad's default
   title block (the text variables still fill it in).
-- **Library 3D models in the STEP.** The tool adds a library only when it is a git submodule inside the board
+- **Library 3D models fail the package.** The tool adds a library only when it is a git submodule inside the board
   folder (`library_dir`). `hw/lib` is a plain folder beside the boards, so the package's STEP has no bodies for
-  library parts. The Gerbers, drills, BOM and placement files are not affected.
+  library parts. Once a board has a placed part whose model is in `hw/lib`, kicad-fab-export fails its error-level
+  check "STEP: every placed part with a model entry gets a model": it still writes the package but exits 1, so the
+  `hardware` workflow's fab package step fails on every hardware tag (the other boards still package, and the
+  upload still runs). The Gerbers, drills, BOM and placement files themselves are not affected.
+- **A round outline fails a check.** A board outline drawn as one `gr_circle` on Edge.Cuts fails "STEP: origin =
+  XYRS corner". Draw the circle as four quarter arcs instead.
 - **An empty board fails one check** ("XYRS vs KiCad pos: same frame on the 0 parts ..."). It passes once the board
   has a placed part. The self-test allows exactly this failure on the starter board.
-- **No JLCPCB or PCBWay assembly files.** Their BOM (`Comment, Designator, Footprint, LCSC Part #`) and placement
-  file (`Designator, Mid X, Mid Y, Layer, Rotation`, in mm) are not produced.
+- **No JLCPCB or PCBWay assembly files.** The tool writes MacroFab's BOM and placement formats only. JLCPCB's BOM
+  has `Comment, Designator, Footprint, LCSC Part #` and its placement file `Designator, Mid X, Mid Y, Layer,
+  Rotation`, in mm. PCBWay's [BOM template](https://www.pcbway.com/img/images/pcbway/Sample_BOM_PCBWay.xlsx) has
+  `Item #, *Designator, *Qty, Manufacturer, *Mfg Part #, Description / Value, *Package/Footprint, Type, Your
+  Instructions / Notes`, and its centroid file is one per side, in mm, with the origin at the board's lower-left
+  corner seen from the top.
 
 ## License
 

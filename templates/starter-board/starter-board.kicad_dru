@@ -1,6 +1,7 @@
 (version 1)
 # fab-profile: pcbway-standard
 # fab-name: PCBWay standard
+# copper-layers: 1-6
 # PCBWay standard PCB service, 1-6 layers, 1 oz copper, using only options with no extra charge.
 # Sources (checked 2026-10-26):
 #   https://www.pcbway.com/capabilities.html (standard table, and the "normal process" column)

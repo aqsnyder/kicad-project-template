@@ -3,13 +3,17 @@
 #   every push or pull request touching hw/: library model paths, ERC and DRC with each board's fab rules,
 #     a warning if a board's fab settings drift from hw/fabs, and a table of which fabs can make each board
 #     (in the run summary)
-#   every tag: also the fab package of every board (kicad-macrofab-bom + kicad-fab-export), as an artifact
+#   every hw-v* tag (hw-v0.1, hw-v1.0-rc1, ...): also the fab package of every board (kicad-macrofab-bom +
+#     kicad-fab-export), as an artifact named fab-<tag>
 name: hardware
 
 on:
   push:
     branches: ["**"]
-    tags: ["**"]            # path filters do not apply to tag pushes
+    # Hardware release tags. Path filters do not apply to tags, so "**" would build fab packages for every tag in a
+    # repository that also holds firmware or software. Keep "/" out of the pattern: the artifact is named
+    # fab-<tag>, and artifact names cannot contain "/" (the "*" here does not match one).
+    tags: ["hw-v*"]
     paths: ["hw/**", "kicad-fab.toml", ".github/workflows/hardware.yml"]
   pull_request:
     paths: ["hw/**", "kicad-fab.toml", ".github/workflows/hardware.yml"]
@@ -60,6 +64,10 @@ jobs:
           python3 -m venv --system-site-packages "$RUNNER_TEMP/venv"
           "$RUNNER_TEMP/venv/bin/pip" install -r hw/requirements-tools.txt
           echo "$RUNNER_TEMP/venv/bin" >> "$GITHUB_PATH"
+          # The job runs as root, but the checkout belongs to the runner user and actions/checkout removes its own
+          # safe.directory entry when it finishes. Without this, git refuses the checkout ("dubious ownership") and
+          # kicad-macrofab-bom and kicad-fab-export fail on every tag.
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
       - name: ERC and DRC
         run: |
           shopt -s nullglob
@@ -88,14 +96,19 @@ jobs:
       - name: Fab packages
         if: startsWith(github.ref, 'refs/tags/')
         run: |
+          # A board that fails does not stop the others; the step fails at the end and the upload still runs.
           shopt -s nullglob
+          status=0
           for pro in hw/*/*.kicad_pro; do
             dir=$(dirname "$pro"); board=$(basename "$dir")
-            kicad-macrofab-bom HEAD --project-dir "$dir" --out "out/$board/bom"
-            kicad-fab-export HEAD --project-dir "$dir" --out "out/$board"
+            echo "::group::$dir"
+            kicad-macrofab-bom HEAD --project-dir "$dir" --out "out/$board/bom" || status=1
+            kicad-fab-export HEAD --project-dir "$dir" --out "out/$board" || status=1
+            echo "::endgroup::"
           done
+          exit $status
       - uses: actions/upload-artifact@v7
-        if: startsWith(github.ref, 'refs/tags/')
+        if: always() && startsWith(github.ref, 'refs/tags/')
         with:
           name: fab-${{ github.ref_name }}
           path: out/
