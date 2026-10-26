@@ -1,74 +1,46 @@
 (version 1)
-# JLCPCB, 1-2 layer, 1 oz copper, standard options with no surcharge.
-# Source: https://jlcpcb.com/capabilities/pcb-capabilities (checked 2026-10-25).
-# Copy to <project>.kicad_dru next to the .kicad_pro. KiCad only reads that file name.
-# Tighter values exist at extra cost; each rule says what JLCPCB's absolute limit is.
+# fab-profile: pcbway-standard
+# fab-name: PCBWay standard
+# PCBWay standard PCB service, 1-6 layers, 1 oz copper, using only options with no extra charge.
+# Sources (checked 2026-10-26):
+#   https://www.pcbway.com/capabilities.html (standard table, and the "normal process" column)
+#   https://www.pcbway.com/helpcenter/ordering_parameter_instruction/What_is_the_Min_Track_Spacing_for_1oz__2oz__3oz__Copper_weight_.html
+#   https://www.pcbway.com/helpcenter/Engineering_Questions/the_spacing_from_hole_to_trace.html
+#
+# Board Setup > Constraints. hw/fab.py writes these into the project. They are floors: net class clearances and
+# widths above them still apply.
+# board-setup: min_clearance 0.15
+# board-setup: min_track_width 0.15
+# board-setup: min_through_hole_diameter 0.2
+# board-setup: min_via_diameter 0.5
+# board-setup: min_via_annular_width 0.15
+# board-setup: min_hole_clearance 0.2
+# board-setup: min_hole_to_hole 0.28
+# board-setup: min_copper_edge_clearance 0.25
+# board-setup: min_text_height 0.8
+# board-setup: min_text_thickness 0.15
+#
+# Notes:
+# - 0.15 mm (6 mil) track and space: PCBWay suggests 6 mil or more to keep the price down. 4 mil is possible at
+#   extra cost.
+# - Holes below 0.2 mm cost extra. A 0.2 mm via with a 0.15 mm ring is 0.5 mm across.
+# - Hole to hole: vias up to 0.45 mm need 11 mil (0.28 mm); component holes need 16 mil (rule below).
+# - Inner-layer isolation ring: 7 mil for 4 layers, 8 mil for 6. The 0.2 mm hole clearance covers both.
+# - Copper to a CNC-routed edge: 0.25 mm.
+# - Silkscreen: 0.8 mm text height with a 0.15 mm stroke.
 
-(rule "JLCPCB: track width"
-	(constraint track_width (min 0.1mm))
-	(condition "A.Type == 'track'"))
-
-(rule "JLCPCB: copper clearance"
-	(constraint clearance (min 0.1mm)))
-
-(rule "JLCPCB: SMD pad to pad, different nets"
-	(constraint clearance (min 0.15mm))
-	(condition "A.Type == 'Pad' && B.Type == 'Pad' && A.Net != B.Net"))
-
-# 0.2 mm drill / 0.45 mm via costs nothing extra. Absolute limit 0.15 / 0.25 mm (surcharge).
-(rule "JLCPCB: via size, no surcharge"
-	(constraint hole_size (min 0.2mm))
-	(constraint via_diameter (min 0.45mm))
-	(condition "A.Type == 'Via'"))
-
-(rule "JLCPCB: via annular ring"
-	(constraint annular_width (min 0.1mm))
-	(condition "A.Type == 'Via'"))
-
-# Absolute minimum 0.18 mm; JLCPCB recommends 0.25 mm.
-(rule "JLCPCB: PTH pad annular ring"
-	(constraint annular_width (min 0.18mm))
-	(condition "A.Type == 'Pad'"))
-
-(rule "JLCPCB: plated hole size"
-	(constraint hole_size (min 0.15mm))
+(rule "PCBWay: plated pad annular ring"
+	(constraint annular_width (min 0.15mm))
 	(condition "A.Type == 'Pad' && A.isPlated()"))
 
-(rule "JLCPCB: NPTH hole size"
-	(constraint hole_size (min 0.5mm))
-	(condition "A.Pad_Type == 'NPTH, mechanical'"))
-
-(rule "JLCPCB: via hole to hole"
-	(constraint hole_to_hole (min 0.2mm))
-	(condition "A.Type == 'Via' && B.Type == 'Via'"))
-
-(rule "JLCPCB: pad hole to hole"
-	(constraint hole_to_hole (min 0.45mm))
+(rule "PCBWay: component hole to hole"
+	(constraint hole_to_hole (min 0.41mm))
 	(condition "A.Type == 'Pad' && B.Type == 'Pad'"))
 
-(rule "JLCPCB: via hole to copper"
-	(constraint hole_clearance (min 0.2mm))
-	(condition "A.Type == 'Via'"))
+(rule "PCBWay: plated hole to track"
+	(constraint hole_clearance (min 0.35mm))
+	(condition "(A.Type == 'Pad' && A.isPlated() && B.Type == 'Track') || (B.Type == 'Pad' && B.isPlated() && A.Type == 'Track')"))
 
-# 0.28 mm minimum, 0.35 mm recommended.
-(rule "JLCPCB: PTH hole to track"
-	(constraint hole_clearance (min 0.28mm))
-	(condition "A.Type == 'Pad' && A.isPlated() && B.Type == 'track'"))
-
-(rule "JLCPCB: NPTH hole to track"
-	(constraint hole_clearance (min 0.2mm))
-	(condition "A.Pad_Type == 'NPTH, mechanical' && B.Type == 'track'"))
-
-# Routed edge. Use 0.4 mm for a V-cut panel edge.
-(rule "JLCPCB: copper to board edge"
-	(constraint edge_clearance (min 0.2mm)))
-
-(rule "JLCPCB: silkscreen text"
-	(constraint text_height (min 1mm))
-	(constraint text_thickness (min 0.15mm))
-	(layer "?.Silkscreen"))
-
-(rule "JLCPCB: pad to silkscreen"
-	(constraint silk_clearance (min 0.15mm))
-	(layer outer)
-	(condition "A.Type == 'Pad' && (B.Type == 'Text' || B.Type == 'Graphic')"))
+# ==== Board rules ====
+# This board's own rules go below. hw/fab.py keeps them when you switch fabs. When a rule here and a
+# fab rule above match the same objects, the rule here wins (KiCad: later rules take precedence).

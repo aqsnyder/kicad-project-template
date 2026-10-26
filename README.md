@@ -12,7 +12,7 @@ repository pins to a release.
 - [Set up a repository](#set-up-a-repository)
 - [Add a board](#add-a-board)
 - [Make it yours](#make-it-yours)
-- [Fab rules](#fab-rules)
+- [Fabs](#fabs)
 - [Parts](#parts)
 - [Fab packages](#fab-packages)
 - [CI](#ci)
@@ -23,27 +23,28 @@ repository pins to a release.
 | Path | What |
 |---|---|
 | `templates/starter-board/` | The KiCad project template: project, schematic, board, fab rules, drawing sheet, library tables |
-| `rules/` | Fab design rules: JLCPCB 1-2 layer, JLCPCB 4/6 layer, PCBWay standard |
-| `repo-files/` | Repository-level files: `kicad-fab.toml`, pinned tool requirements, the `hardware` workflow, a `.gitignore` block |
+| `fabs/` | Fab profiles: PCBWay standard, JLCPCB 1-2 layer, JLCPCB 4-6 layer |
+| `repo-files/` | Repository-level files: `fab.py`, `kicad-fab.toml`, pinned tool requirements, the `hardware` workflow, a `.gitignore` block |
 | `scripts/kicad_template.py` | `init-repo` and `new-board`, so a person or an agent can do the setup from a terminal |
-| `.github/workflows/self-test.yml` | Builds a demo repository from the template and runs KiCad 10 and both tools on it |
+| `tests/` | The self-test's fab fixture: a board with known violations, and what each fab must find |
+| `.github/workflows/self-test.yml` | Builds demo repositories from the template and runs KiCad 10, both tools and `fab.py` on them |
 
 What the starter board is set up with:
 
-- **Text variables** `BOARD_NAME`, `COMPANY`, `DESIGNER`, `REVISION` and `RELEASE_DATE` (*Schematic Setup > Text
-  Variables*). The title blocks show them, and `REVISION` is the one kicad-fab-package names its outputs after. The
+- **Text variables** `BOARD_NAME`, `COMPANY`, `DESIGNER`, `REVISION`, `RELEASE_DATE` and `FAB` (*Schematic Setup >
+  Text Variables*). The title blocks show them, and `REVISION` is the one kicad-fab-package names its outputs after. The
   board file carries them too.
 - **Symbol field templates** `MPN`, `Manufacturer`, `LCSC`, `Voltage`, `Tolerance`, `Type` and `TempCo`.
   kicad-macrofab-bom needs `MPN` and `Manufacturer` on every fitted part; `LCSC` is for JLCPCB assembly; the other
   four are kicad-bom-check's grouped BOM fields.
 - **Plot settings** that kicad-fab-export checks: absolute origin, no X2 or netlist attributes, no Protel
   extensions, all copper plus mask, paste, silkscreen and Edge.Cuts.
-- **Fab rules** for JLCPCB 1-2 layer in `<project>.kicad_dru`.
+- **The PCBWay standard fab profile** (see [Fabs](#fabs)).
 - **Net classes** Default (0.2 mm track and clearance, 0.6/0.3 mm via) and Power (0.4 mm; nets `+*`, `GND*`,
-  `VBAT*`, `VBUS*`, `VIN*`). Via sizes 0.45/0.2 and 0.6/0.3 mm.
-- **Board setup minimums** kept low, so the `.kicad_dru` file decides what the fab can make.
+  `VBAT*`, `VBUS*`, `VIN*`). Via sizes 0.5/0.2 and 0.6/0.3 mm, which every profile accepts.
 - **Silkscreen defaults** of 1.0 mm text with 0.15 mm strokes.
-- **A cover sheet** with overview, sheet list, revision history and ordering notes, and a 50 x 50 mm outline.
+- **A cover sheet** with overview, sheet list, revision history and ordering notes (including the fab), and a
+  50 x 50 mm outline.
 - **A drawing sheet** (`drawing-sheet.kicad_wks`) with a logo cell, company, designer, title, size, date, revision,
   sheet number and file name.
 
@@ -53,11 +54,12 @@ The layout it sets up:
 
 ```text
 kicad-fab.toml                     kicad-fab-package settings
-.github/workflows/hardware.yml     library check, ERC and DRC on every push; fab packages on tags
+.github/workflows/hardware.yml     library check, ERC, DRC and the fab check on every push; fab packages on tags
 hw/
   requirements-tools.txt           both tools, pinned to a release
   drawing-sheet.kicad_wks          the repository's drawing sheet: brand it once
-  rules/                           the fab rules files
+  fab.py                           switches a board's fab, and checks which fabs can make it
+  fabs/                            fab profiles, one .kicad_dru file per fab
   lib/                             part library (kicad-part-importer), reached as ${KIPRJMOD}/../lib
   <board>/                         one KiCad project per board
 ```
@@ -84,16 +86,18 @@ python3 ~/src/kicad-project-template/scripts/kicad_template.py new-board hw/main
 The folder name becomes the project name (`hw/main-board/main-board.kicad_pro`), so kicad-fab-package names the
 outputs `main-board_v0.1`. `new-board` sets `RELEASE_DATE` to today, `DESIGNER` to your `git config user.name` unless you pass
 `--designer`, copies `hw/drawing-sheet.kicad_wks` into the board, and lists every category library of `hw/lib` in the
-board's `sym-lib-table` and `fp-lib-table`. `--rules pcbway-standard` starts the board with another rules file.
+board's `sym-lib-table` and `fp-lib-table`. The board starts on PCBWay; `--fab jlcpcb-2layer` starts it on another
+fab.
 
 **From KiCad instead:** set `KICAD_USER_TEMPLATE_DIR` to this repository's `templates` folder (*Preferences >
 Configure Paths*), then *File > New Project from Template > User Templates > Starter board*, and create the project
 in `hw/<board>/`. This route leaves the text variables at the template's values and the library tables empty. Set the
 variables in *Schematic Setup > Text Variables*, copy `hw/drawing-sheet.kicad_wks` over the board's copy, and add the
-libraries with:
+libraries and the fab with:
 
 ```bash
 kicad-part-importer --library hw/lib --project-dir hw/<board> --add-to-project
+python3 hw/fab.py set pcbway-standard <board>
 ```
 
 ## Make it yours
@@ -111,24 +115,73 @@ for pro in hw/*/*.kicad_pro; do cp hw/drawing-sheet.kicad_wks "$(dirname "$pro")
 **For an organization with many repositories,** make a branded copy of this repository (GitHub's *Use this
 template*, or a plain copy): put the logo in `templates/starter-board/drawing-sheet.kicad_wks`, set `COMPANY` in
 `templates/starter-board/starter-board.kicad_pro` (and the matching `COMPANY` property in the `.kicad_pcb`), and
-change the default `starter-board.kicad_dru` if your boards go elsewhere. The self-test keeps working in the copy.
+change `DEFAULT_FAB` in `scripts/kicad_template.py` if your boards usually go elsewhere (then run
+`python3 repo-files/fab.py set <profile> templates/starter-board`). The self-test keeps working in the copy.
 
-## Fab rules
+## Fabs
 
-| File | For | Notes |
-|---|---|---|
-| `jlcpcb-2layer.kicad_dru` | JLCPCB 1-2 layer, 1 oz | Template default. Vias 0.2/0.45 mm and up (no surcharge) |
-| `jlcpcb-multilayer.kicad_dru` | JLCPCB 4 and 6 layer, 1 oz | 0.09 mm track and space; inner-layer hole clearance |
-| `pcbway-standard.kicad_dru` | PCBWay standard service | Holes 0.2 mm and up (no surcharge); 0.25 mm edge clearance |
-
-KiCad reads only `<project>.kicad_dru` beside the `.kicad_pro`, so switching is a copy:
+Each board has a fab, and switching it is one command. Close the board in KiCad first, because KiCad rewrites the
+project file when it saves:
 
 ```bash
-cp hw/rules/pcbway-standard.kicad_dru hw/main-board/main-board.kicad_dru
+python3 hw/fab.py list                              # profiles, and each board's fab
+python3 hw/fab.py set jlcpcb-2layer main-board      # one board (a name in hw/, or a folder)
+python3 hw/fab.py set pcbway-standard --all         # every board
+python3 hw/fab.py check --all                       # which fabs can make each board (needs KiCad 10)
 ```
 
-Each file names its source page and the date the numbers were checked (2026-10-25). Fab houses change their limits;
-check the page before a tight design.
+| Profile | Fab | Main limits (no extra charge) |
+|---|---|---|
+| `pcbway-standard` | PCBWay standard, 1-6 layers | Template default. 0.15 mm track and space; 0.2 mm holes, 0.5 mm vias; 0.25 mm to the edge |
+| `jlcpcb-2layer` | JLCPCB 1-2 layer | 0.1 mm track and space; 0.2 mm holes, 0.45 mm vias; 0.18 mm pad rings; 0.5 mm NPTH |
+| `jlcpcb-multilayer` | JLCPCB 4-6 layer | 0.09 mm track and space; 0.2 mm holes, 0.45 mm vias; 0.3 mm inner hole clearance |
+
+**What `set` does:**
+
+- **Writes the profile's minimums into Board Setup > Constraints.** These are floors: net classes above them still
+  apply.
+- **Writes the profile's rules into `<project>.kicad_dru`,** above a `# ==== Board rules ====` line. Anything you
+  put below that line, in a text editor or in KiCad's *Board Setup > Custom Rules*, belongs to the board: it is kept
+  on every switch, and it wins over the fab rules when both match.
+- **Sets the `FAB` text variable,** which the cover sheet shows.
+
+**What `check` shows:** `check` runs KiCad's DRC on a temporary copy of each board once per profile, without
+touching the board, and lists the errors under each fab. Errors that show under every fab are design errors, not fab
+limits. The `hardware` workflow puts this table in every run's summary and warns when a board's fab settings drift
+from its profile (`fab.py verify`).
+
+**A mistake in a rules file turns off all of its rules, silently.** KiCad 10 skips a `.kicad_dru` it cannot read,
+including the fab rules above the board rules, and its DRC still passes. `check` guards against this: it adds a
+canary rule and item to each scratch copy, prints `RULES NOT LOADED` when the canary does not fire, and exits 1, so
+the `hardware` workflow fails. `fab.py` also checks parentheses and quotes when it loads a profile or sets a fab.
+
+**Adding a fab** means adding one file. Copy a profile in `hw/fabs/`, rename it (the name is the profile id), and edit
+it:
+
+```text
+(version 1)
+# fab-profile: acme-proto                  <- must match the file name
+# fab-name: Acme Proto 2-layer             <- what FAB and the cover sheet show
+# board-setup: min_clearance 0.127         <- Board Setup > Constraints, in mm
+# board-setup: min_track_width 0.127
+# ...
+(rule "Acme: NPTH hole size"               <- KiCad custom rules for everything else
+	(constraint hole_size (min 0.5mm))
+	(condition "A.Pad_Type == 'NPTH, mechanical'"))
+```
+
+The keys `board-setup` accepts are the Board Setup names in the `.kicad_pro`: `min_clearance`, `min_track_width`,
+`min_connection`, `min_via_diameter`, `min_via_annular_width`, `min_through_hole_diameter`, `min_hole_clearance`,
+`min_hole_to_hole`, `min_copper_edge_clearance`, `min_microvia_diameter`, `min_microvia_drill`, `min_silk_clearance`,
+`min_text_height` and `min_text_thickness`.
+
+**Why general clearance is not a custom rule.** In KiCad 10 a matching `clearance` rule in `.kicad_dru` *replaces*
+the net class clearance instead of adding to it. A fab rule of 0.1 mm would let a 0.2 mm net class route at 0.1 mm,
+and DRC would not complain. Board Setup minimums are floors instead, so profiles put fab clearances there. `fab.py`
+refuses a profile with a `clearance` rule, and the self-test proves the net class still holds under every profile.
+
+Each profile lists its sources and the date its numbers were checked (2026-10-26). Fabs change their limits, so check
+their pages before a tight design.
 
 ## Parts
 
@@ -166,13 +219,17 @@ placement files do not exist yet (see [Known gaps](#known-gaps)).
 `hardware.yml` (in each adopting repository):
 
 - **library**: `kicad-part-importer --check-3d` on `hw/lib`. No KiCad needed.
-- **boards**: KiCad 10 from the KiCad PPA, then ERC and DRC (with schematic parity) on every `hw/*/` project. Errors
-  fail the run; warnings are printed. On a tag, also the fab package of every board, uploaded as an artifact.
+- **boards**: runs in KiCad's official Docker image (`kicad/kicad:10.0-full`), then ERC and DRC (with schematic parity) on every `hw/*/` project, each
+  with its own fab's rules. Errors fail the run; warnings are printed. Then `fab.py verify` (a warning on drift) and
+  `fab.py check` (the table of fabs, in the run summary). On a tag, also the fab package of every board, uploaded as
+  an artifact.
 
 `self-test.yml` (this repository): makes a demo repository with `init-repo` and `new-board`, then runs the library
 check, ERC, DRC, kicad-macrofab-bom and kicad-fab-export on it with KiCad 10, renders the schematic and checks that
-the drawing sheet loads and the text variables resolve. It also warns when KiCad would rewrite the template files,
-which means they should be re-saved in the current KiCad.
+the drawing sheet loads and the text variables resolve. It also builds a fixture board with known violations
+(`tests/make_fixture.py`), switches it between fabs and back with a board rule in place, and checks that each profile
+finds exactly its own limits plus the net class error (`tests/check_fixture.py`). It runs in the same KiCad image as the `hardware` workflow, and warns when KiCad would rewrite
+the template files, which means they should be re-saved in the current KiCad.
 
 ## Known gaps
 

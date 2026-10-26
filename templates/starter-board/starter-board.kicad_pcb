@@ -131,6 +131,7 @@
 	(property "BOARD_NAME" "Starter board")
 	(property "COMPANY" "Company name")
 	(property "DESIGNER" "")
+	(property "FAB" "PCBWay standard")
 	(property "RELEASE_DATE" "")
 	(property "REVISION" "0.1")
 	(gr_rect

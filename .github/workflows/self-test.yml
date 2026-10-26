@@ -14,7 +14,7 @@ jobs:
   library:
     # The hardware workflow's library job, on a demo repository: no KiCad, just Python and the pinned importer.
     runs-on: ubuntu-24.04
-    timeout-minutes: 30
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-python@v7
@@ -26,12 +26,32 @@ jobs:
           demo="$RUNNER_TEMP/demo"
           mkdir -p "$demo"
           python3 scripts/kicad_template.py init-repo "$demo" --prefix demo_
-          cd "$demo" && kicad-part-importer --library hw/lib --check-3d
+          (cd "$demo" && kicad-part-importer --library hw/lib --check-3d)
+      - name: The starter board matches its fab profile
+        run: python3 repo-files/fab.py verify templates/starter-board
+      - name: fab.py refuses a profile with a clearance rule
+        run: |
+          d=$(mktemp -d); cp fabs/*.kicad_dru "$d/"
+          printf '(version 1)\n# fab-profile: bad\n# fab-name: Bad\n(rule "x" (constraint clearance (min 0.1mm)))\n' > "$d/bad.kicad_dru"
+          if python3 repo-files/fab.py --fabs "$d" list; then echo "::error::accepted a clearance rule"; exit 1; fi
 
   kicad10:
     runs-on: ubuntu-24.04
     timeout-minutes: 30
+    container:
+      # KiCad's official image, the same one the hardware workflow uses.
+      image: kicad/kicad:10.0-full
+      options: --user root
+    defaults:
+      run:
+        shell: bash
     steps:
+      - name: Tools the KiCad image lacks
+        run: |
+          apt-get update
+          apt-get install --yes --no-install-recommends git python3-venv python3-pip poppler-utils ca-certificates
+          kicad-cli version
+
       - uses: actions/checkout@v7
 
       - name: Folders
@@ -39,20 +59,15 @@ jobs:
           echo "DEMO=$RUNNER_TEMP/demo" >> "$GITHUB_ENV"
           echo "OUT=$RUNNER_TEMP/ci-output" >> "$GITHUB_ENV"
           mkdir -p "$RUNNER_TEMP/demo" "$RUNNER_TEMP/ci-output"
-
-      - name: Install KiCad 10
-        timeout-minutes: 15
-        run: |
-          sudo add-apt-repository --yes ppa:kicad/kicad-10.0-releases
-          sudo apt-get update
-          sudo apt-get install --yes --no-install-recommends kicad poppler-utils
-          kicad-cli version | tee "$OUT/kicad-version.txt"
+          kicad-cli version > "$RUNNER_TEMP/ci-output/kicad-version.txt"
 
       - name: Install the tools
         run: |
-          python3 -m venv --system-site-packages .venv
-          .venv/bin/pip install -r repo-files/requirements-tools.txt
-          echo "$PWD/.venv/bin" >> "$GITHUB_PATH"
+          python3 -m venv --system-site-packages "$RUNNER_TEMP/venv"
+          "$RUNNER_TEMP/venv/bin/pip" install -r repo-files/requirements-tools.txt
+          echo "$RUNNER_TEMP/venv/bin" >> "$GITHUB_PATH"
+          git config --global user.name ci
+          git config --global user.email ci@example.com
 
       - name: Template files are in the current KiCad format
         continue-on-error: true
@@ -74,6 +89,7 @@ jobs:
           python3 scripts/kicad_template.py init-repo "$DEMO" --prefix demo_
           python3 scripts/kicad_template.py new-board "$DEMO/hw/demo-board" --title "Demo board" \
             --company "Example Co" --designer "CI"
+          python3 "$DEMO/hw/fab.py" verify --all
           git -C "$DEMO" add -A
           git -C "$DEMO" -c user.name=ci -c user.email=ci@example.com commit -qm "Demo from the template"
 
@@ -137,6 +153,43 @@ jobs:
             exit 1
           fi
           grep -q 'Designed by: CI' "$OUT/schematic.txt" || { echo "::error::title block text variables did not resolve"; exit 1; }
+          grep -q 'Fab: PCBWay standard' "$OUT/schematic.txt" || { echo "::error::FAB text variable did not resolve"; exit 1; }
+
+      - name: Fab profiles (switching keeps board rules; each fab finds its own limits)
+        if: always()
+        run: |
+          set -e
+          FX="$RUNNER_TEMP/fx"; mkdir -p "$FX"
+          python3 scripts/kicad_template.py init-repo "$FX" --no-library
+          python3 scripts/kicad_template.py new-board "$FX/hw/fixture" --fab jlcpcb-2layer --designer CI
+          python3 tests/make_fixture.py "$FX/hw/fixture"
+          cd "$FX"
+          printf '(rule "board: test rule"\n\t(constraint track_width (min 0.11mm))\n\t(condition "A.NetName == %s"))\n' "'nosuchnet'" \
+            >> hw/fixture/fixture.kicad_dru
+          python3 hw/fab.py set pcbway-standard fixture
+          python3 hw/fab.py set jlcpcb-2layer fixture
+          grep -q 'board: test rule' hw/fixture/fixture.kicad_dru || { echo "::error::board rule lost on switch"; exit 1; }
+          python3 hw/fab.py verify --all
+          python3 hw/fab.py check fixture --json > "$OUT/fab-check.json"
+          python3 hw/fab.py check fixture | tee "$OUT/fab-check.txt"
+          python3 hw/fab.py check --all --markdown >> "$GITHUB_STEP_SUMMARY"
+          python3 "$GITHUB_WORKSPACE/tests/check_fixture.py" "$OUT/fab-check.json"
+
+      - name: A rules file KiCad cannot read is reported, not silently skipped
+        if: always()
+        run: |
+          FX="$RUNNER_TEMP/fx"; B="$RUNNER_TEMP/fabs-broken"; rm -rf "$B"; cp -r "$FX/hw/fabs" "$B"
+          printf '(version 1)\n# fab-profile: broken\n# fab-name: Broken\n(rule "typo" (constraint track_width (min 0.1mm)) (condition "A.Typo == 1"))\n(rule "bad" (constraint nonsense (min 1mm)))\n' \
+            > "$B/broken.kicad_dru"
+          rc=0; python3 "$FX/hw/fab.py" --fabs "$B" check "$FX/hw/fixture" --json > "$OUT/fab-check-broken.json" || rc=$?
+          python3 - "$OUT/fab-check-broken.json" "$rc" <<'PY'
+          import json, sys
+          r = next(iter(json.load(open(sys.argv[1])).values()))['fabs']
+          loaded = {k: v['rules_loaded'] for k, v in r.items()}
+          print(loaded, 'exit', sys.argv[2])
+          ok = sys.argv[2] == '1' and loaded.pop('broken') is False and all(loaded.values())
+          sys.exit(0 if ok else 1)
+          PY
 
       - uses: actions/upload-artifact@v7
         if: always()

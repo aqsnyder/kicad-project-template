@@ -4,19 +4,21 @@
 usage:
   kicad_template.py init-repo REPO [--prefix PREFIX] [--no-library] [--force]
   kicad_template.py new-board BOARD_DIR [--title TEXT] [--company TEXT] [--designer TEXT]
-                              [--revision REV] [--rules NAME] [--no-library-tables]
+                              [--revision REV] [--fab PROFILE] [--no-library-tables]
 
 init-repo  adds the repository-level files: kicad-fab.toml, hw/requirements-tools.txt,
-           hw/rules/, hw/drawing-sheet.kicad_wks (the repository's master copy, to brand
-           once), .github/workflows/hardware.yml and a KiCad block in .gitignore. It
+           hw/fab.py and the fab profiles in hw/fabs/, hw/drawing-sheet.kicad_wks (the
+           repository's master copy, to brand once), .github/workflows/hardware.yml and a
+           KiCad block in .gitignore. It
            creates the part library in hw/lib with kicad-part-importer --init (mount
            ${KIPRJMOD}/../lib), when the tool is installed. Existing files are kept unless
            --force is given; the .gitignore block is added once.
 new-board  copies templates/starter-board to BOARD_DIR (normally REPO/hw/<board>), names
            the project after the folder, fills the text variables, takes the drawing
-           sheet from hw/drawing-sheet.kicad_wks when there is one, and lists every
-           category library of hw/lib in the board's library tables. Text variables not
-           given keep the template's values (edit those in a branded copy of the template).
+           sheet from hw/drawing-sheet.kicad_wks when there is one, sets the fab
+           (hw/fab.py set; default pcbway-standard), and lists every category library of hw/lib in
+           the board's library tables. Text variables not given keep the template's values
+           (edit those in a branded copy of the template).
 
 Standard library only; Python 3.9 or newer.
 """
@@ -34,7 +36,11 @@ ROOT = os.path.dirname(HERE)
 TEMPLATE = os.path.join(ROOT, 'templates', 'starter-board')
 TEMPLATE_NAME = 'starter-board'
 REPO_FILES = os.path.join(ROOT, 'repo-files')
-RULES = os.path.join(ROOT, 'rules')
+FABS = os.path.join(ROOT, 'fabs')
+DEFAULT_FAB = 'pcbway-standard'
+sys.path.insert(0, REPO_FILES)
+sys.dont_write_bytecode = True
+import fab  # noqa: E402  (repo-files/fab.py, copied into each repository as hw/fab.py)
 MOUNT = '${KIPRJMOD}/../lib'
 GITIGNORE_MARK = '# KiCad (from kicad-project-template)'
 SHEET = 'drawing-sheet.kicad_wks'
@@ -77,9 +83,10 @@ def init_repo(a):
               os.path.join(repo, 'hw', 'requirements-tools.txt'), a.force, written, skipped)
     copy_file(os.path.join(REPO_FILES, 'hardware.yml'),
               os.path.join(repo, '.github', 'workflows', 'hardware.yml'), a.force, written, skipped)
-    for f in sorted(os.listdir(RULES)):
+    copy_file(os.path.join(REPO_FILES, 'fab.py'), os.path.join(repo, 'hw', 'fab.py'), a.force, written, skipped)
+    for f in sorted(os.listdir(FABS)):
         if f.endswith('.kicad_dru'):
-            copy_file(os.path.join(RULES, f), os.path.join(repo, 'hw', 'rules', f), a.force, written, skipped)
+            copy_file(os.path.join(FABS, f), os.path.join(repo, 'hw', 'fabs', f), a.force, written, skipped)
     copy_file(os.path.join(TEMPLATE, SHEET), os.path.join(repo, 'hw', SHEET), a.force, written, skipped)
 
     gi = os.path.join(repo, '.gitignore')
@@ -216,12 +223,17 @@ def new_board(a):
     with open(pcb, 'w', encoding='utf-8', newline='\n') as f:
         f.write(t)
 
-    if a.rules:
-        src = os.path.join(RULES, a.rules if a.rules.endswith('.kicad_dru') else a.rules + '.kicad_dru')
-        if not os.path.exists(src):
-            sys.exit('ERROR: no rules file %s; choose from %s' % (src, ', '.join(
-                f[:-10] for f in sorted(os.listdir(RULES)) if f.endswith('.kicad_dru'))))
-        shutil.copyfile(src, os.path.join(dest, name + '.kicad_dru'))
+    # The repository's own profiles (hw/fabs) when it has them, else the template's.
+    repo_fabs = os.path.join(os.path.dirname(dest), 'fabs')
+    try:
+        profiles = fab.load_profiles(repo_fabs if os.path.isdir(repo_fabs) else FABS)
+        profile = profiles.get(a.fab)
+        if profile is None:
+            raise fab.FabError('no fab profile %r; choose from %s' % (a.fab, ', '.join(profiles)))
+        os.remove(os.path.join(dest, name + '.kicad_dru'))     # start from the profile alone
+        fab.apply(profile, fab.Board(dest))
+    except fab.FabError as e:
+        sys.exit('ERROR: %s' % e)
 
     lib = os.path.join(os.path.dirname(dest), 'lib')
     note = 'library tables left empty'
@@ -235,9 +247,9 @@ def new_board(a):
                 os.path.relpath(lib, os.path.dirname(os.path.dirname(dest))))
     sheet = 'drawing sheet from %s' % (os.path.relpath(master_sheet) if os.path.exists(master_sheet)
                                        else 'the template')
-    say('Created %s: project %s, %s; %s; fab rules %s' % (
-        os.path.relpath(dest), name, note, sheet, a.rules or 'from the template'))
-    say('Text variables: ' + ', '.join('%s=%s' % kv for kv in values.items()))
+    say('Created %s: project %s, %s; %s; fab %s (%s)' % (
+        os.path.relpath(dest), name, note, sheet, profile.id, os.path.relpath(profile.path)))
+    say('Text variables: ' + ', '.join('%s=%s' % kv for kv in values.items()) + ', FAB=' + profile.name)
 
 
 def main(argv=None):
@@ -255,7 +267,7 @@ def main(argv=None):
     b.add_argument('--company', help='COMPANY')
     b.add_argument('--designer', help='DESIGNER (default: git config user.name)')
     b.add_argument('--revision', default='0.1', help='REVISION (default 0.1)')
-    b.add_argument('--rules', help='a rules/ file instead of jlcpcb-2layer, e.g. pcbway-standard')
+    b.add_argument('--fab', default=DEFAULT_FAB, help='fab profile (default %s); see fabs/' % DEFAULT_FAB)
     b.add_argument('--no-library-tables', action='store_true', help='leave sym-lib-table and fp-lib-table empty')
     b.set_defaults(func=new_board)
     a = p.parse_args(argv)

@@ -9,3 +9,5 @@ _autosave-*
 *.kicad_sch.bak
 /out/
 .venv/
+__pycache__/
+*.pyc

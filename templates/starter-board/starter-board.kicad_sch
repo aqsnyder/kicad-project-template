@@ -84,7 +84,7 @@
 		)
 		(uuid "e64cb460-4461-47bc-a55b-b973c825fcdc")
 	)
-	(text_box "Ordering notes\n\nFab rules: ${PROJECTNAME}.kicad_dru (JLCPCB 2-layer unless changed)\nEvery fitted part needs MPN and Manufacturer; add LCSC for JLCPCB assembly.\nDNP parts: set both Do not populate and Exclude from bill of materials.\nFiducials FID1.., mounting holes H1.. (kept out of the BOM and placement files)."
+	(text_box "Ordering notes\n\nFab: ${FAB} (rules: ${PROJECTNAME}.kicad_dru and Board Setup)\nSwitch fabs: python3 hw/fab.py set <profile> ${PROJECTNAME}\nEvery fitted part needs MPN and Manufacturer; add LCSC for JLCPCB assembly.\nDNP parts: set both Do not populate and Exclude from bill of materials.\nFiducials FID1.., mounting holes H1.. (kept out of the BOM and placement files)."
 		(exclude_from_sim no)
 		(at 152.4 81.28 0)
 		(size 124.46 40.64)
