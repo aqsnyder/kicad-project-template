@@ -1,5 +1,26 @@
 # Changelog
 
+## Unreleased
+
+- **Fix: fab packages on tags.** The `hardware` workflow's boards job runs as root, but the checkout belongs to the
+  runner user, so git refused it ("dubious ownership") and kicad-macrofab-bom and kicad-fab-export failed on every
+  tag. The job now adds the checkout to git's `safe.directory`. The self-test runs both tools in its own checkout to
+  cover this; before, it ran git only in a demo repository that root owns.
+- **Fab packages only on `hw-v*` tags,** not every tag: path filters do not apply to tags, so a repository that also
+  tags firmware built packages for those too, and a tag with `/` in it broke the artifact name. The fab package loop
+  now keeps going past a failing board, and the packages that were made are uploaded either way.
+- **Fab profiles give their copper layer counts** (`# copper-layers: 1-6` for PCBWay standard, `1-2` for JLCPCB 1-2
+  layer, `4-6` for JLCPCB 4-6 layer). `fab.py check` shows `n/a (N layers)` for a fab outside its range instead of
+  the `ok` a 4-layer board used to get under `jlcpcb-2layer`, and `set` prints a note. `check` covers DRC geometry
+  and layer count, not thickness or stackup. The self-test adds a 4-layer fixture board.
+- **README:** the known gaps now give PCBWay's real BOM and centroid formats (the ones listed were JLCPCB's), say that
+  a placed part with a model in `hw/lib` fails kicad-fab-export, and add that an outline drawn as one `gr_circle`
+  fails the STEP origin check.
+
+Upgrading a repository made from 0.2.0: copy `repo-files/hardware.yml` to `.github/workflows/`, `repo-files/fab.py`
+to `hw/`, and `fabs/*.kicad_dru` to `hw/fabs/`, then run `python3 hw/fab.py set <profile> <board>` for each board so
+its rules match the profile again. A profile of your own needs a `# copper-layers:` line, or `fab.py` refuses it.
+
 ## 0.2.0 - 2026-10-26
 
 - **Switchable fab profiles.** `fabs/*.kicad_dru` replaces `rules/`, and each board's fab is now one command away:

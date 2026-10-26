@@ -7,8 +7,9 @@ usage:
   python3 hw/fab.py verify [BOARD... | --all]
   python3 hw/fab.py check  [BOARD... | --all] [--markdown | --json]
 
-A fab profile is hw/fabs/<profile>.kicad_dru: a KiCad custom-rules file with a header that names the fab and lists
-Board Setup minimums ("# board-setup: <key> <mm>"). To add a fab, copy a profile, rename it and change the numbers.
+A fab profile is hw/fabs/<profile>.kicad_dru: a KiCad custom-rules file with a header that names the fab, gives the
+copper layer counts it covers ("# copper-layers: 1-2") and lists Board Setup minimums ("# board-setup: <key> <mm>").
+To add a fab, copy a profile, rename it and change the numbers.
 
 set     writes the profile into <board>/<project>.kicad_dru above the board's own rules, which are kept; writes the
         minimums into the project's Board Setup > Constraints; and sets the FAB text variable. Close the board in
@@ -16,8 +17,10 @@ set     writes the profile into <board>/<project>.kicad_dru above the board's ow
 list    shows the profiles and each board's fab.
 verify  exits 1 when a board's fab rules or Board Setup minimums no longer match its profile in hw/fabs.
 check   runs KiCad's DRC (errors only) on a temporary copy of each board once per profile and prints which fabs
-        can make it. Needs kicad-cli (KiCad 10). The board itself is not changed. KiCad silently ignores a whole
-        rules file that has an error in it, so check adds a canary rule and item to each copy and reports
+        can make it. Needs kicad-cli (KiCad 10). The board itself is not changed. A profile whose copper-layers
+        range leaves out the board's copper layer count shows "n/a (N layers)" and gets no DRC. Only DRC geometry
+        and the layer count are checked, not board thickness, copper weight or stackup. KiCad silently ignores a
+        whole rules file that has an error in it, so check adds a canary rule and item to each copy and reports
         RULES NOT LOADED when the canary does not fire. Exits 1 in that case, 2 when it cannot run, else 0.
 
 BOARD is a board folder (hw/<board>) or just its name. --all means every folder next to this script that holds a
@@ -49,7 +52,10 @@ CANARY_RULE = ('\n(rule "%s"\n\t(severity error)\n\t(constraint text_height (min
 CANARY_TEXT = ('\t(gr_text "%s"\n\t\t(at -500 -500 0)\n\t\t(layer "F.SilkS")\n'
                '\t\t(uuid "00000000-fab0-4ca7-8a2a-000000000001")\n\t\t(effects\n\t\t\t(font\n'
                '\t\t\t\t(size 1.5 1.5)\n\t\t\t\t(thickness 0.2)\n\t\t\t)\n\t\t)\n\t)\n' % CANARY)
-HEADER_RE = re.compile(r'^#\s*(fab-profile|fab-name|board-setup)\s*:\s*(.*?)\s*$')
+HEADER_RE = re.compile(r'^#\s*(fab-profile|fab-name|copper-layers|board-setup)\s*:\s*(.*?)\s*$')
+LAYERS_RE = re.compile(r'^(\d+)(?:\s*-\s*(\d+))?$')
+# A copper layer in the board's (layers ...) list, e.g. (0 "F.Cu" signal) or (4 "In1.Cu" power).
+COPPER_RE = re.compile(r'^\s*\(\d+\s+"((?:F|B|In\d+)\.Cu)"\s+(?:signal|power|mixed|jumper)\b', re.M)
 PROFILE_ID_RE = re.compile(r'^[a-z0-9][a-z0-9_-]*$')
 
 
@@ -67,6 +73,7 @@ class Profile:
         with open(path, encoding='utf-8') as f:
             self.text = f.read().replace('\r\n', '\n')
         self.name = None
+        self.layers = None          # (fewest, most) copper layers the fab makes
         self.board_setup = {}
         declared = None
         for line in self.text.split('\n'):
@@ -78,6 +85,13 @@ class Profile:
                 declared = val
             elif key == 'fab-name':
                 self.name = val
+            elif key == 'copper-layers':
+                m = LAYERS_RE.match(val)
+                lo, hi = (int(m.group(1)), int(m.group(2) or m.group(1))) if m else (0, 0)
+                if not 1 <= lo <= hi:
+                    raise FabError('%s: bad line "%s"; expected "# copper-layers: <fewest>-<most>", e.g. 1-2'
+                                   % (path, line))
+                self.layers = (lo, hi)
             else:
                 parts = val.split()
                 if len(parts) != 2 or parts[0] not in BOARD_SETUP_KEYS:
@@ -93,6 +107,9 @@ class Profile:
             raise FabError('%s: needs a "# fab-profile: %s" line (the file name without .kicad_dru)' % (path, self.id))
         if not self.name:
             raise FabError('%s: needs a "# fab-name: <name>" line' % path)
+        if not self.layers:
+            raise FabError('%s: needs a "# copper-layers: <fewest>-<most>" line, e.g. "# copper-layers: 1-2" (the '
+                           'copper layer counts the fab makes)' % path)
         if not self.text.lstrip().startswith('(version 1)'):
             raise FabError('%s: must start with (version 1)' % path)
         if BOARD_MARK in self.text:
@@ -103,6 +120,17 @@ class Profile:
         if re.search(r'\(constraint\s+clearance\b', self.text):
             raise FabError('%s: has a clearance constraint. In KiCad a matching clearance rule replaces the net '
                            'class clearance; put the fab minimum in "# board-setup: min_clearance" instead' % path)
+
+    def layer_text(self):
+        lo, hi = self.layers
+        return '%d-%d layers' % (lo, hi) if lo != hi else n_layers(lo)
+
+    def makes(self, copper_layers):
+        return self.layers[0] <= copper_layers <= self.layers[1]
+
+
+def n_layers(n):
+    return '%d layer%s' % (n, '' if n == 1 else 's')
 
 
 def paren_problem(text):
@@ -171,6 +199,13 @@ class Board:
         # no marker: a hand-made rules file. Keep its rules as board rules.
         body = re.sub(r'^\s*\(version\s+\d+\)\s*\n?', '', t)
         return None, body
+
+    def copper_layers(self):
+        """The number of copper layers in the board file; None without a board file or a copper layer list."""
+        if not os.path.exists(self.pcb):
+            return None
+        with open(self.pcb, encoding='utf-8') as f:
+            return len(set(COPPER_RE.findall(f.read()))) or None
 
     def current_profile(self):
         fab, _ = self.read_dru()
@@ -252,6 +287,9 @@ def apply(profile, board, force=False):
     if old_fab is None and board_rules.strip():
         notes.append('kept the existing rules in %s as board rules (below the marker); review them'
                      % os.path.basename(board.dru))
+    layers = board.copper_layers()
+    if layers and not profile.makes(layers):
+        notes.append('the board has %s; %s covers %s' % (n_layers(layers), profile.id, profile.layer_text()))
     with open(board.dru, 'w', encoding='utf-8', newline='\n') as f:
         f.write(compose(profile, board_rules))
     with open(board.pro, encoding='utf-8') as f:
@@ -297,7 +335,7 @@ def cmd_list(a):
     profiles = load_profiles(fabs_dir(a.fabs))
     print('Fab profiles in %s:' % os.path.relpath(fabs_dir(a.fabs)))
     for p in profiles.values():
-        print('  %-22s %s' % (p.id, p.name))
+        print('  %-22s %-12s %s' % (p.id, p.layer_text(), p.name))
     try:
         boards = find_boards(a.boards, not a.boards)
     except FabError:
@@ -396,8 +434,14 @@ def cmd_check(a):
     results = {}
     for b in boards:
         current = b.current_profile()
-        row = results.setdefault(b.label(), {'current': current, 'fabs': {}})
+        layers = b.copper_layers()
+        if not layers:
+            raise FabError('%s: no copper layers found in %s' % (b.label(), os.path.basename(b.pcb)))
+        row = results.setdefault(b.label(), {'current': current, 'copper_layers': layers, 'fabs': {}})
         for p in profiles.values():
+            if not p.makes(layers):
+                row['fabs'][p.id] = {'applies': False, 'errors': None, 'types': {}, 'rules_loaded': None}
+                continue
             tmp = tempfile.mkdtemp(prefix='fabcheck_')
             try:
                 d = os.path.join(tmp, b.name)
@@ -412,8 +456,10 @@ def cmd_check(a):
                 types, fired = drc_errors(cli, copy.pcb, os.path.join(tmp, 'drc.json'))
             finally:
                 shutil.rmtree(tmp, ignore_errors=True)
-            row['fabs'][p.id] = {'errors': sum(types.values()), 'types': types, 'rules_loaded': fired}
-    unloaded = [(n, pid) for n, r in results.items() for pid, e in r['fabs'].items() if not e['rules_loaded']]
+            row['fabs'][p.id] = {'applies': True, 'errors': sum(types.values()), 'types': types,
+                                 'rules_loaded': fired}
+    unloaded = [(n, pid) for n, r in results.items() for pid, e in r['fabs'].items()
+                if e['applies'] and not e['rules_loaded']]
     if a.json:
         print(json.dumps(results, indent=2))
         return 1 if unloaded else 0
@@ -421,7 +467,9 @@ def cmd_check(a):
 
     def cell(r, pid):
         e = r['fabs'][pid]
-        if not e['rules_loaded']:
+        if not e['applies']:
+            s = 'n/a (%s)' % n_layers(r['copper_layers'])
+        elif not e['rules_loaded']:
             s = 'RULES NOT LOADED'
         else:
             s = 'ok' if not e['errors'] else '%d: %s' % (e['errors'], ', '.join(
@@ -430,17 +478,19 @@ def cmd_check(a):
 
     if a.markdown:
         print('### Fab check\n')
-        print('KiCad DRC errors with each fab profile; `*` = the board\'s current fab. Errors that show under '
-              'every fab are design errors, not fab limits.\n')
+        print('KiCad DRC errors with each fab profile; `*` = the board\'s current fab; n/a = the fab does not make '
+              'boards with that many copper layers. Errors that show under every fab are design errors, not fab '
+              'limits. Board thickness, copper weight and stackup are not checked.\n')
         print('| board | ' + ' | '.join(ids) + ' |')
         print('|---|' + '---|' * len(ids))
         for name, r in results.items():
             print('| %s | %s |' % (name, ' | '.join(cell(r, i) for i in ids)))
     else:
-        print('KiCad DRC errors with each fab profile (* = current fab; errors under every fab are design errors):')
+        print('KiCad DRC errors with each fab profile (* = current fab; n/a = not made with that many copper '
+              'layers; errors under every fab are design errors):')
         w = max(len(x) for x in ids)
         for name, r in results.items():
-            print(name)
+            print('%s (%s)' % (name, n_layers(r['copper_layers'])))
             for i in ids:
                 print('  %-*s %s' % (w, i, cell(r, i)))
     for name, pid in unloaded:
