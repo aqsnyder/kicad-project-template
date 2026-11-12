@@ -69,6 +69,7 @@ hw/
   theme.py                         installs the colour themes into KiCad's settings folder
   themes/                          colour themes, one .json file per theme
   tools/                           frontpages.py and titleblock.py, which draw the front pages and the title block
+  template-files.json              the files above that are copies of the template's, with a checksum each
   lib/                             part library (kicad-part-importer), reached as ${KIPRJMOD}/../lib
   <board>/                         one KiCad project per board
 ```
@@ -84,6 +85,30 @@ python3 ~/src/kicad-project-template/scripts/kicad_template.py init-repo . --pre
 `--prefix` names the part library's category libraries (`acme_passives`, `acme_sensors`, ...). `init-repo` keeps any file
 that already exists (`--force` replaces them) and adds the `.gitignore` block once. Without kicad-part-importer
 installed it prints the `--init` command to run instead of creating `hw/lib`.
+
+### Keeping a repository up to date
+
+`hw/fab.py`, `hw/theme.py`, the template's three fab profiles in `hw/fabs/` and the scripts in `hw/tools/` have
+one source, this template. A repository holds copies and does not edit them. `hw/template-files.json` lists them
+with a checksum each, and `python3 hw/tools/check_copies.py` fails when one was edited or is missing; the
+`hardware` workflow runs it on every push. To change one of these files, change it here, then copy the
+template's files into the repository again:
+
+```bash
+python3 ~/src/kicad-project-template/scripts/kicad_template.py update-repo .
+```
+
+- **`update-repo`** copies the files that are missing or older than the template's, adds a theme that is
+  missing, and writes the list again.
+- **A copy that was edited in the repository stops it** before anything is written. Move the edit into the
+  template, or drop it; `update-repo --force` then replaces the copy. A repository made before there was a list
+  needs `--force` the first time.
+- **`update-repo --check`** writes nothing, lists what would change and exits 1 if anything would.
+- **What it leaves alone:** the boards, the part library, `kicad-fab.toml`, `hw/requirements-tools.txt`, the
+  workflow, the drawing sheet, and fab profiles and scripts the repository added itself. It says when the first
+  three differ from the template's, for you to merge by hand.
+- **After a fab profile changed,** run `python3 hw/fab.py verify --all`, then `python3 hw/fab.py set <profile>
+  <board>` for each board it names.
 
 ## Add a board
 
@@ -267,7 +292,9 @@ or reordered (pages, contents table and headings follow), and after `frontpages.
 - **Text variables.** The pages and the title block show `BOARD_NAME`, `PROJECT_NAME`, `COMPANY`, `DESIGNER`,
   `REVIEWER`, `REVISION`, `RELEASE_DATE` and `FAB` (*File > Schematic Setup > Text Variables*). `VARIANT` is a
   variable of KiCad 10's own, which wins over the project's: the cover and the title block show it empty.
-- **Fonts.** The pages name Times New Roman and Arial. A machine without them substitutes its own.
+- **Fonts.** The pages name Times New Roman and Arial. A machine without them substitutes its own. On KiCad's
+  Docker image, which has neither, the text set in them could not be read back from a plotted PDF with
+  `pdftotext`; the SVG plot holds it as text everywhere.
 
 **The title block** (`hw/drawing-sheet.kicad_wks`, and a copy in each board folder) is drawn by
 `hw/tools/titleblock.py`: Comments, Company, Variant, Board Name, Project Name, Sheet Title, File Name, Designer,

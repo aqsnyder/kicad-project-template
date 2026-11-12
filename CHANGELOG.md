@@ -35,15 +35,25 @@
 - **New title block,** 187 x 42 mm, drawn by `hw/tools/titleblock.py`: it adds Comments, Variant, Project Name,
   Sheet Path and Reviewer, and `--logo PNG` replaces the `LOGO` box. New text variables `PROJECT_NAME`, `REVIEWER`
   and `VARIANT`; `new-board` takes `--project` and `--reviewer`.
+- **One source for the copied scripts.** `hw/fab.py`, `hw/theme.py`, the template's fab profiles and the scripts
+  in `hw/tools/` are copies that a repository does not edit. `kicad_template.py update-repo REPO` copies the
+  template's into a repository again and writes `hw/template-files.json`, a list with a checksum each;
+  `hw/tools/check_copies.py` fails when a copy was edited in place, and the `hardware` workflow runs it.
+  `update-repo` stops at a copy that was edited in the repository unless `--force` is given.
+- **Fix: `fab.py` picks the newest KiCad on Windows.** With KiCad 9 and 10 both installed and no `kicad-cli` on
+  the path it took KiCad 9, which cannot load a KiCad 10 board.
 - **Self-test:** `tests/check_netclasses.py` checks the class table, the colour key, and that KiCad 10 resolves
   and plots some forty sample net names as the table says, with the theme installed by `theme.py`. The front
   pages are checked on the starter board and on a board made by `new-board`, also after KiCad saves each sheet.
+  `update-repo` and `check_copies.py` are run on a repository with an edited copy and with an older one.
 
-Upgrading a repository made from 0.2.0: copy `repo-files/hardware.yml` to `.github/workflows/`, `repo-files/fab.py`
-and `repo-files/theme.py` to `hw/`, `fabs/*.kicad_dru` to `hw/fabs/`, `themes/` to `hw/themes/` and
-`repo-files/tools/` to `hw/tools/`. Then run `python3 hw/fab.py set <profile> <board>` for each board so its rules
-match the profile again, and `python3 hw/theme.py install` on each machine. A profile of your own needs a
-`# copper-layers:` line, or `fab.py` refuses it.
+Upgrading a repository made from 0.2.0: run `kicad_template.py update-repo <repository> --check` to see what
+differs. If the repository changed `hw/fab.py` or a profile itself, move that into the template first. Then run
+`update-repo <repository> --force`, which brings `hw/fab.py`, `hw/theme.py`, the fab profiles, the theme and
+`hw/tools/`, and copy `repo-files/hardware.yml` to `.github/workflows/` (or merge it into yours). Run
+`python3 hw/fab.py set <profile> <board>` for each board so its rules match the profile again, and
+`python3 hw/theme.py install` on each machine. A profile of your own needs a `# copper-layers:` line, or `fab.py`
+refuses it.
 
 A board that exists keeps its own net classes. To give it the coloured ones, close it in KiCad and copy the
 `net_settings` object from `templates/starter-board/starter-board.kicad_pro` into its `.kicad_pro`, keeping any

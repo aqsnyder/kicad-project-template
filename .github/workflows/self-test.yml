@@ -47,6 +47,35 @@ jobs:
           mkdir -p "$RUNNER_TEMP/architecture"
           cp repo-files/tools/example_architecture.py "$RUNNER_TEMP/architecture/"
           python3 repo-files/tools/archdiagram.py "$RUNNER_TEMP/architecture/example_architecture.py"
+      - name: A repository's copies of the template's files are checked, and update-repo brings them up to date
+        run: |
+          demo="$RUNNER_TEMP/demo"
+          update() { python3 scripts/kicad_template.py update-repo "$demo" "$@"; }
+          python3 "$demo/hw/tools/check_copies.py"
+          update --check
+          # A copy edited in the repository: its own check finds it, and update-repo does not replace it unasked.
+          echo "# edited in the repository" >> "$demo/hw/fab.py"
+          if python3 "$demo/hw/tools/check_copies.py"; then echo "::error::check_copies.py missed an edited copy"; exit 1; fi
+          if update --check; then echo "::error::update-repo --check missed an edited copy"; exit 1; fi
+          if update; then echo "::error::update-repo replaced an edited copy without --force"; exit 1; fi
+          grep -q '# edited in the repository' "$demo/hw/fab.py"
+          update --force
+          python3 "$demo/hw/tools/check_copies.py"
+          # An older copy that nobody edited (the list names it as it is) is replaced without --force.
+          echo "# an older version of the template" >> "$demo/hw/theme.py"
+          python3 - "$demo/hw" <<'PY'
+          import json, sys
+          sys.path.insert(0, sys.argv[1] + '/tools')
+          import check_copies
+          path = sys.argv[1] + '/' + check_copies.LIST
+          data = json.load(open(path))
+          data['files']['theme.py'] = check_copies.digest(sys.argv[1] + '/theme.py')
+          json.dump(data, open(path, 'w'), indent=2)
+          PY
+          python3 "$demo/hw/tools/check_copies.py"
+          update
+          if grep -q '# an older version' "$demo/hw/theme.py"; then echo "::error::update-repo kept an older copy"; exit 1; fi
+          python3 "$demo/hw/tools/check_copies.py"
       - name: The starter board matches its fab profile
         run: python3 repo-files/fab.py verify templates/starter-board
       - name: fab.py refuses a profile with a clearance rule, or without a copper-layer range
@@ -158,7 +187,8 @@ jobs:
           fi
           # kicad-fab-package 0.1.0 does not copy .kicad_wks files into its project copy, so its schematic PDF
           # falls back to KiCad's default drawing sheet. Report it until the tool carries the sheet.
-          if ! pdftotext "$OUT/fab/docs/demo-board_v0.1_schematic.pdf" - | grep -q 'Designer:'; then
+          # KiCad's default sheet prints "Id: 1/4" in its own font; drawing-sheet.kicad_wks has no such field.
+          if pdftotext "$OUT/fab/docs/demo-board_v0.1_schematic.pdf" - | grep -Eq 'Id: [0-9]+/[0-9]+'; then
             echo "::warning::fab package schematic PDF uses KiCad's default drawing sheet, not drawing-sheet.kicad_wks"
           fi
           exit $rc
@@ -199,9 +229,17 @@ jobs:
             echo "::error file=templates/starter-board/drawing-sheet.kicad_wks::KiCad could not load the drawing sheet"
             exit 1
           fi
-          grep -q 'Designer:' "$OUT/schematic.txt" || { echo "::error::the title block is not drawing-sheet.kicad_wks"; exit 1; }
-          grep -q 'Example Co' "$OUT/schematic.txt" || { echo "::error::title block text variables did not resolve"; exit 1; }
-          grep -q 'Fab: PCBWay standard' "$OUT/schematic.txt" || { echo "::error::FAB text variable did not resolve"; exit 1; }
+          # The title block is set in Arial and Times New Roman. This image has neither, KiCad substitutes them,
+          # and pdftotext cannot read that text back from the PDF ("Unknown font tag"). KiCad's SVG plot holds
+          # every text as text whatever the font, so the three checks read that.
+          kicad-cli sch export svg -o "$OUT/schematic-svg" "$d/demo-board.kicad_sch" 2>&1 | tee -a "$OUT/render.log"
+          if grep -q 'Error loading drawing sheet' "$OUT/render.log"; then
+            echo "::error file=templates/starter-board/drawing-sheet.kicad_wks::KiCad could not load the drawing sheet"
+            exit 1
+          fi
+          grep -q 'Designer:' "$OUT"/schematic-svg/*.svg || { echo "::error::the title block is not drawing-sheet.kicad_wks"; exit 1; }
+          grep -q 'Example Co' "$OUT"/schematic-svg/*.svg || { echo "::error::title block text variables did not resolve"; exit 1; }
+          grep -q 'Fab: PCBWay standard' "$OUT"/schematic-svg/*.svg || { echo "::error::FAB text variable did not resolve"; exit 1; }
 
       - name: Fab profiles (switching keeps board rules; each fab finds its own limits, on its own layer counts)
         if: always()

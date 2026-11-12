@@ -385,10 +385,13 @@ def cmd_verify(a):
 def kicad_cli():
     exe = os.environ.get('KICAD_CLI') or shutil.which('kicad-cli')
     if not exe:
-        for c in glob.glob(r'C:\Program Files\KiCad\*\bin\kicad-cli.exe') + \
+        # newest install first: an older kicad-cli can't load a KiCad 10 board ("Failed to load board")
+        version = lambda c: [int(n) for n in re.findall(r'\d+', c.split(os.sep)[-3])]     # noqa: E731
+        for c in sorted(glob.glob(r'C:\Program Files\KiCad\*\bin\kicad-cli.exe'), key=version, reverse=True) + \
                 ['/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli']:
             if os.path.exists(c):
                 exe = c
+                break
         if not exe:
             raise FabError('kicad-cli not found: install KiCad 10 or set KICAD_CLI')
     return exe
