@@ -3,11 +3,12 @@
 
 usage:
   kicad_template.py init-repo REPO [--prefix PREFIX] [--no-library] [--force]
-  kicad_template.py new-board BOARD_DIR [--title TEXT] [--company TEXT] [--designer TEXT]
-                              [--revision REV] [--fab PROFILE] [--no-library-tables]
+  kicad_template.py new-board BOARD_DIR [--title TEXT] [--project TEXT] [--company TEXT] [--designer TEXT]
+                              [--reviewer TEXT] [--revision REV] [--fab PROFILE] [--no-library-tables]
 
 init-repo  adds the repository-level files: kicad-fab.toml, hw/requirements-tools.txt,
-           hw/fab.py and the fab profiles in hw/fabs/, hw/drawing-sheet.kicad_wks (the
+           hw/fab.py and the fab profiles in hw/fabs/, hw/theme.py and the colour themes
+           in hw/themes/, the front-page scripts in hw/tools/, hw/drawing-sheet.kicad_wks (the
            repository's master copy, to brand once), .github/workflows/hardware.yml and a
            KiCad block in .gitignore. It
            creates the part library in hw/lib with kicad-part-importer --init (mount
@@ -16,9 +17,11 @@ init-repo  adds the repository-level files: kicad-fab.toml, hw/requirements-tool
 new-board  copies templates/starter-board to BOARD_DIR (normally REPO/hw/<board>), names
            the project after the folder, fills the text variables, takes the drawing
            sheet from hw/drawing-sheet.kicad_wks when there is one, sets the fab
-           (hw/fab.py set; default pcbway-standard), and lists every category library of hw/lib in
-           the board's library tables. Text variables not given keep the template's values
-           (edit those in a branded copy of the template).
+           (hw/fab.py set; default pcbway-standard), lists every category library of hw/lib in
+           the board's library tables, and draws the schematic's front pages for the new
+           name (hw/tools/frontpages.py; the board views need kicad-cli). Text variables
+           not given keep the template's values (edit those in a branded copy of the
+           template).
 
 Standard library only; Python 3.9 or newer.
 """
@@ -37,6 +40,8 @@ TEMPLATE = os.path.join(ROOT, 'templates', 'starter-board')
 TEMPLATE_NAME = 'starter-board'
 REPO_FILES = os.path.join(ROOT, 'repo-files')
 FABS = os.path.join(ROOT, 'fabs')
+THEMES = os.path.join(ROOT, 'themes')
+TOOLS = os.path.join(REPO_FILES, 'tools')
 DEFAULT_FAB = 'pcbway-standard'
 sys.path.insert(0, REPO_FILES)
 sys.dont_write_bytecode = True
@@ -87,6 +92,13 @@ def init_repo(a):
     for f in sorted(os.listdir(FABS)):
         if f.endswith('.kicad_dru'):
             copy_file(os.path.join(FABS, f), os.path.join(repo, 'hw', 'fabs', f), a.force, written, skipped)
+    copy_file(os.path.join(REPO_FILES, 'theme.py'), os.path.join(repo, 'hw', 'theme.py'), a.force, written, skipped)
+    for f in sorted(os.listdir(THEMES)):
+        if f.endswith('.json'):
+            copy_file(os.path.join(THEMES, f), os.path.join(repo, 'hw', 'themes', f), a.force, written, skipped)
+    for f in sorted(os.listdir(TOOLS)):
+        if f.endswith('.py'):
+            copy_file(os.path.join(TOOLS, f), os.path.join(repo, 'hw', 'tools', f), a.force, written, skipped)
     copy_file(os.path.join(TEMPLATE, SHEET), os.path.join(repo, 'hw', SHEET), a.force, written, skipped)
 
     gi = os.path.join(repo, '.gitignore')
@@ -125,6 +137,8 @@ def init_repo(a):
     for p in skipped:
         say('kept    ' + os.path.relpath(p, repo) + ' (exists; --force to replace)')
     say('Next: python3 %s new-board %s' % (sys.argv[0], os.path.join(a.repo, 'hw', '<board>')))
+    say('Colours: python3 %s install, once per machine, then choose the theme in KiCad\'s preferences'
+        % os.path.join(a.repo, 'hw', 'theme.py'))
 
 
 def git_user_name():
@@ -178,6 +192,25 @@ def write_lib_table(path, kind, entries):
         f.write('\n'.join(lines) + '\n')
 
 
+def front_pages(dest):
+    """Draw the cover, Architecture, Mechanical and Revision History pages of the board in dest for its own name,
+    with the repository's hw/tools/frontpages.py when it has one, else the template's. Returns a note."""
+    repo_tools = os.path.join(os.path.dirname(dest), 'tools')
+    sys.path.insert(0, repo_tools if os.path.exists(os.path.join(repo_tools, 'frontpages.py')) else TOOLS)
+    import frontpages
+    try:
+        frontpages.kicad_cli()
+        render = True
+    except RuntimeError:
+        render = False                  # the cover then says how to get the two board views
+    try:
+        frontpages.build(dest, render_views=render, quiet=True)
+    except (RuntimeError, AssertionError) as e:
+        sys.exit('ERROR: front pages of %s: %s' % (dest, e))
+    return 'front pages drawn' if render else \
+        'front pages drawn without the board views (no kicad-cli: run frontpages.py on the board later)'
+
+
 def new_board(a):
     dest = os.path.abspath(a.board_dir)
     name = os.path.basename(dest.rstrip('/\\'))
@@ -191,10 +224,17 @@ def new_board(a):
         src = os.path.join(TEMPLATE, f)
         if os.path.isdir(src):          # meta/ is for KiCad's template chooser only
             continue
+        if f.endswith(('.kicad_prl', '.lck')):      # what KiCad or kicad-cli leaves beside a project it opened
+            continue
         if f == SHEET and os.path.exists(master_sheet):
             src = master_sheet          # the repository's branded drawing sheet
         out = name + f[len(TEMPLATE_NAME):] if f.startswith(TEMPLATE_NAME + '.') else f
         shutil.copyfile(src, os.path.join(dest, out))
+        if out.endswith('.kicad_sch'):      # a sheet symbol names its project: the copy is its own project
+            with open(os.path.join(dest, out), encoding='utf-8', newline='') as fh:
+                t = fh.read()
+            with open(os.path.join(dest, out), 'w', encoding='utf-8', newline='') as fh:
+                fh.write(t.replace('(project "%s"' % TEMPLATE_NAME, '(project "%s"' % name))
 
     pro = os.path.join(dest, name + '.kicad_pro')
     with open(pro, encoding='utf-8') as f:
@@ -209,6 +249,9 @@ def new_board(a):
     }
     data.setdefault('meta', {})['filename'] = name + '.kicad_pro'
     data.setdefault('text_variables', {}).update(values)
+    for key, given in (('PROJECT_NAME', a.project), ('REVIEWER', a.reviewer)):     # in the project file only
+        if given is not None:
+            data['text_variables'][key] = given
     with open(pro, 'w', encoding='utf-8', newline='\n') as f:
         json.dump(data, f, indent=2)
         f.write('\n')
@@ -247,8 +290,9 @@ def new_board(a):
                 os.path.relpath(lib, os.path.dirname(os.path.dirname(dest))))
     sheet = 'drawing sheet from %s' % (os.path.relpath(master_sheet) if os.path.exists(master_sheet)
                                        else 'the template')
-    say('Created %s: project %s, %s; %s; fab %s (%s)' % (
-        os.path.relpath(dest), name, note, sheet, profile.id, os.path.relpath(profile.path)))
+    pages = front_pages(dest)
+    say('Created %s: project %s, %s; %s; fab %s (%s); %s' % (
+        os.path.relpath(dest), name, note, sheet, profile.id, os.path.relpath(profile.path), pages))
     say('Text variables: ' + ', '.join('%s=%s' % kv for kv in values.items()) + ', FAB=' + profile.name)
 
 
@@ -264,8 +308,10 @@ def main(argv=None):
     b = sub.add_parser('new-board', help='copy the starter board into a new folder')
     b.add_argument('board_dir')
     b.add_argument('--title', help='BOARD_NAME (default: the folder name)')
+    b.add_argument('--project', help='PROJECT_NAME: the product the board belongs to')
     b.add_argument('--company', help='COMPANY')
     b.add_argument('--designer', help='DESIGNER (default: git config user.name)')
+    b.add_argument('--reviewer', help='REVIEWER')
     b.add_argument('--revision', default='0.1', help='REVISION (default 0.1)')
     b.add_argument('--fab', default=DEFAULT_FAB, help='fab profile (default %s); see fabs/' % DEFAULT_FAB)
     b.add_argument('--no-library-tables', action='store_true', help='leave sym-lib-table and fp-lib-table empty')

@@ -1,0 +1,511 @@
+(kicad_sch
+	(version 20260306)
+	(generator "eeschema")
+	(generator_version "10.0")
+	(uuid "f407a9e5-58e2-5be2-a15d-415c9fd0e5e7")
+	(paper "A3")
+	(title_block
+		(title "Architecture")
+		(date "${RELEASE_DATE}")
+		(rev "${REVISION}")
+		(company "${COMPANY}")
+		(comment 1 "Drawn by hw/tools/frontpages.py")
+		(comment 2 "from frontpages.json")
+	)
+	(lib_symbols)
+	(rectangle
+		(start 20.32 209.55)
+		(end 68.58 222.25)
+		(stroke
+			(width 0.2)
+			(type dash)
+			(color 132 132 132 1)
+		)
+		(fill
+			(type none)
+		)
+		(uuid "f407a9e5-171b-5b7d-b223-c28f4a04abc1")
+	)
+	(rectangle
+		(start 289.56 199.39)
+		(end 399.68 240.03)
+		(stroke
+			(width 0.2)
+			(type dash)
+			(color 132 132 132 1)
+		)
+		(fill
+			(type none)
+		)
+		(uuid "f407a9e5-38c9-562d-b1c2-569bd01114b7")
+	)
+	(rectangle
+		(start 180.34 209.55)
+		(end 228.6 222.25)
+		(stroke
+			(width 0.2)
+			(type dash)
+			(color 132 132 132 1)
+		)
+		(fill
+			(type none)
+		)
+		(uuid "f407a9e5-7c1c-5b73-b933-474767f4cc57")
+	)
+	(rectangle
+		(start 127 209.55)
+		(end 175.26 222.25)
+		(stroke
+			(width 0.2)
+			(type dash)
+			(color 132 132 132 1)
+		)
+		(fill
+			(type none)
+		)
+		(uuid "f407a9e5-8585-529c-adbe-61edf2ecc8d6")
+	)
+	(rectangle
+		(start 20.32 245.11)
+		(end 215.9 260.35)
+		(stroke
+			(width 0.2)
+			(type dash)
+			(color 132 132 132 1)
+		)
+		(fill
+			(type none)
+		)
+		(uuid "f407a9e5-88fd-5a9e-93e1-25ca04aac57b")
+	)
+	(rectangle
+		(start 20.32 35.56)
+		(end 399.68 194.31)
+		(stroke
+			(width 0.2)
+			(type dash)
+			(color 132 132 132 1)
+		)
+		(fill
+			(type none)
+		)
+		(uuid "f407a9e5-e9c5-534f-95f0-2d64269bf7af")
+	)
+	(rectangle
+		(start 73.66 209.55)
+		(end 121.92 222.25)
+		(stroke
+			(width 0.2)
+			(type dash)
+			(color 132 132 132 1)
+		)
+		(fill
+			(type none)
+		)
+		(uuid "f407a9e5-f927-5b0b-a831-01b27d653bcf")
+	)
+	(text "serial ports (UART)"
+		(exclude_from_sim no)
+		(at 304.06 224.21 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "f407a9e5-0c47-548d-9072-81d66f797c43")
+	)
+	(text "ADC inputs, references and sense lines (Analog)"
+		(exclude_from_sim no)
+		(at 304.06 234.95 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "f407a9e5-116c-5bfb-bd33-dfc9c1eedc54")
+	)
+	(text "I2C, SPI and GPIO (Bus)"
+		(exclude_from_sim no)
+		(at 304.06 227.79 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "f407a9e5-13ae-54e5-b223-56604b375174")
+	)
+	(text "50 ohm lines (RF_50R)"
+		(exclude_from_sim no)
+		(at 304.06 213.47 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "f407a9e5-1bb2-538e-bf5c-352caac188e3")
+	)
+	(text "Planned\nwhat leaves the board"
+		(exclude_from_sim no)
+		(at 204.47 215.9 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+				(color 96 96 96 1)
+			)
+		)
+		(uuid "f407a9e5-2190-5478-aae3-025673350578")
+	)
+	(text "Power"
+		(exclude_from_sim no)
+		(at 20.32 208.85 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "f407a9e5-22b5-5048-bae8-069bd1338754")
+	)
+	(text "A wire takes the colour of its net class."
+		(exclude_from_sim no)
+		(at 291.56 204.39 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+				(color 96 96 96 1)
+			)
+			(justify left top)
+		)
+		(uuid "f407a9e5-4e07-5166-acb2-1aa4f6ce3b32")
+	)
+	(text "Not drawn yet. Describe it in architecture/starter-board_architecture.py beside the project (hw/tools/archdiagram.py draws it) and name that file in frontpages.json:\n\"architecture\": \"architecture/starter-board_architecture.py\". The drawing then takes this page at 1:1: its legend and region titles stand for the two blocks below, and the overview moves to the Revision History page."
+		(exclude_from_sim no)
+		(at 210 114.935 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+				(color 96 96 96 1)
+			)
+			(justify top)
+		)
+		(uuid "f407a9e5-6610-5df9-8a3d-bed91255355c")
+	)
+	(text "supply rails (Power)"
+		(exclude_from_sim no)
+		(at 304.06 209.89 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "f407a9e5-6ee2-560b-8a93-3881dd326503")
+	)
+	(text "SWD, JTAG and reset (Debug)"
+		(exclude_from_sim no)
+		(at 304.06 220.63 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "f407a9e5-6f9f-58fb-9731-e583f259be95")
+	)
+	(text "USB data (USB)"
+		(exclude_from_sim no)
+		(at 304.06 238.53 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "f407a9e5-7f70-5ee9-9a2a-507857e7cb56")
+	)
+	(text "Connectors"
+		(exclude_from_sim no)
+		(at 180.34 208.85 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "f407a9e5-980c-5428-a5e7-16eaed1851e2")
+	)
+	(text "Planned\nsupply input, protection, regulators"
+		(exclude_from_sim no)
+		(at 44.45 215.9 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+				(color 96 96 96 1)
+			)
+		)
+		(uuid "f407a9e5-9867-56c2-9abf-8f7051a10cdf")
+	)
+	(text "Sensors"
+		(exclude_from_sim no)
+		(at 127 208.85 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "f407a9e5-995c-5d22-a826-226e9c2eb67b")
+	)
+	(text "OVERVIEW"
+		(exclude_from_sim no)
+		(at 22.32 246.71 0)
+		(effects
+			(font
+				(size 2 2)
+				(bold yes)
+				(color 0 0 132 1)
+			)
+			(justify left top)
+		)
+		(uuid "f407a9e5-9d03-594a-9693-737234a49157")
+	)
+	(text "Planned\ncontroller, clock, debug header"
+		(exclude_from_sim no)
+		(at 97.79 215.9 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+				(color 96 96 96 1)
+			)
+		)
+		(uuid "f407a9e5-ab78-5c70-ad78-1c5a249c6c4f")
+	)
+	(text "ground (GND)"
+		(exclude_from_sim no)
+		(at 304.06 217.05 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "f407a9e5-b0e6-50fd-bb0f-ad476a486a4c")
+	)
+	(text "ARCHITECTURE DIAGRAM: NOT DRAWN YET"
+		(exclude_from_sim no)
+		(at 210 111.935 0)
+		(effects
+			(font
+				(size 2 2)
+				(bold yes)
+				(color 0 0 132 1)
+			)
+			(justify bottom)
+		)
+		(uuid "f407a9e5-b9d1-5539-83a1-4d0a3c8218ef")
+	)
+	(text "The planned sheets, in page order. None is drawn yet."
+		(exclude_from_sim no)
+		(at 20.32 199.39 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+				(color 96 96 96 1)
+			)
+			(justify left top)
+		)
+		(uuid "f407a9e5-c254-5302-a121-d565d04d1ddc")
+	)
+	(text "MCU"
+		(exclude_from_sim no)
+		(at 73.66 208.85 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "f407a9e5-c4f9-55dc-97f7-d9b7445426f4")
+	)
+	(text "Planned\nsensors and their supplies"
+		(exclude_from_sim no)
+		(at 151.13 215.9 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+				(color 96 96 96 1)
+			)
+		)
+		(uuid "f407a9e5-d02c-5ab1-a0d1-a9b2a1fe8102")
+	)
+	(text "clocks, crystals and oscillators (Clock)"
+		(exclude_from_sim no)
+		(at 304.06 231.37 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "f407a9e5-f3a0-50f7-9b45-22f8bb5e7e4b")
+	)
+	(text "NET COLOURS"
+		(exclude_from_sim no)
+		(at 291.56 200.99 0)
+		(effects
+			(font
+				(size 2 2)
+				(bold yes)
+				(color 0 0 132 1)
+			)
+			(justify left top)
+		)
+		(uuid "f407a9e5-f68f-5725-b9b6-3403eb279007")
+	)
+	(text_box "[${#}] ${TITLE}"
+		(exclude_from_sim no)
+		(at 144.595 20.32 0)
+		(size 130.81 12.7)
+		(margins 5.9999 5.9999 5.9999 5.9999)
+		(stroke
+			(width -0.0001)
+			(type solid)
+		)
+		(fill
+			(type none)
+		)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 6 6)
+				(thickness 1.2)
+				(bold yes)
+				(color 162 22 34 1)
+			)
+		)
+		(uuid "f407a9e5-12a5-521e-b0f3-bd77675b2cc6")
+	)
+	(text_box "What this board does, what it connects to, and where it sits in the product. Replace this text (\"overview\" in frontpages.json).\n- One line per thing a reader must know first: the supply, the main parts, the connectors.\n- Where the specification and the design decisions are written down."
+		(exclude_from_sim no)
+		(at 22.32 251.11 0)
+		(size 191.58 8.24)
+		(margins 1 1 1 1)
+		(stroke
+			(width -0.0001)
+			(type default)
+		)
+		(fill
+			(type none)
+		)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left top)
+		)
+		(uuid "f407a9e5-2272-5bc6-914e-54cd515f3212")
+	)
+	(polyline
+		(pts
+			(xy 291.56 209.89) (xy 301.56 209.89)
+		)
+		(stroke
+			(width 0.4)
+			(type solid)
+			(color 194 0 0 1)
+		)
+		(uuid "f407a9e5-3a27-5c7b-bd1f-edf65a89451a")
+	)
+	(polyline
+		(pts
+			(xy 291.56 224.21) (xy 301.56 224.21)
+		)
+		(stroke
+			(width 0.4)
+			(type solid)
+			(color 132 0 132 1)
+		)
+		(uuid "f407a9e5-59ec-562c-933e-0b84da23b6c9")
+	)
+	(polyline
+		(pts
+			(xy 291.56 227.79) (xy 301.56 227.79)
+		)
+		(stroke
+			(width 0.4)
+			(type solid)
+			(color 0 0 132 1)
+		)
+		(uuid "f407a9e5-5c6b-5663-b58e-fa12ade67eab")
+	)
+	(polyline
+		(pts
+			(xy 291.56 217.05) (xy 301.56 217.05)
+		)
+		(stroke
+			(width 0.4)
+			(type solid)
+			(color 0 132 0 1)
+		)
+		(uuid "f407a9e5-999c-5312-8d82-394d771d4e8d")
+	)
+	(polyline
+		(pts
+			(xy 291.56 238.53) (xy 301.56 238.53)
+		)
+		(stroke
+			(width 0.4)
+			(type solid)
+			(color 0 194 194 1)
+		)
+		(uuid "f407a9e5-9bb7-53e8-a18f-6956dcc873c9")
+	)
+	(polyline
+		(pts
+			(xy 291.56 234.95) (xy 301.56 234.95)
+		)
+		(stroke
+			(width 0.4)
+			(type solid)
+			(color 204 102 0 1)
+		)
+		(uuid "f407a9e5-bbaf-5465-805c-bf68695043be")
+	)
+	(polyline
+		(pts
+			(xy 291.56 231.37) (xy 301.56 231.37)
+		)
+		(stroke
+			(width 0.4)
+			(type solid)
+			(color 132 132 132 1)
+		)
+		(uuid "f407a9e5-eb73-59d8-8dab-2e0d77352a59")
+	)
+	(polyline
+		(pts
+			(xy 291.56 220.63) (xy 301.56 220.63)
+		)
+		(stroke
+			(width 0.4)
+			(type solid)
+			(color 132 132 0 1)
+		)
+		(uuid "f407a9e5-ff19-5d6e-9389-d545ab672fab")
+	)
+	(polyline
+		(pts
+			(xy 291.56 213.47) (xy 301.56 213.47)
+		)
+		(stroke
+			(width 0.4)
+			(type solid)
+			(color 194 0 194 1)
+		)
+		(uuid "f407a9e5-fffe-5792-80a1-bf66034654a6")
+	)
+)

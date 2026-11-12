@@ -27,6 +27,26 @@ jobs:
           mkdir -p "$demo"
           python3 scripts/kicad_template.py init-repo "$demo" --prefix demo_
           (cd "$demo" && kicad-part-importer --library hw/lib --check-3d)
+      - name: Net classes, the colour key and the theme installer
+        run: |
+          python3 tests/check_netclasses.py
+          theme() { python3 "$RUNNER_TEMP/demo/hw/theme.py" --config-dir "$RUNNER_TEMP/kicad-settings" "$@"; }
+          theme install --create
+          theme list | tee "$RUNNER_TEMP/themes.txt"
+          grep -Eq 'Altium_Theme +installed$' "$RUNNER_TEMP/themes.txt"
+          # An installed theme with other colours is the user's own: install must leave it alone and exit 1.
+          sed -i 's/"wire": "rgb(0, 0, 0)"/"wire": "rgb(1, 2, 3)"/' "$RUNNER_TEMP/kicad-settings/colors/Altium_Theme.json"
+          if theme install; then echo "::error::theme.py replaced an edited theme"; exit 1; fi
+          grep -q 'rgb(1, 2, 3)' "$RUNNER_TEMP/kicad-settings/colors/Altium_Theme.json"
+      - name: The starter board's front pages and title block are what the scripts draw
+        run: |
+          # --no-render: the two board views on the cover stay as they are, so this needs no KiCad.
+          python3 repo-files/tools/frontpages.py templates/starter-board --check --no-render
+          python3 repo-files/tools/titleblock.py templates/starter-board/drawing-sheet.kicad_wks --check
+          # The example architecture drawing must pass archdiagram.py's own layout check (SVG only: no browser).
+          mkdir -p "$RUNNER_TEMP/architecture"
+          cp repo-files/tools/example_architecture.py "$RUNNER_TEMP/architecture/"
+          python3 repo-files/tools/archdiagram.py "$RUNNER_TEMP/architecture/example_architecture.py"
       - name: The starter board matches its fab profile
         run: python3 repo-files/fab.py verify templates/starter-board
       - name: fab.py refuses a profile with a clearance rule, or without a copper-layer range
@@ -80,10 +100,10 @@ jobs:
         continue-on-error: true
         run: |
           tmp=$(mktemp -d); cp -r templates/starter-board/. "$tmp/"
-          kicad-cli sch upgrade --force "$tmp/starter-board.kicad_sch"
+          for f in "$tmp"/*.kicad_sch; do kicad-cli sch upgrade --force "$f"; done
           kicad-cli pcb upgrade --force "$tmp/starter-board.kicad_pcb"
-          mkdir -p "$OUT/upgraded"; cp "$tmp"/starter-board.kicad_{sch,pcb,pro} "$OUT/upgraded/"
-          for f in starter-board.kicad_sch starter-board.kicad_pcb; do
+          mkdir -p "$OUT/upgraded"; cp "$tmp"/*.kicad_sch "$tmp"/starter-board.kicad_{pcb,pro} "$OUT/upgraded/"
+          for f in $(cd "$tmp" && ls *.kicad_sch) starter-board.kicad_pcb; do
             if ! diff -q <(grep -v generator_version "templates/starter-board/$f") \
                          <(grep -v generator_version "$tmp/$f") >/dev/null; then
               echo "::warning file=templates/starter-board/$f::KiCad would rewrite this file; re-save it in KiCad"
@@ -138,7 +158,7 @@ jobs:
           fi
           # kicad-fab-package 0.1.0 does not copy .kicad_wks files into its project copy, so its schematic PDF
           # falls back to KiCad's default drawing sheet. Report it until the tool carries the sheet.
-          if ! pdftotext "$OUT/fab/docs/demo-board_v0.1_schematic.pdf" - | grep -q 'Designed by'; then
+          if ! pdftotext "$OUT/fab/docs/demo-board_v0.1_schematic.pdf" - | grep -q 'Designer:'; then
             echo "::warning::fab package schematic PDF uses KiCad's default drawing sheet, not drawing-sheet.kicad_wks"
           fi
           exit $rc
@@ -179,7 +199,8 @@ jobs:
             echo "::error file=templates/starter-board/drawing-sheet.kicad_wks::KiCad could not load the drawing sheet"
             exit 1
           fi
-          grep -q 'Designed by: CI' "$OUT/schematic.txt" || { echo "::error::title block text variables did not resolve"; exit 1; }
+          grep -q 'Designer:' "$OUT/schematic.txt" || { echo "::error::the title block is not drawing-sheet.kicad_wks"; exit 1; }
+          grep -q 'Example Co' "$OUT/schematic.txt" || { echo "::error::title block text variables did not resolve"; exit 1; }
           grep -q 'Fab: PCBWay standard' "$OUT/schematic.txt" || { echo "::error::FAB text variable did not resolve"; exit 1; }
 
       - name: Fab profiles (switching keeps board rules; each fab finds its own limits, on its own layer counts)
@@ -219,6 +240,39 @@ jobs:
           ok = sys.argv[2] == '1' and loaded.pop('broken') is False and all(loaded.values())
           sys.exit(0 if ok else 1)
           PY
+
+      - name: Net class colours (what KiCad resolves, and a plot with the theme)
+        if: always()
+        run: |
+          set -e
+          # What KiCad itself makes of the sample net names, on the board new-board made.
+          python3 tests/check_netclasses.py --kicad "$DEMO/hw/demo-board"
+          # kicad-cli plots in KiCad's default colours when it cannot find a theme, and says nothing. The plot
+          # check below fails in that case, so it also proves theme.py put the theme where this KiCad looks.
+          python3 "$DEMO/hw/theme.py" install --create
+          python3 tests/check_netclasses.py --project "$DEMO/hw/demo-board/demo-board.kicad_pro" \
+            --write-sch "$RUNNER_TEMP/netcolours"
+          kicad-cli sch export svg --theme Altium_Theme --exclude-drawing-sheet -o "$OUT/netcolours" \
+            "$RUNNER_TEMP/netcolours/netcolours.kicad_sch"
+          python3 tests/check_netclasses.py --project "$DEMO/hw/demo-board/demo-board.kicad_pro" \
+            --svg "$OUT/netcolours/netcolours.svg"
+          kicad-cli sch export pdf --theme Altium_Theme -o "$OUT/schematic-altium.pdf" \
+            "$DEMO/hw/demo-board/demo-board.kicad_sch"
+
+      - name: Front pages (new-board drew them for the demo board; KiCad's own save leaves them alone)
+        if: always()
+        run: |
+          set -e
+          pages() { python3 "$DEMO/hw/tools/frontpages.py" "$1" --check --no-render; }
+          pages "$DEMO/hw/demo-board"
+          if grep -q 'Not rendered yet' "$DEMO/hw/demo-board/demo-board.kicad_sch"; then
+            echo "::error::new-board left the cover without its two board views"; exit 1
+          fi
+          python3 "$DEMO/hw/tools/titleblock.py" "$DEMO/hw" --check
+          # Open and save every sheet as KiCad does: a later run of the script must find nothing to change.
+          saved="$RUNNER_TEMP/saved-by-kicad"; rm -rf "$saved"; cp -r "$DEMO/hw/demo-board" "$saved"
+          for f in "$saved"/*.kicad_sch; do kicad-cli sch upgrade --force "$f"; done
+          pages "$saved"
 
       - uses: actions/upload-artifact@v7
         if: always()

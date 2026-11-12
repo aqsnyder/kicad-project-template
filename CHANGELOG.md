@@ -16,10 +16,46 @@
 - **README:** the known gaps now give PCBWay's real BOM and centroid formats (the ones listed were JLCPCB's), say that
   a placed part with a model in `hw/lib` fails kicad-fab-export, and add that an outline drawn as one `gr_circle`
   fails the STEP origin check.
+- **Altium-style colour theme.** `themes/Altium_Theme.json` is a KiCad colour theme for the schematic and board
+  editors. KiCad reads themes from the user's settings folder only, so `hw/theme.py` (copied into each repository,
+  with the theme in `hw/themes/`) installs it: `list` shows whether a machine has it, and `install` copies it,
+  leaving alone a theme the user has edited unless `--force` is given. kicad-cli takes it as `--theme Altium_Theme`.
+- **Coloured net classes.** The starter board's classes now carry schematic and board colours, and wires in a class
+  are drawn 10 mil wide. New classes `RF_50R`, `Debug`, `UART`, `Bus`, `Clock`, `Analog` and `USB` only colour
+  their nets: they set no rules, so those nets keep the `Default` class's widths and clearances. `GND*` nets move
+  from `Power` to a new `GND` class with the same rules, so that ground is green and supply rails are red. The
+  project file states each class's priority (net settings version 5), with the classes that set rules first.
+- **`Bus` has a lighter blue on the board** (`rgb(70, 130, 255)`): navy does not show on the board editor's dark
+  background, where KiCad draws ratsnest lines in the class colour.
+- **Front pages.** A schematic now opens with a cover (contents table, two views of the board, notes, the key to
+  boxed notes) and an Architecture page, and closes with Mechanical and Revision History pages; every other sheet
+  gets a "[page] Title" heading. `hw/tools/frontpages.py` draws them from the board and from
+  `hw/<board>/frontpages.json`, and `new-board` runs it. The net colour key is on the Architecture page, drawn
+  from the project's net classes. `hw/tools/archdiagram.py` draws an architecture diagram from a description.
+- **New title block,** 187 x 42 mm, drawn by `hw/tools/titleblock.py`: it adds Comments, Variant, Project Name,
+  Sheet Path and Reviewer, and `--logo PNG` replaces the `LOGO` box. New text variables `PROJECT_NAME`, `REVIEWER`
+  and `VARIANT`; `new-board` takes `--project` and `--reviewer`.
+- **Self-test:** `tests/check_netclasses.py` checks the class table, the colour key, and that KiCad 10 resolves
+  and plots some forty sample net names as the table says, with the theme installed by `theme.py`. The front
+  pages are checked on the starter board and on a board made by `new-board`, also after KiCad saves each sheet.
 
 Upgrading a repository made from 0.2.0: copy `repo-files/hardware.yml` to `.github/workflows/`, `repo-files/fab.py`
-to `hw/`, and `fabs/*.kicad_dru` to `hw/fabs/`, then run `python3 hw/fab.py set <profile> <board>` for each board so
-its rules match the profile again. A profile of your own needs a `# copper-layers:` line, or `fab.py` refuses it.
+and `repo-files/theme.py` to `hw/`, `fabs/*.kicad_dru` to `hw/fabs/`, `themes/` to `hw/themes/` and
+`repo-files/tools/` to `hw/tools/`. Then run `python3 hw/fab.py set <profile> <board>` for each board so its rules
+match the profile again, and `python3 hw/theme.py install` on each machine. A profile of your own needs a
+`# copper-layers:` line, or `fab.py` refuses it.
+
+A board that exists keeps its own net classes. To give it the coloured ones, close it in KiCad and copy the
+`net_settings` object from `templates/starter-board/starter-board.kicad_pro` into its `.kicad_pro`, keeping any
+classes and patterns of the board's own; a custom rule that tests `A.NetClass == 'Power'` no longer matches `GND*`
+nets after that.
+
+To give an existing board the front pages, close it in KiCad, copy
+`templates/starter-board/frontpages.json` into its folder, move the words of its cover's Overview, Ordering notes
+and Revision history boxes into that file, and run `python3 hw/tools/titleblock.py hw` and then
+`python3 hw/tools/frontpages.py hw/<board>`. The run replaces the 0.2.0 cover, adds the three pages and the text
+variables, and moves a design sheet's drawing down where the heading needs the room. The title block is wider
+and higher than before (it was 120 x 40 mm): move what a sheet has in its bottom right corner.
 
 ## 0.2.0 - 2026-10-26
 

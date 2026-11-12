@@ -1,0 +1,771 @@
+(kicad_sch
+	(version 20260306)
+	(generator "eeschema")
+	(generator_version "10.0")
+	(uuid "f407a9e5-fa5a-5d75-9ebe-0e0f602f6d67")
+	(paper "A4")
+	(title_block
+		(title "Mechanical")
+		(date "${RELEASE_DATE}")
+		(rev "${REVISION}")
+		(company "${COMPANY}")
+		(comment 1 "Drawn by hw/tools/frontpages.py")
+		(comment 2 "from frontpages.json")
+	)
+	(lib_symbols)
+	(polyline
+		(pts
+			(xy 46.59 126.17) (xy 45.84 124.27) (xy 47.34 124.27) (xy 46.59 126.17)
+		)
+		(stroke
+			(width 0)
+			(type solid)
+			(color 0 0 0 1)
+		)
+		(fill
+			(type color)
+			(color 0 0 0 1)
+		)
+		(uuid "f407a9e5-124a-5f81-89cb-e8a74ecdf5ca")
+	)
+	(polyline
+		(pts
+			(xy 54.59 51.17) (xy 129.59 51.17) (xy 129.59 126.17) (xy 54.59 126.17) (xy 54.59 51.17)
+		)
+		(stroke
+			(width 0.35)
+			(type solid)
+			(color 0 0 0 1)
+		)
+		(fill
+			(type none)
+		)
+		(uuid "f407a9e5-5243-596e-9b2f-e7ae7d982fff")
+	)
+	(rectangle
+		(start 154.94 27.94)
+		(end 281.94 46.99)
+		(stroke
+			(width 0.2)
+			(type dash)
+			(color 132 132 132 1)
+		)
+		(fill
+			(type none)
+		)
+		(uuid "f407a9e5-71f6-590a-8e0b-72ac2b05cfdd")
+	)
+	(polyline
+		(pts
+			(xy 129.59 134.17) (xy 127.69 134.92) (xy 127.69 133.42) (xy 129.59 134.17)
+		)
+		(stroke
+			(width 0)
+			(type solid)
+			(color 0 0 0 1)
+		)
+		(fill
+			(type color)
+			(color 0 0 0 1)
+		)
+		(uuid "f407a9e5-762c-51cc-bb99-d19864d84a33")
+	)
+	(polyline
+		(pts
+			(xy 54.59 134.17) (xy 56.49 133.42) (xy 56.49 134.92) (xy 54.59 134.17)
+		)
+		(stroke
+			(width 0)
+			(type solid)
+			(color 0 0 0 1)
+		)
+		(fill
+			(type color)
+			(color 0 0 0 1)
+		)
+		(uuid "f407a9e5-9ac5-5ba9-86cd-8a2756d875a0")
+	)
+	(rectangle
+		(start 20.32 27.94)
+		(end 149.86 152.4)
+		(stroke
+			(width 0.2)
+			(type dash)
+			(color 132 132 132 1)
+		)
+		(fill
+			(type none)
+		)
+		(uuid "f407a9e5-b2c5-53bc-9430-54cc8bc7c4ac")
+	)
+	(polyline
+		(pts
+			(xy 46.59 51.17) (xy 47.34 53.07) (xy 45.84 53.07) (xy 46.59 51.17)
+		)
+		(stroke
+			(width 0)
+			(type solid)
+			(color 0 0 0 1)
+		)
+		(fill
+			(type color)
+			(color 0 0 0 1)
+		)
+		(uuid "f407a9e5-e8ce-564b-a7ce-83d509d6afc3")
+	)
+	(text "HOLES AND CONNECTORS"
+		(exclude_from_sim no)
+		(at 154.94 88.9 0)
+		(effects
+			(font
+				(size 2 2)
+				(bold yes)
+				(color 0 0 132 1)
+			)
+			(justify left top)
+		)
+		(uuid "f407a9e5-163e-55c0-823e-8bfd3484219b")
+	)
+	(text "STACKUP"
+		(exclude_from_sim no)
+		(at 154.94 52.07 0)
+		(effects
+			(font
+				(size 2 2)
+				(bold yes)
+				(color 0 0 132 1)
+			)
+			(justify left top)
+		)
+		(uuid "f407a9e5-32f3-5ed8-a3e8-102650fe6541")
+	)
+	(text "The board has no mounting hole and no connector (J<n>) yet."
+		(exclude_from_sim no)
+		(at 154.94 92.3 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+				(color 96 96 96 1)
+			)
+			(justify left top)
+		)
+		(uuid "f407a9e5-3534-51dd-9d46-b5c313b93bb1")
+	)
+	(text "starter-board.kicad_pcb, top view, scale 1.5:1. Millimetres; in the table X is from the left edge, Y from the bottom edge,\nto the footprint origin (pin 1 of a pin header, not its middle)."
+		(exclude_from_sim no)
+		(at 22.32 32.94 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+				(color 96 96 96 1)
+			)
+			(justify left top)
+		)
+		(uuid "f407a9e5-3c44-589a-9ba5-89976f43fd7e")
+	)
+	(text "50.00"
+		(exclude_from_sim no)
+		(at 92.09 133.37 0)
+		(effects
+			(font
+				(size 1.6 1.6)
+			)
+			(justify bottom)
+		)
+		(uuid "f407a9e5-4e08-57b8-a206-d478e09e9df1")
+	)
+	(text "BOARD OUTLINE"
+		(exclude_from_sim no)
+		(at 22.32 29.54 0)
+		(effects
+			(font
+				(size 2 2)
+				(bold yes)
+				(color 0 0 132 1)
+			)
+			(justify left top)
+		)
+		(uuid "f407a9e5-acb2-5ce3-8cfc-4e45d184c118")
+	)
+	(text "50.00"
+		(exclude_from_sim no)
+		(at 45.79 88.67 90)
+		(effects
+			(font
+				(size 1.6 1.6)
+			)
+			(justify bottom)
+		)
+		(uuid "f407a9e5-bb2c-5b55-bd7f-81ce02fc181b")
+	)
+	(text "ORDERING NOTES"
+		(exclude_from_sim no)
+		(at 156.94 29.54 0)
+		(effects
+			(font
+				(size 2 2)
+				(bold yes)
+				(color 0 0 132 1)
+			)
+			(justify left top)
+		)
+		(uuid "f407a9e5-dc33-5a42-b125-f83d198aad84")
+	)
+	(text "Total 1.6 mm with the solder mask; copper finish None. Read from starter-board.kicad_pcb (Board Setup, Physical Stackup)."
+		(exclude_from_sim no)
+		(at 154.94 81.28 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+				(color 96 96 96 1)
+			)
+			(justify left top)
+		)
+		(uuid "f407a9e5-fb33-56e5-8e7d-a55cac956e79")
+	)
+	(text_box "[${#}] ${TITLE}"
+		(exclude_from_sim no)
+		(at 83.095 12.7 0)
+		(size 130.81 12.7)
+		(margins 5.9999 5.9999 5.9999 5.9999)
+		(stroke
+			(width -0.0001)
+			(type solid)
+		)
+		(fill
+			(type none)
+		)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 6 6)
+				(thickness 1.2)
+				(bold yes)
+				(color 162 22 34 1)
+			)
+		)
+		(uuid "f407a9e5-64e2-5fdf-88ea-199392dacc4b")
+	)
+	(text_box "Fab: ${FAB} (rules: ${PROJECTNAME}.kicad_dru and Board Setup)\nSwitch fabs: python3 hw/fab.py set <profile> ${PROJECTNAME}\nEvery fitted part needs MPN and Manufacturer; add LCSC for JLCPCB assembly.\nDNP parts: set both Do not populate and Exclude from bill of materials.\nFiducials FID1.., mounting holes H1.. (kept out of the BOM and placement files)."
+		(exclude_from_sim no)
+		(at 156.94 33.94 0)
+		(size 123 12.05)
+		(margins 1 1 1 1)
+		(stroke
+			(width -0.0001)
+			(type default)
+		)
+		(fill
+			(type none)
+		)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left top)
+		)
+		(uuid "f407a9e5-9d45-5e2d-af91-8b6217ed5571")
+	)
+	(polyline
+		(pts
+			(xy 46.59 52.77) (xy 46.59 124.57)
+		)
+		(stroke
+			(width 0.15)
+			(type solid)
+			(color 0 0 0 1)
+		)
+		(uuid "f407a9e5-2f2a-5618-88c9-c504372e30cf")
+	)
+	(polyline
+		(pts
+			(xy 53.09 51.17) (xy 45.09 51.17)
+		)
+		(stroke
+			(width 0.1)
+			(type solid)
+			(color 96 96 96 1)
+		)
+		(uuid "f407a9e5-397c-5eb0-b501-33ee5edd5d6d")
+	)
+	(polyline
+		(pts
+			(xy 129.59 127.67) (xy 129.59 135.67)
+		)
+		(stroke
+			(width 0.1)
+			(type solid)
+			(color 96 96 96 1)
+		)
+		(uuid "f407a9e5-8542-522f-be12-f402c4fc6d83")
+	)
+	(polyline
+		(pts
+			(xy 56.19 134.17) (xy 127.99 134.17)
+		)
+		(stroke
+			(width 0.15)
+			(type solid)
+			(color 0 0 0 1)
+		)
+		(uuid "f407a9e5-85b2-5932-9412-1df23b8e5212")
+	)
+	(polyline
+		(pts
+			(xy 54.59 127.67) (xy 54.59 135.67)
+		)
+		(stroke
+			(width 0.1)
+			(type solid)
+			(color 96 96 96 1)
+		)
+		(uuid "f407a9e5-a812-5c77-8ed3-cb91728000c4")
+	)
+	(polyline
+		(pts
+			(xy 53.09 126.17) (xy 45.09 126.17)
+		)
+		(stroke
+			(width 0.1)
+			(type solid)
+			(color 96 96 96 1)
+		)
+		(uuid "f407a9e5-ed88-5e0c-8b56-fc6cc1cdf417")
+	)
+	(table
+		(column_count 4)
+		(border
+			(external yes)
+			(header yes)
+			(stroke
+				(width 0)
+				(type solid)
+			)
+		)
+		(separators
+			(rows yes)
+			(cols yes)
+			(stroke
+				(width 0)
+				(type solid)
+			)
+		)
+		(column_widths 30.48 30.48 30.48 30.48)
+		(row_heights 3.81 3.81 3.81 3.81 3.81 3.81)
+		(uuid "f407a9e5-eb42-54bf-943f-7d4b34d4a40c")
+		(cells
+			(table_cell "Layer"
+				(exclude_from_sim no)
+				(at 154.94 57.15 0)
+				(size 30.48 3.81)
+				(margins 0.9525 0.9525 0.9525 0.9525)
+				(span 1 1)
+				(fill
+					(type none)
+				)
+				(effects
+					(font
+						(size 1.27 1.27)
+						(bold yes)
+					)
+					(justify left top)
+				)
+				(uuid "f407a9e5-5b12-5282-8df1-63152978cfdd")
+			)
+			(table_cell "Type"
+				(exclude_from_sim no)
+				(at 185.42 57.15 0)
+				(size 30.48 3.81)
+				(margins 0.9525 0.9525 0.9525 0.9525)
+				(span 1 1)
+				(fill
+					(type none)
+				)
+				(effects
+					(font
+						(size 1.27 1.27)
+						(bold yes)
+					)
+					(justify left top)
+				)
+				(uuid "f407a9e5-cd54-53ef-82ef-c3c6c21b44c4")
+			)
+			(table_cell "Thickness (mm)"
+				(exclude_from_sim no)
+				(at 215.9 57.15 0)
+				(size 30.48 3.81)
+				(margins 0.9525 0.9525 0.9525 0.9525)
+				(span 1 1)
+				(fill
+					(type none)
+				)
+				(effects
+					(font
+						(size 1.27 1.27)
+						(bold yes)
+					)
+					(justify left top)
+				)
+				(uuid "f407a9e5-5e86-5977-b91e-6e714cc376f1")
+			)
+			(table_cell "Material"
+				(exclude_from_sim no)
+				(at 246.38 57.15 0)
+				(size 30.48 3.81)
+				(margins 0.9525 0.9525 0.9525 0.9525)
+				(span 1 1)
+				(fill
+					(type none)
+				)
+				(effects
+					(font
+						(size 1.27 1.27)
+						(bold yes)
+					)
+					(justify left top)
+				)
+				(uuid "f407a9e5-a7d7-5ff4-ac5c-cec397d4493a")
+			)
+			(table_cell "F.Mask"
+				(exclude_from_sim no)
+				(at 154.94 60.96 0)
+				(size 30.48 3.81)
+				(margins 0.9525 0.9525 0.9525 0.9525)
+				(span 1 1)
+				(fill
+					(type none)
+				)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+				(uuid "f407a9e5-992a-5c8c-bfb0-99a395420e06")
+			)
+			(table_cell "solder mask"
+				(exclude_from_sim no)
+				(at 185.42 60.96 0)
+				(size 30.48 3.81)
+				(margins 0.9525 0.9525 0.9525 0.9525)
+				(span 1 1)
+				(fill
+					(type none)
+				)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+				(uuid "f407a9e5-030f-5495-8f0e-98602e5751a5")
+			)
+			(table_cell "0.01"
+				(exclude_from_sim no)
+				(at 215.9 60.96 0)
+				(size 30.48 3.81)
+				(margins 0.9525 0.9525 0.9525 0.9525)
+				(span 1 1)
+				(fill
+					(type none)
+				)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+				(uuid "f407a9e5-90e6-574a-8ef2-3c76791483dd")
+			)
+			(table_cell "-"
+				(exclude_from_sim no)
+				(at 246.38 60.96 0)
+				(size 30.48 3.81)
+				(margins 0.9525 0.9525 0.9525 0.9525)
+				(span 1 1)
+				(fill
+					(type none)
+				)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+				(uuid "f407a9e5-5e7b-55fd-b2da-faadea5d659d")
+			)
+			(table_cell "F.Cu"
+				(exclude_from_sim no)
+				(at 154.94 64.77 0)
+				(size 30.48 3.81)
+				(margins 0.9525 0.9525 0.9525 0.9525)
+				(span 1 1)
+				(fill
+					(type none)
+				)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+				(uuid "f407a9e5-02b3-5ebb-a6c4-b33eaf3dc72d")
+			)
+			(table_cell "copper"
+				(exclude_from_sim no)
+				(at 185.42 64.77 0)
+				(size 30.48 3.81)
+				(margins 0.9525 0.9525 0.9525 0.9525)
+				(span 1 1)
+				(fill
+					(type none)
+				)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+				(uuid "f407a9e5-74f6-5193-9668-01da49490c84")
+			)
+			(table_cell "0.035"
+				(exclude_from_sim no)
+				(at 215.9 64.77 0)
+				(size 30.48 3.81)
+				(margins 0.9525 0.9525 0.9525 0.9525)
+				(span 1 1)
+				(fill
+					(type none)
+				)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+				(uuid "f407a9e5-e1ea-5227-a527-e3659c085473")
+			)
+			(table_cell "-"
+				(exclude_from_sim no)
+				(at 246.38 64.77 0)
+				(size 30.48 3.81)
+				(margins 0.9525 0.9525 0.9525 0.9525)
+				(span 1 1)
+				(fill
+					(type none)
+				)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+				(uuid "f407a9e5-10b4-5e2e-9f03-59e18e610b72")
+			)
+			(table_cell "dielectric 1"
+				(exclude_from_sim no)
+				(at 154.94 68.58 0)
+				(size 30.48 3.81)
+				(margins 0.9525 0.9525 0.9525 0.9525)
+				(span 1 1)
+				(fill
+					(type none)
+				)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+				(uuid "f407a9e5-c6c7-5ab7-9bc5-0db952125492")
+			)
+			(table_cell "core"
+				(exclude_from_sim no)
+				(at 185.42 68.58 0)
+				(size 30.48 3.81)
+				(margins 0.9525 0.9525 0.9525 0.9525)
+				(span 1 1)
+				(fill
+					(type none)
+				)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+				(uuid "f407a9e5-ba35-5163-a425-aee6d0ae2fdf")
+			)
+			(table_cell "1.51"
+				(exclude_from_sim no)
+				(at 215.9 68.58 0)
+				(size 30.48 3.81)
+				(margins 0.9525 0.9525 0.9525 0.9525)
+				(span 1 1)
+				(fill
+					(type none)
+				)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+				(uuid "f407a9e5-7698-57e1-a4a8-54c36bd797a8")
+			)
+			(table_cell "FR4"
+				(exclude_from_sim no)
+				(at 246.38 68.58 0)
+				(size 30.48 3.81)
+				(margins 0.9525 0.9525 0.9525 0.9525)
+				(span 1 1)
+				(fill
+					(type none)
+				)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+				(uuid "f407a9e5-3bde-5b1b-895f-47f03a9cd94a")
+			)
+			(table_cell "B.Cu"
+				(exclude_from_sim no)
+				(at 154.94 72.39 0)
+				(size 30.48 3.81)
+				(margins 0.9525 0.9525 0.9525 0.9525)
+				(span 1 1)
+				(fill
+					(type none)
+				)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+				(uuid "f407a9e5-ca65-56e0-b571-df94d7162f31")
+			)
+			(table_cell "copper"
+				(exclude_from_sim no)
+				(at 185.42 72.39 0)
+				(size 30.48 3.81)
+				(margins 0.9525 0.9525 0.9525 0.9525)
+				(span 1 1)
+				(fill
+					(type none)
+				)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+				(uuid "f407a9e5-4f9c-59a7-8972-d5f6849d1951")
+			)
+			(table_cell "0.035"
+				(exclude_from_sim no)
+				(at 215.9 72.39 0)
+				(size 30.48 3.81)
+				(margins 0.9525 0.9525 0.9525 0.9525)
+				(span 1 1)
+				(fill
+					(type none)
+				)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+				(uuid "f407a9e5-9133-56e1-bf06-4ad9b81aad21")
+			)
+			(table_cell "-"
+				(exclude_from_sim no)
+				(at 246.38 72.39 0)
+				(size 30.48 3.81)
+				(margins 0.9525 0.9525 0.9525 0.9525)
+				(span 1 1)
+				(fill
+					(type none)
+				)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+				(uuid "f407a9e5-68f5-5a90-a8a7-65c6c2ee3300")
+			)
+			(table_cell "B.Mask"
+				(exclude_from_sim no)
+				(at 154.94 76.2 0)
+				(size 30.48 3.81)
+				(margins 0.9525 0.9525 0.9525 0.9525)
+				(span 1 1)
+				(fill
+					(type none)
+				)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+				(uuid "f407a9e5-056d-592d-b637-50f3b90ccbb7")
+			)
+			(table_cell "solder mask"
+				(exclude_from_sim no)
+				(at 185.42 76.2 0)
+				(size 30.48 3.81)
+				(margins 0.9525 0.9525 0.9525 0.9525)
+				(span 1 1)
+				(fill
+					(type none)
+				)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+				(uuid "f407a9e5-4018-5860-b42a-b716564e0e4f")
+			)
+			(table_cell "0.01"
+				(exclude_from_sim no)
+				(at 215.9 76.2 0)
+				(size 30.48 3.81)
+				(margins 0.9525 0.9525 0.9525 0.9525)
+				(span 1 1)
+				(fill
+					(type none)
+				)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+				(uuid "f407a9e5-96ec-527f-baff-d4c499573784")
+			)
+			(table_cell "-"
+				(exclude_from_sim no)
+				(at 246.38 76.2 0)
+				(size 30.48 3.81)
+				(margins 0.9525 0.9525 0.9525 0.9525)
+				(span 1 1)
+				(fill
+					(type none)
+				)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+				(uuid "f407a9e5-1278-5d25-a8a8-d10764f26a69")
+			)
+		)
+	)
+)
