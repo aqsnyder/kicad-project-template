@@ -10,12 +10,14 @@
 <A HREF="https://github.com/aqsnyder/kicad-part-importer">kicad-part-importer</A> and
 <A HREF="https://github.com/aqsnyder/kicad-fab-package">kicad-fab-package</A>.</P>
 <UL>
-<LI>Text variables: BOARD_NAME, COMPANY, DESIGNER, REVISION, RELEASE_DATE (Schematic Setup &gt; Text Variables). The title blocks use them.</LI>
+<LI>Text variables: BOARD_NAME, PROJECT_NAME, COMPANY, DESIGNER, REVIEWER, REVISION, RELEASE_DATE (Schematic Setup &gt; Text Variables). The title blocks and the front pages use them.</LI>
+<LI>Front pages: Cover, Architecture, Mechanical and Revision History, drawn by <TT>frontpages.py</TT> from <TT>frontpages.json</TT>. After creating a project from this template, run it on the project folder so the pages carry the new name.</LI>
 <LI>Symbol field templates: MPN, Manufacturer, LCSC, Voltage, Tolerance, Type, TempCo.</LI>
 <LI>Fab rules: JLCPCB 2-layer (<TT>&lt;project&gt;.kicad_dru</TT>). Swap in another file from the template repository's <TT>rules/</TT> folder.</LI>
 <LI>Plot settings: absolute origin, no X2 or netlist attributes, no Protel extensions.</LI>
-<LI>Net classes: Default (0.2 mm) and Power (0.4 mm; nets +*, GND*, VBAT*, VBUS*, VIN*).</LI>
-<LI>Drawing sheet: <TT>drawing-sheet.kicad_wks</TT> with a placeholder logo. Replace it in the Drawing Sheet Editor.</LI>
+<LI>Net classes: Default (0.2 mm), Power (0.4 mm; nets +*, VBAT*, VBUS*, VIN*) and GND (0.4 mm; nets GND*), plus RF_50R, Debug, UART, Bus, Clock, Analog and USB, which only colour their nets. The Architecture page has the key.</LI>
+<LI>Colour theme: Altium_Theme, in the template repository's <TT>themes/</TT> folder. Install it with <TT>theme.py install</TT>, then choose it in Preferences &gt; Schematic Editor &gt; Colors and PCB Editor &gt; Colors.</LI>
+<LI>Drawing sheet: <TT>drawing-sheet.kicad_wks</TT> with a placeholder logo. <TT>titleblock.py --logo PNG</TT> puts yours in.</LI>
 </UL>
 <P>Put each board in its own folder next to the part library, e.g. <TT>hw/&lt;board&gt;/</TT> beside <TT>hw/lib/</TT>.</P>
 </BODY>

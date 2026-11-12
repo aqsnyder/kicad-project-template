@@ -35,6 +35,10 @@ jobs:
       - run: pip install -r hw/requirements-tools.txt
       # No KiCad needed: fails on bare, absolute, other-variable, wrong-case and missing model paths.
       - run: kicad-part-importer --library hw/lib --check-3d
+      # hw/fab.py, hw/theme.py, the template's fab profiles and the scripts in hw/tools/ have one source,
+      # kicad-project-template. This fails when one of them was edited here: change it in the template, then run
+      # its kicad_template.py update-repo on this repository.
+      - run: python3 hw/tools/check_copies.py
 
   boards:
     name: ERC, DRC and fab package

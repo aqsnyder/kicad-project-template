@@ -3,34 +3,1413 @@
 	(generator "eeschema")
 	(generator_version "10.0")
 	(uuid "1ce4ebce-71d2-487d-9faf-452668e687eb")
-	(paper "A4")
+	(paper "A3")
 	(title_block
-		(title "${BOARD_NAME}")
+		(title "Cover Page")
 		(date "${RELEASE_DATE}")
 		(rev "${REVISION}")
 		(company "${COMPANY}")
+		(comment 1 "Drawn by hw/tools/frontpages.py")
+		(comment 2 "from frontpages.json")
 	)
 	(lib_symbols)
-	(text "${BOARD_NAME}"
+	(text "8"
 		(exclude_from_sim no)
-		(at 20.32 25.4 0)
+		(at 35.56 137.16 0)
 		(effects
 			(font
-				(size 5 5)
-				(thickness 1)
-				(bold yes)
+				(face "Times New Roman")
+				(size 4 4)
+				(color 0 0 0 1)
+			)
+			(justify right bottom)
+		)
+		(uuid "f407a9e5-004e-56a9-9c56-91e7e3c9419c")
+	)
+	(text "..........................................."
+		(exclude_from_sim no)
+		(at 243.84 83.82 0)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 4 4)
+				(color 0 0 0 1)
 			)
 			(justify left bottom)
 		)
-		(uuid "47593305-817e-4e0a-9afa-ffa460ddffb5")
+		(uuid "f407a9e5-032e-5e87-9a75-5616cf1ffbc2")
 	)
-	(text_box "Revision history\n\nRev ${REVISION}  (${RELEASE_DATE})\n    First draft.\n\nAdd a line per revision, newest first. Bump REVISION and RELEASE_DATE\nin File > Schematic Setup > Text Variables."
+	(text "7"
 		(exclude_from_sim no)
-		(at 152.4 33.02 0)
-		(size 124.46 40.64)
-		(margins 1.143 1.143 1.143 1.143)
+		(at 35.56 129.54 0)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 4 4)
+				(color 0 0 0 1)
+			)
+			(justify right bottom)
+		)
+		(uuid "f407a9e5-04a6-5e21-a15b-263fb6b7bc84")
+	)
+	(text "Index"
+		(exclude_from_sim no)
+		(at 243.84 71.12 0)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 4 4)
+				(bold yes)
+				(color 0 0 0 1)
+			)
+			(justify left bottom)
+		)
+		(uuid "f407a9e5-04ad-53aa-8865-a9e424e64472")
+	)
+	(text "18"
+		(exclude_from_sim no)
+		(at 134.62 137.16 0)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 4 4)
+				(color 0 0 0 1)
+			)
+			(justify right bottom)
+		)
+		(uuid "f407a9e5-04cc-588e-a5e9-b7152bc894f3")
+	)
+	(text "NOTES"
+		(exclude_from_sim no)
+		(at 220.98 167.005 0)
+		(effects
+			(font
+				(face "Arial")
+				(size 5 5)
+				(bold yes)
+				(color 53 60 207 1)
+			)
+			(justify left bottom)
+		)
+		(uuid "f407a9e5-081f-5ac1-adfc-2f2ba2cd5226")
+	)
+	(text "Index"
+		(exclude_from_sim no)
+		(at 144.78 71.12 0)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 4 4)
+				(bold yes)
+				(color 0 0 0 1)
+			)
+			(justify left bottom)
+		)
+		(uuid "f407a9e5-09b2-5aa1-99e0-8ccfe18609cf")
+	)
+	(text "34"
+		(exclude_from_sim no)
+		(at 332.74 106.68 0)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 4 4)
+				(color 0 0 0 1)
+			)
+			(justify right bottom)
+		)
+		(uuid "f407a9e5-0a64-57b8-b877-4858af8b3864")
+	)
+	(text "2"
+		(exclude_from_sim no)
+		(at 35.56 91.44 0)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 4 4)
+				(color 0 0 0 1)
+			)
+			(justify right bottom)
+			(href "#2")
+		)
+		(uuid "f407a9e5-0b02-5154-9baf-773bf5e3af4f")
+	)
+	(text "13"
+		(exclude_from_sim no)
+		(at 134.62 99.06 0)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 4 4)
+				(color 0 0 0 1)
+			)
+			(justify right bottom)
+		)
+		(uuid "f407a9e5-0e97-5618-87e5-0cae934db6ee")
+	)
+	(text "DESIGN CONSIDERATIONS"
+		(exclude_from_sim no)
+		(at 26.67 255.27 0)
+		(effects
+			(font
+				(face "Arial")
+				(size 1 1)
+				(bold yes)
+				(color 53 60 207 1)
+			)
+			(justify left bottom)
+		)
+		(uuid "f407a9e5-0ec6-5a90-93b1-17389b05776c")
+	)
+	(text "29"
+		(exclude_from_sim no)
+		(at 233.68 144.78 0)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 4 4)
+				(color 0 0 0 1)
+			)
+			(justify right bottom)
+		)
+		(uuid "f407a9e5-1060-5fde-9303-e771f1ebe9eb")
+	)
+	(text "..........................................."
+		(exclude_from_sim no)
+		(at 243.84 106.68 0)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 4 4)
+				(color 0 0 0 1)
+			)
+			(justify left bottom)
+		)
+		(uuid "f407a9e5-1111-5f36-a763-9f10b0a046c1")
+	)
+	(text "TOP VIEW"
+		(exclude_from_sim no)
+		(at 26.67 166.37 0)
+		(effects
+			(font
+				(face "Arial")
+				(size 5 5)
+				(bold yes)
+				(color 53 60 207 1)
+			)
+			(justify left bottom)
+		)
+		(uuid "f407a9e5-1207-50a8-ba32-5e6119afa913")
+	)
+	(text "..........................................."
+		(exclude_from_sim no)
+		(at 45.72 137.16 0)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 4 4)
+				(color 0 0 0 1)
+			)
+			(justify left bottom)
+		)
+		(uuid "f407a9e5-17f3-5420-90b9-bf93469ecd39")
+	)
+	(text "..........................................."
+		(exclude_from_sim no)
+		(at 45.72 129.54 0)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 4 4)
+				(color 0 0 0 1)
+			)
+			(justify left bottom)
+		)
+		(uuid "f407a9e5-1905-5c97-a63b-c25fde2052da")
+	)
+	(text "..........................................."
+		(exclude_from_sim no)
+		(at 144.78 106.68 0)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 4 4)
+				(color 0 0 0 1)
+			)
+			(justify left bottom)
+		)
+		(uuid "f407a9e5-1981-52b7-814b-ac3b767bfdd9")
+	)
+	(text "17"
+		(exclude_from_sim no)
+		(at 134.62 129.54 0)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 4 4)
+				(color 0 0 0 1)
+			)
+			(justify right bottom)
+		)
+		(uuid "f407a9e5-1ab8-5ef0-936a-2afef3b1aa63")
+	)
+	(text "..........................................."
+		(exclude_from_sim no)
+		(at 144.78 114.3 0)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 4 4)
+				(color 0 0 0 1)
+			)
+			(justify left bottom)
+		)
+		(uuid "f407a9e5-1b65-5b49-9a4a-b28a372fa9a1")
+	)
+	(text "33"
+		(exclude_from_sim no)
+		(at 332.74 99.06 0)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 4 4)
+				(color 0 0 0 1)
+			)
+			(justify right bottom)
+		)
+		(uuid "f407a9e5-1e3e-598c-ab04-bb2852084f4e")
+	)
+	(text "3"
+		(exclude_from_sim no)
+		(at 35.56 99.06 0)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 4 4)
+				(color 0 0 0 1)
+			)
+			(justify right bottom)
+			(href "#3")
+		)
+		(uuid "f407a9e5-1e9c-525c-99f7-afae35140ca7")
+	)
+	(text "..........................................."
+		(exclude_from_sim no)
+		(at 243.84 144.78 0)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 4 4)
+				(color 0 0 0 1)
+			)
+			(justify left bottom)
+		)
+		(uuid "f407a9e5-1e9c-5fe2-8b19-cbcacfd141d2")
+	)
+	(text "..........................................."
+		(exclude_from_sim no)
+		(at 342.9 129.54 0)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 4 4)
+				(color 0 0 0 1)
+			)
+			(justify left bottom)
+		)
+		(uuid "f407a9e5-1fd4-53cd-b4ef-13413201201f")
+	)
+	(text "..........................................."
+		(exclude_from_sim no)
+		(at 45.72 114.3 0)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 4 4)
+				(color 0 0 0 1)
+			)
+			(justify left bottom)
+		)
+		(uuid "f407a9e5-2658-57cc-af46-2e382c5066a8")
+	)
+	(text "DRAFT: early work, expect anything to change."
+		(exclude_from_sim no)
+		(at 222.25 198.12 0)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 3 3)
+				(thickness 0.6)
+				(bold yes)
+				(color 162 22 34 1)
+			)
+			(justify left bottom)
+		)
+		(uuid "f407a9e5-290b-5415-a402-bd30d87f9e6d")
+	)
+	(text "20"
+		(exclude_from_sim no)
+		(at 134.62 152.4 0)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 4 4)
+				(color 0 0 0 1)
+			)
+			(justify right bottom)
+		)
+		(uuid "f407a9e5-2964-5fe5-8a4c-11370c2aae52")
+	)
+	(text "40"
+		(exclude_from_sim no)
+		(at 332.74 152.4 0)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 4 4)
+				(color 0 0 0 1)
+			)
+			(justify right bottom)
+		)
+		(uuid "f407a9e5-2a90-5178-ab49-bae3d2217c92")
+	)
+	(text "..........................................."
+		(exclude_from_sim no)
+		(at 342.9 121.92 0)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 4 4)
+				(color 0 0 0 1)
+			)
+			(justify left bottom)
+		)
+		(uuid "f407a9e5-2b93-52f7-9476-4d1a1ef05f73")
+	)
+	(text "5"
+		(exclude_from_sim no)
+		(at 35.56 114.3 0)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 4 4)
+				(color 0 0 0 1)
+			)
+			(justify right bottom)
+		)
+		(uuid "f407a9e5-2baf-5bfd-9d8d-a024aa31ca63")
+	)
+	(text "..........................................."
+		(exclude_from_sim no)
+		(at 144.78 152.4 0)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 4 4)
+				(color 0 0 0 1)
+			)
+			(justify left bottom)
+		)
+		(uuid "f407a9e5-2d6b-5138-bfe6-4f77b5115c6c")
+	)
+	(text "..........................................."
+		(exclude_from_sim no)
+		(at 342.9 114.3 0)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 4 4)
+				(color 0 0 0 1)
+			)
+			(justify left bottom)
+		)
+		(uuid "f407a9e5-3153-537a-9453-58ca409060f9")
+	)
+	(text "Page"
+		(exclude_from_sim no)
+		(at 35.56 71.12 0)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 4 4)
+				(bold yes)
+				(color 0 0 0 1)
+			)
+			(justify right bottom)
+		)
+		(uuid "f407a9e5-32f2-5c94-937c-d07a18643419")
+	)
+	(text "14"
+		(exclude_from_sim no)
+		(at 134.62 106.68 0)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 4 4)
+				(color 0 0 0 1)
+			)
+			(justify right bottom)
+		)
+		(uuid "f407a9e5-34a7-52ce-8a85-035741ad5f9b")
+	)
+	(text "..........................................."
+		(exclude_from_sim no)
+		(at 144.78 129.54 0)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 4 4)
+				(color 0 0 0 1)
+			)
+			(justify left bottom)
+		)
+		(uuid "f407a9e5-36e1-5d15-a7cc-b3c1b2981028")
+	)
+	(text "39"
+		(exclude_from_sim no)
+		(at 332.74 144.78 0)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 4 4)
+				(color 0 0 0 1)
+			)
+			(justify right bottom)
+		)
+		(uuid "f407a9e5-376e-557d-9497-2f463d82a612")
+	)
+	(text "11"
+		(exclude_from_sim no)
+		(at 134.62 83.82 0)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 4 4)
+				(color 0 0 0 1)
+			)
+			(justify right bottom)
+		)
+		(uuid "f407a9e5-389a-5d8b-b8b5-b557d183712b")
+	)
+	(text "RELEASED: a board has been ordered from this schematic."
+		(exclude_from_sim no)
+		(at 222.25 217.17 0)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 3 3)
+				(thickness 0.6)
+				(bold yes)
+				(color 140 140 140 1)
+			)
+			(justify left bottom)
+		)
+		(uuid "f407a9e5-39ec-53cc-9826-3728a8b2581f")
+	)
+	(text "..........................................."
+		(exclude_from_sim no)
+		(at 342.9 99.06 0)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 4 4)
+				(color 0 0 0 1)
+			)
+			(justify left bottom)
+		)
+		(uuid "f407a9e5-4326-593d-b402-e4d05fcbcf60")
+	)
+	(text "BOTTOM VIEW"
+		(exclude_from_sim no)
+		(at 128.27 166.37 0)
+		(effects
+			(font
+				(face "Arial")
+				(size 5 5)
+				(bold yes)
+				(color 53 60 207 1)
+			)
+			(justify left bottom)
+		)
+		(uuid "f407a9e5-43d8-573d-a03a-ae47bf87dec6")
+	)
+	(text "Page"
+		(exclude_from_sim no)
+		(at 134.62 71.12 0)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 4 4)
+				(bold yes)
+				(color 0 0 0 1)
+			)
+			(justify right bottom)
+		)
+		(uuid "f407a9e5-479e-52e5-a477-c7f028dd358d")
+	)
+	(text "24"
+		(exclude_from_sim no)
+		(at 233.68 106.68 0)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 4 4)
+				(color 0 0 0 1)
+			)
+			(justify right bottom)
+		)
+		(uuid "f407a9e5-4d98-5a97-a00c-648ef490aef6")
+	)
+	(text "..........................................."
+		(exclude_from_sim no)
+		(at 144.78 83.82 0)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 4 4)
+				(color 0 0 0 1)
+			)
+			(justify left bottom)
+		)
+		(uuid "f407a9e5-539d-5ba1-af5f-c0d173719237")
+	)
+	(text "..........................................."
+		(exclude_from_sim no)
+		(at 243.84 114.3 0)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 4 4)
+				(color 0 0 0 1)
+			)
+			(justify left bottom)
+		)
+		(uuid "f407a9e5-5834-5340-b767-1c04926001f8")
+	)
+	(text "37"
+		(exclude_from_sim no)
+		(at 332.74 129.54 0)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 4 4)
+				(color 0 0 0 1)
+			)
+			(justify right bottom)
+		)
+		(uuid "f407a9e5-5967-5680-be29-5e14e67cb060")
+	)
+	(text "Revision History"
+		(exclude_from_sim no)
+		(at 45.72 106.68 0)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 4 4)
+				(color 0 0 0 1)
+			)
+			(justify left bottom)
+			(href "#4")
+		)
+		(uuid "f407a9e5-599d-5be2-b2a8-bb573379754e")
+	)
+	(text "..........................................."
+		(exclude_from_sim no)
+		(at 45.72 144.78 0)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 4 4)
+				(color 0 0 0 1)
+			)
+			(justify left bottom)
+		)
+		(uuid "f407a9e5-5c46-5307-8607-192f79495607")
+	)
+	(text "${CURRENT_DATE}"
+		(exclude_from_sim no)
+		(at 388.62 40.64 0)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 11 11)
+				(thickness 1)
+				(bold yes)
+				(color 162 22 34 1)
+			)
+			(justify right bottom)
+		)
+		(uuid "f407a9e5-5fb6-578b-ad8c-49407f727395")
+	)
+	(text "..........................................."
+		(exclude_from_sim no)
+		(at 342.9 144.78 0)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 4 4)
+				(color 0 0 0 1)
+			)
+			(justify left bottom)
+		)
+		(uuid "f407a9e5-637d-5e03-9a26-16bc1199e09b")
+	)
+	(text "10"
+		(exclude_from_sim no)
+		(at 35.56 152.4 0)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 4 4)
+				(color 0 0 0 1)
+			)
+			(justify right bottom)
+		)
+		(uuid "f407a9e5-6648-5851-a5b8-f662e2291e00")
+	)
+	(text "Index"
+		(exclude_from_sim no)
+		(at 342.9 71.12 0)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 4 4)
+				(bold yes)
+				(color 0 0 0 1)
+			)
+			(justify left bottom)
+		)
+		(uuid "f407a9e5-6747-5b15-b05e-cdbedef72807")
+	)
+	(text "9"
+		(exclude_from_sim no)
+		(at 35.56 144.78 0)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 4 4)
+				(color 0 0 0 1)
+			)
+			(justify right bottom)
+		)
+		(uuid "f407a9e5-6c7b-51e7-b867-cd2646a8ae23")
+	)
+	(text "31"
+		(exclude_from_sim no)
+		(at 332.74 83.82 0)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 4 4)
+				(color 0 0 0 1)
+			)
+			(justify right bottom)
+		)
+		(uuid "f407a9e5-6e7d-5002-b422-1495bdf6d22f")
+	)
+	(text "Rev ${REVISION}"
+		(exclude_from_sim no)
+		(at 388.62 58.42 0)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 11 11)
+				(thickness 1)
+				(bold yes)
+				(color 162 22 34 1)
+			)
+			(justify right bottom)
+		)
+		(uuid "f407a9e5-6fd9-5fcb-8f5f-e5edc65a73e2")
+	)
+	(text "Page"
+		(exclude_from_sim no)
+		(at 332.74 71.12 0)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 4 4)
+				(bold yes)
+				(color 0 0 0 1)
+			)
+			(justify right bottom)
+		)
+		(uuid "f407a9e5-728a-5733-9817-9c549f5470ff")
+	)
+	(text "12"
+		(exclude_from_sim no)
+		(at 134.62 91.44 0)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 4 4)
+				(color 0 0 0 1)
+			)
+			(justify right bottom)
+		)
+		(uuid "f407a9e5-7311-5398-ad0d-a3c9824168ba")
+	)
+	(text "36"
+		(exclude_from_sim no)
+		(at 332.74 121.92 0)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 4 4)
+				(color 0 0 0 1)
+			)
+			(justify right bottom)
+		)
+		(uuid "f407a9e5-736a-59ab-a123-e63ad45175b5")
+	)
+	(text "32"
+		(exclude_from_sim no)
+		(at 332.74 91.44 0)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 4 4)
+				(color 0 0 0 1)
+			)
+			(justify right bottom)
+		)
+		(uuid "f407a9e5-7b6d-58c3-b4bd-b10ce289dd65")
+	)
+	(text "..........................................."
+		(exclude_from_sim no)
+		(at 45.72 152.4 0)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 4 4)
+				(color 0 0 0 1)
+			)
+			(justify left bottom)
+		)
+		(uuid "f407a9e5-7b9d-5260-9ca9-3fbb6f4291dd")
+	)
+	(text "..........................................."
+		(exclude_from_sim no)
+		(at 342.9 137.16 0)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 4 4)
+				(color 0 0 0 1)
+			)
+			(justify left bottom)
+		)
+		(uuid "f407a9e5-806a-5fb6-bc24-5ee946b6b4ae")
+	)
+	(text "Variant: ${VARIANT}"
+		(exclude_from_sim no)
+		(at 25.4 58.42 0)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 8 8)
+				(thickness 1)
+				(bold yes)
+				(color 162 22 34 1)
+			)
+			(justify left bottom)
+		)
+		(uuid "f407a9e5-813e-5627-8c66-8a99c2849cbd")
+	)
+	(text "28"
+		(exclude_from_sim no)
+		(at 233.68 137.16 0)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 4 4)
+				(color 0 0 0 1)
+			)
+			(justify right bottom)
+		)
+		(uuid "f407a9e5-815a-5399-b4d8-8b0ba5b515ba")
+	)
+	(text "..........................................."
+		(exclude_from_sim no)
+		(at 342.9 152.4 0)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 4 4)
+				(color 0 0 0 1)
+			)
+			(justify left bottom)
+		)
+		(uuid "f407a9e5-828b-5c52-91f7-92b1af801179")
+	)
+	(text "1"
+		(exclude_from_sim no)
+		(at 35.56 83.82 0)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 4 4)
+				(color 0 0 0 1)
+			)
+			(justify right bottom)
+			(href "#1")
+		)
+		(uuid "f407a9e5-87df-50f4-a2bd-417bdb9948ea")
+	)
+	(text "..........................................."
+		(exclude_from_sim no)
+		(at 342.9 91.44 0)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 4 4)
+				(color 0 0 0 1)
+			)
+			(justify left bottom)
+		)
+		(uuid "f407a9e5-8b99-536f-a022-16b4576c385c")
+	)
+	(text "..........................................."
+		(exclude_from_sim no)
+		(at 243.84 91.44 0)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 4 4)
+				(color 0 0 0 1)
+			)
+			(justify left bottom)
+		)
+		(uuid "f407a9e5-8c32-55f1-b0ea-bd8c51129eb8")
+	)
+	(text "Cover Page"
+		(exclude_from_sim no)
+		(at 45.72 83.82 0)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 4 4)
+				(color 0 0 0 1)
+			)
+			(justify left bottom)
+			(href "#1")
+		)
+		(uuid "f407a9e5-90d7-584c-a2f0-16aae9476981")
+	)
+	(text "6"
+		(exclude_from_sim no)
+		(at 35.56 121.92 0)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 4 4)
+				(color 0 0 0 1)
+			)
+			(justify right bottom)
+		)
+		(uuid "f407a9e5-9478-559e-b181-94bc52d12672")
+	)
+	(text "..........................................."
+		(exclude_from_sim no)
+		(at 45.72 121.92 0)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 4 4)
+				(color 0 0 0 1)
+			)
+			(justify left bottom)
+		)
+		(uuid "f407a9e5-9803-58c5-839f-b042767a9d22")
+	)
+	(text "(\"comment\" in frontpages.json)."
+		(exclude_from_sim no)
+		(at 222.25 177.8 0)
+		(effects
+			(font
+				(face "Arial")
+				(size 3 3)
+				(color 0 0 0 1)
+			)
+			(justify left bottom)
+		)
+		(uuid "f407a9e5-98e2-5e0e-924d-efc016ac829a")
+	)
+	(text "..........................................."
+		(exclude_from_sim no)
+		(at 144.78 99.06 0)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 4 4)
+				(color 0 0 0 1)
+			)
+			(justify left bottom)
+		)
+		(uuid "f407a9e5-9a1d-59af-b93e-b6f00a4ab52c")
+	)
+	(text "21"
+		(exclude_from_sim no)
+		(at 233.68 83.82 0)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 4 4)
+				(color 0 0 0 1)
+			)
+			(justify right bottom)
+		)
+		(uuid "f407a9e5-a324-580b-9828-090009d092d6")
+	)
+	(text "${VARIANT} ${RELEASE_DATE}"
+		(exclude_from_sim no)
+		(at 214.376 237.998 0)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 10.16 10.16)
+				(thickness 0.6)
+				(bold yes)
+				(color 200 200 200 1)
+			)
+			(justify left bottom)
+		)
+		(uuid "f407a9e5-a668-5730-b42e-557b58c45617")
+	)
+	(text "Parts that are not fitted (DNP) are crossed out:"
+		(exclude_from_sim no)
+		(at 222.25 187.96 0)
+		(effects
+			(font
+				(face "Arial")
+				(size 3 3)
+				(color 0 0 0 1)
+			)
+			(justify left bottom)
+		)
+		(uuid "f407a9e5-a82b-5950-8020-6e87ef8f2f32")
+	)
+	(text "15"
+		(exclude_from_sim no)
+		(at 134.62 114.3 0)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 4 4)
+				(color 0 0 0 1)
+			)
+			(justify right bottom)
+		)
+		(uuid "f407a9e5-ab4d-5cc3-bcdf-47fd99175d88")
+	)
+	(text "Page"
+		(exclude_from_sim no)
+		(at 233.68 71.12 0)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 4 4)
+				(bold yes)
+				(color 0 0 0 1)
+			)
+			(justify right bottom)
+		)
+		(uuid "f407a9e5-ae3e-5527-8842-37807167fe45")
+	)
+	(text "23"
+		(exclude_from_sim no)
+		(at 233.68 99.06 0)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 4 4)
+				(color 0 0 0 1)
+			)
+			(justify right bottom)
+		)
+		(uuid "f407a9e5-aeb6-5ef6-b940-f822da079ee9")
+	)
+	(text "22"
+		(exclude_from_sim no)
+		(at 233.68 91.44 0)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 4 4)
+				(color 0 0 0 1)
+			)
+			(justify right bottom)
+		)
+		(uuid "f407a9e5-b21c-5ddf-b95d-39e98497170b")
+	)
+	(text "..........................................."
+		(exclude_from_sim no)
+		(at 144.78 91.44 0)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 4 4)
+				(color 0 0 0 1)
+			)
+			(justify left bottom)
+		)
+		(uuid "f407a9e5-b532-54d2-b658-013659b28425")
+	)
+	(text "${BOARD_NAME}"
+		(exclude_from_sim no)
+		(at 25.4 40.64 0)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 11 11)
+				(thickness 1)
+				(bold yes)
+				(color 162 22 34 1)
+			)
+			(justify left bottom)
+		)
+		(uuid "f407a9e5-b96f-5b6e-8189-39c72532ce24")
+	)
+	(text "..........................................."
+		(exclude_from_sim no)
+		(at 243.84 99.06 0)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 4 4)
+				(color 0 0 0 1)
+			)
+			(justify left bottom)
+		)
+		(uuid "f407a9e5-bbfc-5d62-8267-5b306192d8ff")
+	)
+	(text "25"
+		(exclude_from_sim no)
+		(at 233.68 114.3 0)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 4 4)
+				(color 0 0 0 1)
+			)
+			(justify right bottom)
+		)
+		(uuid "f407a9e5-c609-55e8-a4bb-06a70d9c42a6")
+	)
+	(text "38"
+		(exclude_from_sim no)
+		(at 332.74 137.16 0)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 4 4)
+				(color 0 0 0 1)
+			)
+			(justify right bottom)
+		)
+		(uuid "f407a9e5-c8d5-54ba-966c-7295c7300212")
+	)
+	(text "CHECKED: reviewed. If you find a mistake, tell the designer."
+		(exclude_from_sim no)
+		(at 222.25 210.82 0)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 3 3)
+				(thickness 0.6)
+				(bold yes)
+				(color 140 140 140 1)
+			)
+			(justify left bottom)
+		)
+		(uuid "f407a9e5-ca35-58cf-8187-ea8416d2bd6f")
+	)
+	(text "16"
+		(exclude_from_sim no)
+		(at 134.62 121.92 0)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 4 4)
+				(color 0 0 0 1)
+			)
+			(justify right bottom)
+		)
+		(uuid "f407a9e5-caaf-565d-8af2-301e5f93b6db")
+	)
+	(text "..........................................."
+		(exclude_from_sim no)
+		(at 144.78 137.16 0)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 4 4)
+				(color 0 0 0 1)
+			)
+			(justify left bottom)
+		)
+		(uuid "f407a9e5-d298-50cc-92c3-79ff9638d4dc")
+	)
+	(text "27"
+		(exclude_from_sim no)
+		(at 233.68 129.54 0)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 4 4)
+				(color 0 0 0 1)
+			)
+			(justify right bottom)
+		)
+		(uuid "f407a9e5-d81c-5544-b4ec-52a10cff516e")
+	)
+	(text "..........................................."
+		(exclude_from_sim no)
+		(at 342.9 106.68 0)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 4 4)
+				(color 0 0 0 1)
+			)
+			(justify left bottom)
+		)
+		(uuid "f407a9e5-dd26-5fa7-845d-77f54eaf8734")
+	)
+	(text "Index"
+		(exclude_from_sim no)
+		(at 45.72 71.12 0)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 4 4)
+				(bold yes)
+				(color 0 0 0 1)
+			)
+			(justify left bottom)
+		)
+		(uuid "f407a9e5-deae-59fd-860e-99569ce59375")
+	)
+	(text "PRELIMINARY: drawn in full and close to final, not yet reviewed."
+		(exclude_from_sim no)
+		(at 222.25 204.47 0)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 3 3)
+				(thickness 0.6)
+				(bold yes)
+				(color 140 140 140 1)
+			)
+			(justify left bottom)
+		)
+		(uuid "f407a9e5-df11-5e38-bf00-d305324958c9")
+	)
+	(text "Architecture"
+		(exclude_from_sim no)
+		(at 45.72 91.44 0)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 4 4)
+				(color 0 0 0 1)
+			)
+			(justify left bottom)
+			(href "#2")
+		)
+		(uuid "f407a9e5-df19-5d48-8e4e-b966f1b19d54")
+	)
+	(text "..........................................."
+		(exclude_from_sim no)
+		(at 243.84 137.16 0)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 4 4)
+				(color 0 0 0 1)
+			)
+			(justify left bottom)
+		)
+		(uuid "f407a9e5-e0e0-5805-89fc-edb7db7c3ced")
+	)
+	(text "35"
+		(exclude_from_sim no)
+		(at 332.74 114.3 0)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 4 4)
+				(color 0 0 0 1)
+			)
+			(justify right bottom)
+		)
+		(uuid "f407a9e5-e1b1-5244-9e82-91311ccdcf35")
+	)
+	(text "..........................................."
+		(exclude_from_sim no)
+		(at 144.78 121.92 0)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 4 4)
+				(color 0 0 0 1)
+			)
+			(justify left bottom)
+		)
+		(uuid "f407a9e5-e4a9-52d9-b370-df49215b0a58")
+	)
+	(text "..........................................."
+		(exclude_from_sim no)
+		(at 144.78 144.78 0)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 4 4)
+				(color 0 0 0 1)
+			)
+			(justify left bottom)
+		)
+		(uuid "f407a9e5-e5e9-5697-9d33-a49be7ced2b9")
+	)
+	(text "One line about this board: what it is and what state it is in. Replace it"
+		(exclude_from_sim no)
+		(at 222.25 172.72 0)
+		(effects
+			(font
+				(face "Arial")
+				(size 3 3)
+				(color 0 0 0 1)
+			)
+			(justify left bottom)
+		)
+		(uuid "f407a9e5-e6c7-57a0-a9e6-b8ddeabb22cd")
+	)
+	(text "..........................................."
+		(exclude_from_sim no)
+		(at 243.84 121.92 0)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 4 4)
+				(color 0 0 0 1)
+			)
+			(justify left bottom)
+		)
+		(uuid "f407a9e5-e774-5535-966c-607cb01b6c88")
+	)
+	(text "..........................................."
+		(exclude_from_sim no)
+		(at 342.9 83.82 0)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 4 4)
+				(color 0 0 0 1)
+			)
+			(justify left bottom)
+		)
+		(uuid "f407a9e5-e7cf-5da6-aa7f-1bf41d7cfd85")
+	)
+	(text "19"
+		(exclude_from_sim no)
+		(at 134.62 144.78 0)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 4 4)
+				(color 0 0 0 1)
+			)
+			(justify right bottom)
+		)
+		(uuid "f407a9e5-e8b2-576a-8303-de7f60cc979e")
+	)
+	(text "Mechanical"
+		(exclude_from_sim no)
+		(at 45.72 99.06 0)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 4 4)
+				(color 0 0 0 1)
+			)
+			(justify left bottom)
+			(href "#3")
+		)
+		(uuid "f407a9e5-ea4e-5d8c-988d-53649acb8c60")
+	)
+	(text "26"
+		(exclude_from_sim no)
+		(at 233.68 121.92 0)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 4 4)
+				(color 0 0 0 1)
+			)
+			(justify right bottom)
+		)
+		(uuid "f407a9e5-ea97-5ccd-95d1-d463c120384b")
+	)
+	(text "4"
+		(exclude_from_sim no)
+		(at 35.56 106.68 0)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 4 4)
+				(color 0 0 0 1)
+			)
+			(justify right bottom)
+			(href "#4")
+		)
+		(uuid "f407a9e5-ebc6-5e37-a1cf-4fc410a9be06")
+	)
+	(text "..........................................."
+		(exclude_from_sim no)
+		(at 243.84 129.54 0)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 4 4)
+				(color 0 0 0 1)
+			)
+			(justify left bottom)
+		)
+		(uuid "f407a9e5-edc5-5107-aff5-b56a08ccff83")
+	)
+	(text "30"
+		(exclude_from_sim no)
+		(at 233.68 152.4 0)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 4 4)
+				(color 0 0 0 1)
+			)
+			(justify right bottom)
+		)
+		(uuid "f407a9e5-fe66-5b42-8b2b-56f2e3309195")
+	)
+	(text "..........................................."
+		(exclude_from_sim no)
+		(at 243.84 152.4 0)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 4 4)
+				(color 0 0 0 1)
+			)
+			(justify left bottom)
+		)
+		(uuid "f407a9e5-ffe2-542e-8387-c040f73d19bc")
+	)
+	(text_box "This page is drawn by hw/tools/frontpages.py from frontpages.json beside the project: edit that file, not the items here. Board name, revision and dates: File > Schematic Setup > Project > Text Variables."
+		(exclude_from_sim no)
+		(at 8.89 300.99 0)
+		(size 250 8.89)
+		(margins 1 1 1 1)
 		(stroke
-			(width 0)
+			(width -0.0001)
 			(type default)
 		)
 		(fill
@@ -38,71 +1417,726 @@
 		)
 		(effects
 			(font
-				(size 1.524 1.524)
+				(size 1.27 1.27)
+				(color 0 0 0 1)
 			)
 			(justify left top)
 		)
-		(uuid "27c055a3-b7d7-4904-a625-3e29cec36877")
+		(uuid "f407a9e5-0869-5153-bab4-b8a3d3729c32")
 	)
-	(text_box "Sheets\n\n1   Cover (this page)\n\nAdd a hierarchical sheet per block (power, MCU, sensors, connectors)\nand list it here."
+	(text_box "LAYOUT:\nA rule the board layout must keep."
 		(exclude_from_sim no)
-		(at 20.32 81.28 0)
-		(size 119.38 40.64)
-		(margins 1.143 1.143 1.143 1.143)
+		(at 166.37 258.445 0)
+		(size 30.48 20.32)
+		(margins 2.25 2.25 2.25 2.25)
 		(stroke
-			(width 0)
-			(type default)
+			(width 1.5)
+			(type solid)
+			(color 0 0 255 1)
 		)
 		(fill
 			(type none)
 		)
 		(effects
 			(font
-				(size 1.524 1.524)
+				(face "Arial")
+				(size 2 2)
+				(thickness 0.4)
+				(bold yes)
+				(color 0 0 255 1)
 			)
 			(justify left top)
 		)
-		(uuid "c8984b53-81a7-48bf-b099-83cc0dd58338")
+		(uuid "f407a9e5-0a4a-5aed-9399-003eb5989f67")
 	)
-	(text_box "Overview\n\nWhat this board does, what it connects to, and where it sits in the product.\nReplace this text."
+	(text_box ""
 		(exclude_from_sim no)
-		(at 20.32 33.02 0)
-		(size 119.38 40.64)
-		(margins 1.143 1.143 1.143 1.143)
+		(at 26.67 166.37 0)
+		(size 77.47 77.47)
+		(margins 1.905 1.905 1.905 1.905)
 		(stroke
 			(width 0)
-			(type default)
+			(type solid)
 		)
 		(fill
 			(type none)
 		)
 		(effects
 			(font
-				(size 1.524 1.524)
+				(size 2 2)
+				(thickness 0.508)
+				(bold yes)
 			)
-			(justify left top)
 		)
-		(uuid "e64cb460-4461-47bc-a55b-b973c825fcdc")
+		(uuid "f407a9e5-17c7-5b6d-b8f9-f4e81b1bf19d")
 	)
-	(text_box "Ordering notes\n\nFab: ${FAB} (rules: ${PROJECTNAME}.kicad_dru and Board Setup)\nSwitch fabs: python3 hw/fab.py set <profile> ${PROJECTNAME}\nEvery fitted part needs MPN and Manufacturer; add LCSC for JLCPCB assembly.\nDNP parts: set both Do not populate and Exclude from bill of materials.\nFiducials FID1.., mounting holes H1.. (kept out of the BOM and placement files)."
+	(text_box "INFORMATION:\nWhat a block is for and where to read more."
 		(exclude_from_sim no)
-		(at 152.4 81.28 0)
-		(size 124.46 40.64)
-		(margins 1.143 1.143 1.143 1.143)
+		(at 26.67 258.445 0)
+		(size 30.48 20.32)
+		(margins 2 2 2 2)
 		(stroke
-			(width 0)
-			(type default)
+			(width 1)
+			(type solid)
+			(color 200 200 200 1)
 		)
 		(fill
 			(type none)
 		)
 		(effects
 			(font
-				(size 1.524 1.524)
+				(face "Arial")
+				(size 2 2)
+				(color 0 0 0 1)
 			)
 			(justify left top)
 		)
-		(uuid "fe8e1702-2ceb-4baa-bf66-4e05289f4293")
+		(uuid "f407a9e5-7bcf-518c-a3ea-09dad636f465")
+	)
+	(text_box "BRING-UP:\nWhat to measure or try on the bench, and how."
+		(exclude_from_sim no)
+		(at 61.595 258.445 0)
+		(size 30.48 20.32)
+		(margins 2 2 2 2)
+		(stroke
+			(width 1)
+			(type solid)
+			(color 255 165 0 1)
+		)
+		(fill
+			(type none)
+		)
+		(effects
+			(font
+				(face "Arial")
+				(size 2 2)
+				(color 0 0 0 1)
+			)
+			(justify left top)
+		)
+		(uuid "f407a9e5-a613-5255-8176-cbf71a495614")
+	)
+	(text_box ""
+		(exclude_from_sim no)
+		(at 128.27 166.37 0)
+		(size 77.47 77.47)
+		(margins 1.905 1.905 1.905 1.905)
+		(stroke
+			(width 0)
+			(type solid)
+		)
+		(fill
+			(type none)
+		)
+		(effects
+			(font
+				(size 2 2)
+				(thickness 0.508)
+				(bold yes)
+			)
+		)
+		(uuid "f407a9e5-c1f8-5fab-9dad-24cec951fb41")
+	)
+	(text_box "CAUTION:\nWhat can harm the board or spoil a reading."
+		(exclude_from_sim no)
+		(at 96.52 258.445 0)
+		(size 30.48 20.32)
+		(margins 2 2 2 2)
+		(stroke
+			(width 1)
+			(type solid)
+			(color 250 236 0 1)
+		)
+		(fill
+			(type none)
+		)
+		(effects
+			(font
+				(face "Arial")
+				(size 2 2)
+				(color 0 0 0 1)
+			)
+			(justify left top)
+		)
+		(uuid "f407a9e5-c4e1-5fa8-9571-c90b90ecca26")
+	)
+	(text_box "CRITICAL:\nBreak this rule and the board or its data is lost."
+		(exclude_from_sim no)
+		(at 131.445 258.445 0)
+		(size 30.48 20.32)
+		(margins 2.25 2.25 2.25 2.25)
+		(stroke
+			(width 1.5)
+			(type solid)
+			(color 255 0 0 1)
+		)
+		(fill
+			(type none)
+		)
+		(effects
+			(font
+				(face "Arial")
+				(size 2 2)
+				(thickness 0.4)
+				(bold yes)
+				(color 255 0 0 1)
+			)
+			(justify left top)
+		)
+		(uuid "f407a9e5-f08a-53b3-85d3-7e474a224d91")
+	)
+	(polyline
+		(pts
+			(xy 144.78 73.66) (xy 205.74 73.66)
+		)
+		(stroke
+			(width 1)
+			(type dot)
+			(color 0 0 0 1)
+		)
+		(uuid "f407a9e5-0fe7-513a-abf1-6f4db949e093")
+	)
+	(polyline
+		(pts
+			(xy 314.96 73.66) (xy 332.74 73.66)
+		)
+		(stroke
+			(width 1)
+			(type dot)
+			(color 0 0 0 1)
+		)
+		(uuid "f407a9e5-2a94-599a-8ebb-07e36afecef3")
+	)
+	(polyline
+		(pts
+			(xy 317.5 181.61) (xy 314.96 187.96)
+		)
+		(stroke
+			(width 1)
+			(type default)
+			(color 255 0 0 1)
+		)
+		(uuid "f407a9e5-2ee5-5210-b058-83efcc5226c0")
+	)
+	(polyline
+		(pts
+			(xy 314.96 181.61) (xy 317.5 187.96)
+		)
+		(stroke
+			(width 1)
+			(type default)
+			(color 255 0 0 1)
+		)
+		(uuid "f407a9e5-3a91-5707-b364-5483ac3ab922")
+	)
+	(polyline
+		(pts
+			(xy 215.9 73.66) (xy 233.68 73.66)
+		)
+		(stroke
+			(width 1)
+			(type dot)
+			(color 0 0 0 1)
+		)
+		(uuid "f407a9e5-6376-5f73-9015-69193fe60ae8")
+	)
+	(polyline
+		(pts
+			(xy 243.84 73.66) (xy 304.8 73.66)
+		)
+		(stroke
+			(width 1)
+			(type dot)
+			(color 0 0 0 1)
+		)
+		(uuid "f407a9e5-7ca4-5b8f-b678-34327842dc4f")
+	)
+	(polyline
+		(pts
+			(xy 17.78 73.66) (xy 35.56 73.66)
+		)
+		(stroke
+			(width 1)
+			(type dot)
+			(color 0 0 0 1)
+		)
+		(uuid "f407a9e5-7ed2-50f8-a3eb-b9b9539c7dc3")
+	)
+	(polyline
+		(pts
+			(xy 342.9 73.66) (xy 403.86 73.66)
+		)
+		(stroke
+			(width 1)
+			(type dot)
+			(color 0 0 0 1)
+		)
+		(uuid "f407a9e5-b040-58e3-876d-7c848fd288a0")
+	)
+	(polyline
+		(pts
+			(xy 116.84 73.66) (xy 134.62 73.66)
+		)
+		(stroke
+			(width 1)
+			(type dot)
+			(color 0 0 0 1)
+		)
+		(uuid "f407a9e5-c008-58f7-b172-ad27d994cbf3")
+	)
+	(polyline
+		(pts
+			(xy 45.72 73.66) (xy 106.68 73.66)
+		)
+		(stroke
+			(width 1)
+			(type dot)
+			(color 0 0 0 1)
+		)
+		(uuid "f407a9e5-d823-54d3-abba-f56a8bbae955")
+	)
+	(image
+		(at 65.405 205.105)
+		(scale 0.777)
+		(uuid "f407a9e5-f39d-5b62-a776-70c22c110e15")
+		(data "iVBORw0KGgoAAAANSUhEUgAABCgAAAQoCAYAAADIaO/8AAAABHNCSVQICAgIfAhkiAAAIABJREFU"
+			"eJzs2KGNQgEUAMEHwZAgEJRAB/REH1cG19VVgEMSBAkGyJWx4s9UsHpnAAAAAGKrmZnD6XipQwAA"
+			"AIDl+b4/t/vf9WczM7Pd7851EAAAALA8r8fzd2ZmXYcAAAAAGBQAAABAzqAAAAAAcgYFAAAAkDMo"
+			"AAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxB"
+			"AQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQM"
+			"CgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBn"
+			"UAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5"
+			"gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADI"
+			"GRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABA"
+			"zqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAA"
+			"cgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAA"
+			"kDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAA"
+			"gJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAA"
+			"AOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAA"
+			"ACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAA"
+			"AAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIA"
+			"AADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQA"
+			"AABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAA"
+			"AAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYF"
+			"AAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMo"
+			"AAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxB"
+			"AQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQM"
+			"CgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBn"
+			"UAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5"
+			"gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADI"
+			"GRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABA"
+			"zqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAA"
+			"cgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAA"
+			"kDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAA"
+			"gJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAA"
+			"AOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAA"
+			"ACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAA"
+			"AAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIA"
+			"AADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQA"
+			"AABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAA"
+			"AAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYF"
+			"AAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMo"
+			"AAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxB"
+			"AQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQM"
+			"CgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBn"
+			"UAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5"
+			"gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADI"
+			"GRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABA"
+			"zqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAA"
+			"cgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAA"
+			"kDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAA"
+			"gJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAA"
+			"AOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAA"
+			"ACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAA"
+			"AAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIA"
+			"AADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQA"
+			"AABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAA"
+			"AAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYF"
+			"AAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMo"
+			"AAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxB"
+			"AQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQM"
+			"CgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBn"
+			"UAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5"
+			"gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADI"
+			"GRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABA"
+			"zqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAA"
+			"cgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAA"
+			"kDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAA"
+			"gJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAA"
+			"AOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAA"
+			"ACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAA"
+			"AAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIA"
+			"AADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQA"
+			"AABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAA"
+			"AAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYF"
+			"AAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMo"
+			"AAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxB"
+			"AQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQM"
+			"CgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBn"
+			"UAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5"
+			"gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADI"
+			"GRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABA"
+			"zqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAA"
+			"cgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAA"
+			"kDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAA"
+			"gJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAA"
+			"AOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAA"
+			"ACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAA"
+			"AAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIA"
+			"AADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQA"
+			"AABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAA"
+			"AAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYF"
+			"AAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMo"
+			"AAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxB"
+			"AQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQM"
+			"CgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBn"
+			"UAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5"
+			"gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADI"
+			"GRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABA"
+			"zqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAA"
+			"cgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAA"
+			"kDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAA"
+			"gJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAA"
+			"AOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAA"
+			"ACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAA"
+			"AAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIA"
+			"AADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQA"
+			"AABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAA"
+			"AAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYF"
+			"AAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMo"
+			"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"
+			"aB0+ducAAAAASUVORK5CYII="
+		)
+	)
+	(image
+		(at 167.005 205.105)
+		(scale 0.777)
+		(uuid "f407a9e5-fa96-5294-b903-1558f9b36efd")
+		(data "iVBORw0KGgoAAAANSUhEUgAABCgAAAQoCAYAAADIaO/8AAAABHNCSVQICAgIfAhkiAAAGshJREFU"
+			"eJzs2KGNQgEUAMEHwZAgEJRAB/REH1cG19VVgEMSBAkGyJWx4s9UsHpnAAAAAGKrmZnD6XipQwAA"
+			"AIDl+b4/t/vf9WczM7Pd7851EAAAALA8r8fzd2ZmXYcAAAAAGBQAAABAzqAAAAAAcgYFAAAAkDMo"
+			"AAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxB"
+			"AQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQM"
+			"CgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBn"
+			"UAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5"
+			"gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADI"
+			"GRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABA"
+			"zqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAA"
+			"cgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAA"
+			"kDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAA"
+			"gJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAA"
+			"AOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAA"
+			"ACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAA"
+			"AAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIA"
+			"AADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQA"
+			"AABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAA"
+			"AAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYF"
+			"AAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMo"
+			"AAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxB"
+			"AQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQM"
+			"CgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBn"
+			"UAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5"
+			"gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADI"
+			"GRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABA"
+			"zqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAA"
+			"cgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAA"
+			"kDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAA"
+			"gJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAA"
+			"AOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAA"
+			"ACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAA"
+			"AAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIA"
+			"AADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQA"
+			"AABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAA"
+			"AAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYF"
+			"AAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMo"
+			"AAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxB"
+			"AQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQM"
+			"CgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBn"
+			"UAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5"
+			"gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADI"
+			"GRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABA"
+			"zqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAA"
+			"cgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAA"
+			"kDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAA"
+			"gJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAA"
+			"AOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAA"
+			"ACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAA"
+			"AAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIA"
+			"AADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQA"
+			"AABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAA"
+			"AAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYF"
+			"AAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMo"
+			"AAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxB"
+			"AQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQM"
+			"CgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBn"
+			"UAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5"
+			"gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADI"
+			"GRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABA"
+			"zqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAA"
+			"cgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAA"
+			"kDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAA"
+			"gJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAA"
+			"AOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAA"
+			"ACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAA"
+			"AAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIA"
+			"AADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQA"
+			"AABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAA"
+			"AAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYF"
+			"AAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMo"
+			"AAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxB"
+			"AQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQM"
+			"CgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBn"
+			"UAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5"
+			"gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADI"
+			"GRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABA"
+			"zqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAA"
+			"cgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAA"
+			"kDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAA"
+			"gJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAA"
+			"AOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAA"
+			"ACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAA"
+			"AAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIA"
+			"AADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQA"
+			"AABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAA"
+			"AAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYF"
+			"AAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMo"
+			"AAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxB"
+			"AQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQM"
+			"CgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBn"
+			"UAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5"
+			"gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADI"
+			"GRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABA"
+			"zqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAA"
+			"cgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAA"
+			"kDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAA"
+			"gJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAA"
+			"AOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAA"
+			"ACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAA"
+			"AAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIA"
+			"AADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQA"
+			"AABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAA"
+			"AAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYF"
+			"AAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMo"
+			"AAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxB"
+			"AQAAAOQMCgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQM"
+			"CgAAACBnUAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBn"
+			"UAAAAAA5gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgAAACBnUAAAAAA5"
+			"gwIAAADIGRQAAABAzqAAAAAAcgYFAAAAkDMoAAAAgJxBAQAAAOQMCgCA/3bsWAAAAABgkL/1MPYU"
+			"RgDATlAAAAAAO0EBAAAA7AQFAAAAsBMUAAAAwE5QAAAAADtBAQAAAOwEBQAAALATFAAAAMBOUAAA"
+			"AAA7QQEAAADsBAUAAACwExQAAADATlAAAAAAO0EBAAAA7AQFAAAAsBMUAAAAwE5QAAAAADtBAQAA"
+			"AOwEBQAAALATFAAAAMBOUAAAAAA7QQEAAADsBAUAAACwExQAAADATlAAAAAAO0EBAAAA7AQFAAAA"
+			"sBMUAAAAwE5QAAAAADtBAQAAAOwEBQAAALATFAAAAMBOUAAAAAA7QQEAAADsBAUAAACwExQAAADA"
+			"TlAAAAAAO0EBAAAA7AQFAAAAsBMUAAAAwE5QAAAAADtBAQAAAOwEBQAAALATFAAAAMBOUAAAAAA7"
+			"QQEAAADsBAUAAACwExQAAADATlAAAAAAO0EBAAAA7AQFAAAAsBMUAAAAwE5QAAAAADtBAQAAAOwE"
+			"BQAAALATFAAAAMBOUAAAAAA7QQEAAADsBAUAAACwExQAAADATlAAAAAAO0EBAAAA7AQFAAAAsBMU"
+			"AAAAwE5QAAAAADtBAQAAAOwEBQAAALATFAAAAMBOUAAAAAA7QQEAAADsBAUAAACwExQAAADATlAA"
+			"AAAAO0EBAAAA7AQFAAAAsBMUAAAAwE5QAAAAADtBAQAAAOwEBQAAALATFAAAAMBOUAAAAAA7QQEA"
+			"AADsBAUAAACwExQAAADATlAAAAAAO0EBAAAA7AQFAAAAsBMUAAAAwE5QAAAAADtBAQAAAOwEBQAA"
+			"ALATFAAAAMBOUAAAAAA7QQEAAADsBAUAAACwExQAAADATlAAAAAAO0EBAAAA7AQFAAAAsBMUAAAA"
+			"wE5QAAAAAAAAAAAEr9YUTrOPduMAAAAASUVORK5CYII="
+		)
+	)
+	(sheet
+		(at -43.18 17.78)
+		(size 35.56 5.08)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0)
+		)
+		(uuid "f407a9e5-118b-5f06-8a20-9e85c817f273")
+		(property "Sheetname" "Mechanical"
+			(at -43.18 16.7509 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(face "Times New Roman")
+					(size 3 3)
+					(bold yes)
+					(color 0 0 0 1)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "mechanical.kicad_sch"
+			(at -41.91 19.05 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(face "Arial")
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "starter-board"
+				(path "/1ce4ebce-71d2-487d-9faf-452668e687eb"
+					(page "3")
+				)
+			)
+		)
+	)
+	(sheet
+		(at -43.18 6.35)
+		(size 35.56 5.08)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0)
+		)
+		(uuid "f407a9e5-1f18-5718-87b6-b80a0e3e41f2")
+		(property "Sheetname" "Architecture"
+			(at -43.18 5.3209 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(face "Times New Roman")
+					(size 3 3)
+					(bold yes)
+					(color 0 0 0 1)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "architecture.kicad_sch"
+			(at -41.91 7.62 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(face "Arial")
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "starter-board"
+				(path "/1ce4ebce-71d2-487d-9faf-452668e687eb"
+					(page "2")
+				)
+			)
+		)
+	)
+	(sheet
+		(at -43.18 29.21)
+		(size 35.56 5.08)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0)
+		)
+		(uuid "f407a9e5-353c-5e6b-b5b7-1a763e089ed4")
+		(property "Sheetname" "Revision History"
+			(at -43.18 28.1809 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(face "Times New Roman")
+					(size 3 3)
+					(bold yes)
+					(color 0 0 0 1)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "revision_history.kicad_sch"
+			(at -41.91 30.48 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(face "Arial")
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "starter-board"
+				(path "/1ce4ebce-71d2-487d-9faf-452668e687eb"
+					(page "4")
+				)
+			)
+		)
 	)
 	(sheet_instances
 		(path "/"

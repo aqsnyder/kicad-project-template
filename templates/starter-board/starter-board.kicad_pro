@@ -98,8 +98,10 @@
         "microvia_drill": 0.1,
         "name": "Default",
         "pcb_color": "rgba(0, 0, 0, 0.000)",
+        "priority": 2147483647,
         "schematic_color": "rgba(0, 0, 0, 0.000)",
         "track_width": 0.2,
+        "tuning_profile": "",
         "via_diameter": 0.6,
         "via_drill": 0.3,
         "wire_width": 6
@@ -114,16 +116,107 @@
         "microvia_diameter": 0.3,
         "microvia_drill": 0.1,
         "name": "Power",
-        "pcb_color": "rgba(0, 0, 0, 0.000)",
-        "schematic_color": "rgba(0, 0, 0, 0.000)",
+        "pcb_color": "rgb(194, 0, 0)",
+        "priority": 0,
+        "schematic_color": "rgb(194, 0, 0)",
         "track_width": 0.4,
+        "tuning_profile": "",
         "via_diameter": 0.6,
         "via_drill": 0.3,
-        "wire_width": 6
+        "wire_width": 10
+      },
+      {
+        "bus_width": 12,
+        "line_style": 0,
+        "name": "RF_50R",
+        "pcb_color": "rgb(194, 0, 194)",
+        "priority": 1,
+        "schematic_color": "rgb(194, 0, 194)",
+        "tuning_profile": "",
+        "wire_width": 10
+      },
+      {
+        "bus_width": 12,
+        "clearance": 0.2,
+        "diff_pair_gap": 0.25,
+        "diff_pair_via_gap": 0.25,
+        "diff_pair_width": 0.2,
+        "line_style": 0,
+        "microvia_diameter": 0.3,
+        "microvia_drill": 0.1,
+        "name": "GND",
+        "pcb_color": "rgb(0, 132, 0)",
+        "priority": 2,
+        "schematic_color": "rgb(0, 132, 0)",
+        "track_width": 0.4,
+        "tuning_profile": "",
+        "via_diameter": 0.6,
+        "via_drill": 0.3,
+        "wire_width": 10
+      },
+      {
+        "bus_width": 12,
+        "line_style": 0,
+        "name": "Debug",
+        "pcb_color": "rgb(132, 132, 0)",
+        "priority": 3,
+        "schematic_color": "rgb(132, 132, 0)",
+        "tuning_profile": "",
+        "wire_width": 10
+      },
+      {
+        "bus_width": 12,
+        "line_style": 0,
+        "name": "UART",
+        "pcb_color": "rgb(132, 0, 132)",
+        "priority": 4,
+        "schematic_color": "rgb(132, 0, 132)",
+        "tuning_profile": "",
+        "wire_width": 10
+      },
+      {
+        "bus_width": 12,
+        "line_style": 0,
+        "name": "Bus",
+        "pcb_color": "rgb(70, 130, 255)",
+        "priority": 5,
+        "schematic_color": "rgb(0, 0, 132)",
+        "tuning_profile": "",
+        "wire_width": 10
+      },
+      {
+        "bus_width": 12,
+        "line_style": 0,
+        "name": "Clock",
+        "pcb_color": "rgb(132, 132, 132)",
+        "priority": 6,
+        "schematic_color": "rgb(132, 132, 132)",
+        "tuning_profile": "",
+        "wire_width": 10
+      },
+      {
+        "bus_width": 12,
+        "line_style": 0,
+        "name": "Analog",
+        "pcb_color": "rgb(204, 102, 0)",
+        "priority": 7,
+        "schematic_color": "rgb(204, 102, 0)",
+        "tuning_profile": "",
+        "wire_width": 10
+      },
+      {
+        "bus_width": 12,
+        "line_style": 0,
+        "name": "USB",
+        "pcb_color": "rgb(0, 194, 194)",
+        "priority": 8,
+        "schematic_color": "rgb(0, 194, 194)",
+        "tuning_profile": "",
+        "wire_width": 10
       }
     ],
     "meta": {
-      "version": 3
+      "version": 5
     },
     "net_colors": null,
     "netclass_assignments": null,
@@ -131,10 +224,6 @@
       {
         "netclass": "Power",
         "pattern": "+*"
-      },
-      {
-        "netclass": "Power",
-        "pattern": "GND*"
       },
       {
         "netclass": "Power",
@@ -147,6 +236,98 @@
       {
         "netclass": "Power",
         "pattern": "VIN*"
+      },
+      {
+        "netclass": "RF_50R",
+        "pattern": "*RF_50R*"
+      },
+      {
+        "netclass": "GND",
+        "pattern": "GND*"
+      },
+      {
+        "netclass": "Debug",
+        "pattern": "*SWD*"
+      },
+      {
+        "netclass": "Debug",
+        "pattern": "*SWCLK*"
+      },
+      {
+        "netclass": "Debug",
+        "pattern": "*SWO"
+      },
+      {
+        "netclass": "Debug",
+        "pattern": "*JTAG*"
+      },
+      {
+        "netclass": "Debug",
+        "pattern": "*NRST*"
+      },
+      {
+        "netclass": "UART",
+        "pattern": "*UART*"
+      },
+      {
+        "netclass": "UART",
+        "pattern": "*USART*"
+      },
+      {
+        "netclass": "Bus",
+        "pattern": "*I2C*"
+      },
+      {
+        "netclass": "Bus",
+        "pattern": "*SCL*"
+      },
+      {
+        "netclass": "Bus",
+        "pattern": "*SDA*"
+      },
+      {
+        "netclass": "Bus",
+        "pattern": "*SPI*"
+      },
+      {
+        "netclass": "Bus",
+        "pattern": "*MOSI*"
+      },
+      {
+        "netclass": "Bus",
+        "pattern": "*MISO*"
+      },
+      {
+        "netclass": "Bus",
+        "pattern": "*GPIO*"
+      },
+      {
+        "netclass": "Clock",
+        "pattern": "*CLK*"
+      },
+      {
+        "netclass": "Clock",
+        "pattern": "*XTAL*"
+      },
+      {
+        "netclass": "Clock",
+        "pattern": "*OSC*"
+      },
+      {
+        "netclass": "Analog",
+        "pattern": "*ADC*"
+      },
+      {
+        "netclass": "Analog",
+        "pattern": "*VREF*"
+      },
+      {
+        "netclass": "Analog",
+        "pattern": "*SENSE*"
+      },
+      {
+        "netclass": "USB",
+        "pattern": "*USB*"
       }
     ]
   },
@@ -219,8 +400,11 @@
     "BOARD_NAME": "Starter board",
     "COMPANY": "Company name",
     "DESIGNER": "",
+    "FAB": "PCBWay standard",
+    "PROJECT_NAME": "Project name",
     "RELEASE_DATE": "",
+    "REVIEWER": "",
     "REVISION": "0.1",
-    "FAB": "PCBWay standard"
+    "VARIANT": ""
   }
 }

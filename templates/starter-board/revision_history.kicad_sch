@@ -1,0 +1,224 @@
+(kicad_sch
+	(version 20260306)
+	(generator "eeschema")
+	(generator_version "10.0")
+	(uuid "f407a9e5-a277-5647-9976-4eb8924fc9bf")
+	(paper "A4")
+	(title_block
+		(title "Revision History")
+		(date "${RELEASE_DATE}")
+		(rev "${REVISION}")
+		(company "${COMPANY}")
+		(comment 1 "Drawn by hw/tools/frontpages.py")
+		(comment 2 "from frontpages.json")
+	)
+	(lib_symbols)
+	(text_box "Oldest first. The rows are the revisions list in frontpages.json beside the project: add one per revision, then run python3 hw/tools/frontpages.py on the board folder. The newest row may use the text variables REVISION, RELEASE_DATE and FAB (File > Schematic Setup > Project > Text Variables); write their values out when the next revision starts."
+		(exclude_from_sim no)
+		(at 57.15 55.88 0)
+		(size 181.61 12.7)
+		(margins 0 0 0 0)
+		(stroke
+			(width -0.0001)
+			(type default)
+		)
+		(fill
+			(type none)
+		)
+		(effects
+			(font
+				(size 1.27 1.27)
+				(color 96 96 96 1)
+			)
+			(justify left top)
+		)
+		(uuid "f407a9e5-953d-5e7d-b8d6-72e7cad6c76f")
+	)
+	(text_box "[${#}] ${TITLE}"
+		(exclude_from_sim no)
+		(at 83.095 12.7 0)
+		(size 130.81 12.7)
+		(margins 5.9999 5.9999 5.9999 5.9999)
+		(stroke
+			(width -0.0001)
+			(type solid)
+		)
+		(fill
+			(type none)
+		)
+		(effects
+			(font
+				(face "Times New Roman")
+				(size 6 6)
+				(thickness 1.2)
+				(bold yes)
+				(color 162 22 34 1)
+			)
+		)
+		(uuid "f407a9e5-ed62-5fc6-aa83-0b0ae2cb88c1")
+	)
+	(table
+		(column_count 4)
+		(border
+			(external yes)
+			(header yes)
+			(stroke
+				(width 0)
+				(type solid)
+			)
+		)
+		(separators
+			(rows yes)
+			(cols yes)
+			(stroke
+				(width 0)
+				(type solid)
+			)
+		)
+		(column_widths 26.67 83.82 26.67 44.45)
+		(row_heights 3.81 3.81)
+		(uuid "f407a9e5-45c2-5782-90a0-7191acb1af3e")
+		(cells
+			(table_cell "Rev"
+				(exclude_from_sim no)
+				(at 57.15 45.72 0)
+				(size 26.67 3.81)
+				(margins 0.9525 0.9525 0.9525 0.9525)
+				(span 1 1)
+				(fill
+					(type none)
+				)
+				(effects
+					(font
+						(size 1.27 1.27)
+						(bold yes)
+					)
+					(justify left top)
+				)
+				(uuid "f407a9e5-6830-5a6c-bec3-e92e9b43de5a")
+			)
+			(table_cell "Changes"
+				(exclude_from_sim no)
+				(at 83.82 45.72 0)
+				(size 83.82 3.81)
+				(margins 0.9525 0.9525 0.9525 0.9525)
+				(span 1 1)
+				(fill
+					(type none)
+				)
+				(effects
+					(font
+						(size 1.27 1.27)
+						(bold yes)
+					)
+					(justify left top)
+				)
+				(uuid "f407a9e5-84f4-50d3-bb74-cb4aedef0bf6")
+			)
+			(table_cell "Date"
+				(exclude_from_sim no)
+				(at 167.64 45.72 0)
+				(size 26.67 3.81)
+				(margins 0.9525 0.9525 0.9525 0.9525)
+				(span 1 1)
+				(fill
+					(type none)
+				)
+				(effects
+					(font
+						(size 1.27 1.27)
+						(bold yes)
+					)
+					(justify left top)
+				)
+				(uuid "f407a9e5-0f00-5f96-984a-bbb158cf4fff")
+			)
+			(table_cell "Fab / status"
+				(exclude_from_sim no)
+				(at 194.31 45.72 0)
+				(size 44.45 3.81)
+				(margins 0.9525 0.9525 0.9525 0.9525)
+				(span 1 1)
+				(fill
+					(type none)
+				)
+				(effects
+					(font
+						(size 1.27 1.27)
+						(bold yes)
+					)
+					(justify left top)
+				)
+				(uuid "f407a9e5-c77b-5dbd-b605-77b0dbabec3a")
+			)
+			(table_cell "${REVISION}"
+				(exclude_from_sim no)
+				(at 57.15 49.53 0)
+				(size 26.67 3.81)
+				(margins 0.9525 0.9525 0.9525 0.9525)
+				(span 1 1)
+				(fill
+					(type none)
+				)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+				(uuid "f407a9e5-b165-573f-aa87-2ab0c380c1bf")
+			)
+			(table_cell "First draft."
+				(exclude_from_sim no)
+				(at 83.82 49.53 0)
+				(size 83.82 3.81)
+				(margins 0.9525 0.9525 0.9525 0.9525)
+				(span 1 1)
+				(fill
+					(type none)
+				)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+				(uuid "f407a9e5-62ac-5db7-b427-ed8008c3d052")
+			)
+			(table_cell "${RELEASE_DATE}"
+				(exclude_from_sim no)
+				(at 167.64 49.53 0)
+				(size 26.67 3.81)
+				(margins 0.9525 0.9525 0.9525 0.9525)
+				(span 1 1)
+				(fill
+					(type none)
+				)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+				(uuid "f407a9e5-7594-5cb1-854d-375348714f77")
+			)
+			(table_cell "${FAB}; draft"
+				(exclude_from_sim no)
+				(at 194.31 49.53 0)
+				(size 44.45 3.81)
+				(margins 0.9525 0.9525 0.9525 0.9525)
+				(span 1 1)
+				(fill
+					(type none)
+				)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+				(uuid "f407a9e5-a28e-5495-b7ef-237724fae09c")
+			)
+		)
+	)
+)

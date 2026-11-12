@@ -1,0 +1,26 @@
+{
+  "comment": "One line about this board: what it is and what state it is in. Replace it (\"comment\" in frontpages.json).",
+  "status": "DRAFT",
+  "views": [["TOP VIEW", "top"], ["BOTTOM VIEW", "bottom"]],
+  "overview": [
+    "What this board does, what it connects to, and where it sits in the product. Replace this text (\"overview\" in frontpages.json).",
+    "- One line per thing a reader must know first: the supply, the main parts, the connectors.",
+    "- Where the specification and the design decisions are written down."
+  ],
+  "planned": [
+    ["Power", "supply input, protection, regulators"],
+    ["MCU", "controller, clock, debug header"],
+    ["Sensors", "sensors and their supplies"],
+    ["Connectors", "what leaves the board"]
+  ],
+  "ordering": [
+    "Fab: ${FAB} (rules: ${PROJECTNAME}.kicad_dru and Board Setup)",
+    "Switch fabs: python3 hw/fab.py set <profile> ${PROJECTNAME}",
+    "Every fitted part needs MPN and Manufacturer; add LCSC for JLCPCB assembly.",
+    "DNP parts: set both Do not populate and Exclude from bill of materials.",
+    "Fiducials FID1.., mounting holes H1.. (kept out of the BOM and placement files)."
+  ],
+  "revisions": [
+    ["${REVISION}", "First draft.", "${RELEASE_DATE}", "${FAB}; draft"]
+  ]
+}
