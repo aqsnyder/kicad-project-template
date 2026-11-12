@@ -1,8 +1,8 @@
 """Add known fab-limit violations to a board made from the template, for the self-test.
 
-usage: python3 tests/make_fixture.py BOARD_DIR      (a python that imports pcbnew, i.e. KiCad's)
+usage: python3 tests/make_fixture.py BOARD_DIR [--copper-layers N]   (a python that imports pcbnew, i.e. KiCad's)
 
-The board keeps the template's net classes (Default clearance 0.2 mm). Added:
+The board keeps the template's net classes (Default clearance 0.2 mm) and gets N copper layers (default 2). Added:
   A/B   two 0.2 mm tracks 0.17 mm apart        -> net class clearance error under every fab
   C     a 0.12 mm track                        -> below PCBWay's 0.15 mm, fine for JLCPCB
   D     a track 0.22 mm from the board edge    -> below PCBWay's 0.25 mm, fine for JLCPCB
@@ -10,9 +10,9 @@ The board keeps the template's net classes (Default clearance 0.2 mm). Added:
   FIX1  a plated pad, 0.8 mm hole, 1.1 mm      -> 0.15 mm ring: below JLCPCB 1-2 layer's 0.18 mm only
         a 0.4 mm NPTH hole                     -> below JLCPCB's 0.5 mm NPTH minimum only
 """
+import argparse
 import glob
 import os
-import sys
 
 import pcbnew
 
@@ -35,9 +35,15 @@ def call(obj, method, value):
 
 
 def main():
-    d = sys.argv[1]
-    pcb = glob.glob(os.path.join(d, '*.kicad_pcb'))[0]
+    ap = argparse.ArgumentParser()
+    ap.add_argument('board_dir')
+    ap.add_argument('--copper-layers', type=int, default=2)
+    a = ap.parse_args()
+    pcb = glob.glob(os.path.join(a.board_dir, '*.kicad_pcb'))[0]
     b = pcbnew.LoadBoard(pcb)
+    # Changes the board's layer list, which DRC and fab.py read. The physical stackup keeps its two copper layers:
+    # KiCad 10's Python does not wrap it, and DRC does not use it.
+    b.SetCopperLayerCount(a.copper_layers)
     nets = {}
     for name in 'ABCDE':
         n = pcbnew.NETINFO_ITEM(b, name)
@@ -92,7 +98,7 @@ def main():
     npth.SetPosition(pt(140, 140))
 
     pcbnew.SaveBoard(pcb, b)
-    print('fixture written to %s' % pcb)
+    print('fixture written to %s (%d copper layers)' % (pcb, b.GetCopperLayerCount()))
 
 
 if __name__ == '__main__':

@@ -1,6 +1,7 @@
 (version 1)
 # fab-profile: jlcpcb-multilayer
 # fab-name: JLCPCB 4-6 layer
+# copper-layers: 4-6
 # JLCPCB, 4 and 6 layer, 1 oz copper, using only options with no extra charge.
 # Source (checked 2026-10-26): https://jlcpcb.com/capabilities/pcb-capabilities
 #

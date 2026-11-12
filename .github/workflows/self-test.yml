@@ -29,11 +29,16 @@ jobs:
           (cd "$demo" && kicad-part-importer --library hw/lib --check-3d)
       - name: The starter board matches its fab profile
         run: python3 repo-files/fab.py verify templates/starter-board
-      - name: fab.py refuses a profile with a clearance rule
+      - name: fab.py refuses a profile with a clearance rule, or without a copper-layer range
         run: |
-          d=$(mktemp -d); cp fabs/*.kicad_dru "$d/"
-          printf '(version 1)\n# fab-profile: bad\n# fab-name: Bad\n(rule "x" (constraint clearance (min 0.1mm)))\n' > "$d/bad.kicad_dru"
-          if python3 repo-files/fab.py --fabs "$d" list; then echo "::error::accepted a clearance rule"; exit 1; fi
+          refuses() {   # refuses WHY PROFILE: fab.py must reject the profile, and name WHY in its message
+            d=$(mktemp -d); cp fabs/*.kicad_dru "$d/"; printf '%b' "$2" > "$d/bad.kicad_dru"
+            if python3 repo-files/fab.py --fabs "$d" list 2> "$d/err"; then echo "::error::accepted a profile with $1"; exit 1; fi
+            cat "$d/err"; grep -q "$1" "$d/err" || { echo "::error::refused the profile, but not for $1"; exit 1; }
+          }
+          refuses 'clearance constraint' \
+            '(version 1)\n# fab-profile: bad\n# fab-name: Bad\n# copper-layers: 1-2\n(rule "x" (constraint clearance (min 0.1mm)))\n'
+          refuses 'copper-layers' '(version 1)\n# fab-profile: bad\n# fab-name: Bad\n'
 
   kicad10:
     runs-on: ubuntu-24.04
@@ -68,6 +73,8 @@ jobs:
           echo "$RUNNER_TEMP/venv/bin" >> "$GITHUB_PATH"
           git config --global user.name ci
           git config --global user.email ci@example.com
+          # As in the hardware workflow: the job runs as root, but the checkout belongs to the runner user.
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
 
       - name: Template files are in the current KiCad format
         continue-on-error: true
@@ -136,6 +143,26 @@ jobs:
           fi
           exit $rc
 
+      - name: Fab tools run git in the checkout itself
+        if: always()
+        run: |
+          # The demo repository is root's own. In an adopting repository the fab tools run git in the actions/checkout
+          # workspace, which the runner user owns while the job runs as root, so test that case on the starter board in
+          # this checkout. This proves the git calls work; the step above judges the package itself.
+          if GIT_CONFIG_GLOBAL=/dev/null git rev-parse HEAD >/dev/null 2>&1; then
+            echo "::warning::git accepts this checkout even without safe.directory, so this step no longer tests it"
+          fi
+          set -o pipefail
+          rc=0
+          kicad-macrofab-bom HEAD --project-dir templates/starter-board --out "$OUT/checkout-fab/bom" 2>&1 \
+            | tee "$OUT/checkout-macrofab-bom.log" || rc=1
+          kicad-fab-export HEAD --project-dir templates/starter-board --out "$OUT/checkout-fab" 2>&1 \
+            | tee "$OUT/checkout-fab-export.log" || true
+          # kicad-fab-export prints RESULT only after its git calls have worked; before that it stops with ERROR.
+          grep -q '^RESULT: ' "$OUT/checkout-fab-export.log" || rc=1
+          if grep -i 'dubious ownership' "$OUT"/checkout-*.log; then rc=1; fi
+          exit $rc
+
       - name: Render the title blocks
         if: always()
         working-directory: ${{ env.DEMO }}
@@ -155,7 +182,7 @@ jobs:
           grep -q 'Designed by: CI' "$OUT/schematic.txt" || { echo "::error::title block text variables did not resolve"; exit 1; }
           grep -q 'Fab: PCBWay standard' "$OUT/schematic.txt" || { echo "::error::FAB text variable did not resolve"; exit 1; }
 
-      - name: Fab profiles (switching keeps board rules; each fab finds its own limits)
+      - name: Fab profiles (switching keeps board rules; each fab finds its own limits, on its own layer counts)
         if: always()
         run: |
           set -e
@@ -163,6 +190,8 @@ jobs:
           python3 scripts/kicad_template.py init-repo "$FX" --no-library
           python3 scripts/kicad_template.py new-board "$FX/hw/fixture" --fab jlcpcb-2layer --designer CI
           python3 tests/make_fixture.py "$FX/hw/fixture"
+          python3 scripts/kicad_template.py new-board "$FX/hw/fixture4" --fab jlcpcb-multilayer --designer CI
+          python3 tests/make_fixture.py "$FX/hw/fixture4" --copper-layers 4
           cd "$FX"
           printf '(rule "board: test rule"\n\t(constraint track_width (min 0.11mm))\n\t(condition "A.NetName == %s"))\n' "'nosuchnet'" \
             >> hw/fixture/fixture.kicad_dru
@@ -170,8 +199,8 @@ jobs:
           python3 hw/fab.py set jlcpcb-2layer fixture
           grep -q 'board: test rule' hw/fixture/fixture.kicad_dru || { echo "::error::board rule lost on switch"; exit 1; }
           python3 hw/fab.py verify --all
-          python3 hw/fab.py check fixture --json > "$OUT/fab-check.json"
-          python3 hw/fab.py check fixture | tee "$OUT/fab-check.txt"
+          python3 hw/fab.py check --all --json > "$OUT/fab-check.json"
+          python3 hw/fab.py check --all | tee "$OUT/fab-check.txt"
           python3 hw/fab.py check --all --markdown >> "$GITHUB_STEP_SUMMARY"
           python3 "$GITHUB_WORKSPACE/tests/check_fixture.py" "$OUT/fab-check.json"
 
@@ -179,13 +208,13 @@ jobs:
         if: always()
         run: |
           FX="$RUNNER_TEMP/fx"; B="$RUNNER_TEMP/fabs-broken"; rm -rf "$B"; cp -r "$FX/hw/fabs" "$B"
-          printf '(version 1)\n# fab-profile: broken\n# fab-name: Broken\n(rule "typo" (constraint track_width (min 0.1mm)) (condition "A.Typo == 1"))\n(rule "bad" (constraint nonsense (min 1mm)))\n' \
+          printf '(version 1)\n# fab-profile: broken\n# fab-name: Broken\n# copper-layers: 1-6\n(rule "typo" (constraint track_width (min 0.1mm)) (condition "A.Typo == 1"))\n(rule "bad" (constraint nonsense (min 1mm)))\n' \
             > "$B/broken.kicad_dru"
           rc=0; python3 "$FX/hw/fab.py" --fabs "$B" check "$FX/hw/fixture" --json > "$OUT/fab-check-broken.json" || rc=$?
           python3 - "$OUT/fab-check-broken.json" "$rc" <<'PY'
           import json, sys
           r = next(iter(json.load(open(sys.argv[1])).values()))['fabs']
-          loaded = {k: v['rules_loaded'] for k, v in r.items()}
+          loaded = {k: v['rules_loaded'] for k, v in r.items() if v['applies']}
           print(loaded, 'exit', sys.argv[2])
           ok = sys.argv[2] == '1' and loaded.pop('broken') is False and all(loaded.values())
           sys.exit(0 if ok else 1)
